@@ -10,15 +10,13 @@ namespace ReTwitter.Data.Models
     {
         public User()
         {
-            this.FollowedPeople = new List<Followee>();
+            this.FollowedPeople = new List<UserFollowee>();
         }
 
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public string Email { get; set; }
 
         public string TwitterName { get; set; }
 
@@ -33,6 +31,6 @@ namespace ReTwitter.Data.Models
         [DataType(DataType.DateTime)]
         public DateTime? ModifiedOn { get; set; }
 
-        public virtual ICollection<Followee> FollowedPeople { get; set; }
+        public ICollection<UserFollowee> FollowedPeople { get; set; }
     }
 }

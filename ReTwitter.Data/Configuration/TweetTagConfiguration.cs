@@ -12,11 +12,13 @@ namespace ReTwitter.Data.Configuration
 
             builder.HasOne(e => e.Tweet)
                 .WithMany(a => a.TweetTags)
-                .HasForeignKey(e => e.TweetId);
+                .HasForeignKey(e => e.TweetId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Tag)
                 .WithMany(a => a.TweetTags)
-                .HasForeignKey(e => e.TagId);
+                .HasForeignKey(e => e.TagId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

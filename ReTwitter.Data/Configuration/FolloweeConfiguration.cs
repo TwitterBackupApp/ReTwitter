@@ -8,8 +8,10 @@ namespace ReTwitter.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Followee> builder)
         {
-            //builder.Property(e => e.IsDeleted)
-            //    .HasDefaultValue(false);
+            builder.HasMany(m => m.TweetCollection)
+                .WithOne(m => m.Followee)
+                .HasForeignKey(fk => fk.FolloweeId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
