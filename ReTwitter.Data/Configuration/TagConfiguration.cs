@@ -8,9 +8,8 @@ namespace ReTwitter.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-            //builder.HasMany(e => e.TweetTags)
-            // .WithMany(a => a.AlbumTags)
-            //     .HasForeignKey(e => e.AlbumId);
+            builder.Property(p => p.IsDeleted)
+                .HasDefaultValue(false);
         }
     }
 }

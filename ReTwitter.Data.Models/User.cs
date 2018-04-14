@@ -12,8 +12,7 @@ namespace ReTwitter.Data.Models
         {
             this.FollowedPeople = new List<UserFollowee>();
         }
-
-
+        
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
