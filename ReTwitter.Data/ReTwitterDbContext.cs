@@ -15,6 +15,14 @@ namespace ReTwitter.Data
         {
         }
 
+        public DbSet<Followee> Followees { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Tweet> Tweets { get; set; }
+        public DbSet<TweetTag> TweetTags { get; set; }
+        public DbSet<TweetUserMention> TweetUserMentions { get; set; }
+        public DbSet<UserFollowee> UserFollowees { get; set; }
+
+
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();
@@ -23,8 +31,13 @@ namespace ReTwitter.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new TweetTagConfiguration());
             builder.ApplyConfiguration(new DataModelConfiguration());
+            builder.ApplyConfiguration(new FolloweeConfiguration());
+            //builder.ApplyConfiguration(new TagConfiguration());
+           // builder.ApplyConfiguration(new TweetConfiguration());
+            builder.ApplyConfiguration(new TweetTagConfiguration());
+            builder.ApplyConfiguration(new TweetUserMentionConfiguration());
+            builder.ApplyConfiguration(new UserFolloweeConfiguration());
             
             base.OnModelCreating(builder);
         }

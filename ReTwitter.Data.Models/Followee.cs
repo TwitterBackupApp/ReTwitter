@@ -54,6 +54,5 @@ namespace ReTwitter.Data.Models
         public ICollection<UserFollowee> InUsersFavorites { get; set; }
         public ICollection<Tweet> TweetCollection { get; set; }
         public ICollection<TweetUserMention> MentionedInTweets { get; set; }
-
     }
 }
