@@ -1,14 +1,15 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using ReTwitter.Data.Configuration;
+using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Models.Abstracts;
+using System;
+using System.Linq;
 
 namespace ReTwitter.Data
 {
-    public class ReTwitterDbContext : IdentityDbContext<User>
+    public class ReTwitterDbContext : IdentityDbContext<User>, IReTwitterDbContext
     {
         public ReTwitterDbContext(DbContextOptions<ReTwitterDbContext> options)
             : base(options)
@@ -21,7 +22,6 @@ namespace ReTwitter.Data
         public DbSet<TweetTag> TweetTags { get; set; }
         public DbSet<TweetUserMention> TweetUserMentions { get; set; }
         public DbSet<UserFollowee> UserFollowees { get; set; }
-
 
         public override int SaveChanges()
         {
@@ -57,6 +57,11 @@ namespace ReTwitter.Data
                     entity.ModifiedOn = DateTime.Now;
                 }
             }
+        }
+
+        public new DbSet<T> Set<T>() where T : class
+        {
+            return base.Set<T>();
         }
     }
 }
