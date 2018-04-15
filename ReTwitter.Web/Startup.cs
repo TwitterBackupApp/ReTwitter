@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReTwitter.Data;
+using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Web.Services;
 
@@ -34,7 +35,7 @@ namespace ReTwitter.Web
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
-
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddMvc();
         }
 
