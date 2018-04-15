@@ -7,16 +7,12 @@ namespace ReTwitter.DTO
     {
         public string TweetId { get; set; }
 
-        [Required]
         public string Text { get; set; }
 
-        [Required]
         public string OriginalTweetCreatedOn { get; set; }
 
-        [Required]
         public string FolloweeId { get; set; }
 
-        [Required]
         public Followee Followee { get; set; }
     }
 }
