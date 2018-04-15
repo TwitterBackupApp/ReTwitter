@@ -9,6 +9,9 @@ using ReTwitter.Data;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
+using ReTwitter.Infrastructure.Providers;
+using ReTwitter.Services.Data;
+using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External;
 
 namespace ReTwitter.Web
@@ -38,14 +41,14 @@ namespace ReTwitter.Web
         {
             services.AddMvc();
            // services.AddAutoMapper();
-            //services.AddScoped<IMappingProvider, MappingProvider>();
+            services.AddScoped<IMappingProvider, MappingProvider>();
         }
 
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
             //services.AddTransient<IFolloweeService, FolloweeService>(); // uncomment when created
-            //services.AddTransient<ITweetService, TweetService>(); // uncomment when created
+            services.AddTransient<ITweetService, TweetService>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)

@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReTwitter.Data.Models\ReTwitter.Data.Models.csproj" />
+    <ProjectReference Include="..\ReTwitter.Infrastructure\ReTwitter.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
