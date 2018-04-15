@@ -8,6 +8,8 @@ namespace ReTwitter.Data.Repository
         IQueryable<T> All { get; }
         IQueryable<T> AllAndDeleted { get; }
 
+     //   T GetById(T id);
+
         void Add(T entity);
         void Delete(T entity);
         void Update(T entity);

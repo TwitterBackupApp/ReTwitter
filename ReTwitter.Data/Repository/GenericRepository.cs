@@ -9,7 +9,7 @@ namespace ReTwitter.Data.Repository
     public class GenericRepository<T> : IGenericRepository<T>
         where T : class, IDeletable
     {
-        private ReTwitterDbContext context;
+        private readonly ReTwitterDbContext context;
         private DbSet<T> dbSet;
 
         public GenericRepository(ReTwitterDbContext context)
@@ -23,6 +23,22 @@ namespace ReTwitter.Data.Repository
             this.dbSet = context.Set<T>();
         }
 
+        //public virtual T GetById(T id)
+        //{
+        //    if (id == null)
+        //    {
+        //        throw new ArgumentNullException("Id cannot be null");
+        //    }
+
+        //    var item = this.dbSet.Find(id);
+
+        //    if (item == null)
+        //    {
+        //        throw new ArgumentNullException("No such item found");
+        //    }
+
+        //    return item;
+        //}
 
         public IQueryable<T> All
         {

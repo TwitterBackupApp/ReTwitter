@@ -47,7 +47,7 @@ namespace ReTwitter.Web
         private void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IEmailSender, EmailSender>();
-            //services.AddTransient<IFolloweeService, FolloweeService>(); // uncomment when created
+            services.AddTransient<IFolloweeService, FolloweeService>();
             services.AddTransient<ITweetService, TweetService>();
         }
 
