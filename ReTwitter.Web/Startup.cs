@@ -49,6 +49,7 @@ namespace ReTwitter.Web
             services.AddTransient<IEmailSender, EmailSender>();
             //services.AddTransient<IFolloweeService, FolloweeService>(); // uncomment when created
             services.AddTransient<ITweetService, TweetService>();
+            services.AddTransient<ITagService, TagService>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)
