@@ -1,5 +1,6 @@
-﻿@using ReTwitter.Web.Views.Manage
-@inject SignInManager<ApplicationUser> SignInManager
+﻿@using Microsoft.AspNetCore.Identity
+@using ReTwitter.Data.Models
+@inject SignInManager<User> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
