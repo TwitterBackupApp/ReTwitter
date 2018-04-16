@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using ReTwitter.Services.External.Contracts;
 
 namespace ReTwitter.Services.External
 {

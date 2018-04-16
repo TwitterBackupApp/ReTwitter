@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ReTwitter.Services.External
+namespace ReTwitter.Services.External.Contracts
 {
     public interface IEmailSender
     {
