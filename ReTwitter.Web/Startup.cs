@@ -13,6 +13,7 @@ using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External;
+using ReTwitter.Services.External.Contracts;
 
 namespace ReTwitter.Web
 {
