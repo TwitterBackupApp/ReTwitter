@@ -14,6 +14,7 @@ using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External;
 using AutoMapper;
+using ReTwitter.Services.External.Contracts;
 
 namespace ReTwitter.Web
 {
