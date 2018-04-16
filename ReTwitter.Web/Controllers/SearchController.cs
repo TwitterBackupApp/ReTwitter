@@ -15,8 +15,7 @@ namespace ReTwitter.Web.Controllers
         }
 
         public IActionResult Search()
-        {
-            
+        {            
             return View();
         }
 
@@ -33,7 +32,6 @@ namespace ReTwitter.Web.Controllers
 
                 return View(vm);
             }
-
             
             return View();
         }

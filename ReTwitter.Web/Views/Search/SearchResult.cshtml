@@ -4,19 +4,37 @@
     ViewData["Title"] = "Search result";
 }
 
-
+<br />
 
 @if (@Model.SearchResults.Count() != 0)
 {
     foreach (var result in Model.SearchResults)
     {
-        <div>
+        <div class="col-sm-4 col-xs-8">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <h1>@result.name</h1>
+                </div>
+                <div class="panel-body">
+                    <p><strong>Screen name: </strong>@result.screen_name</p>
+                    <p><strong>Bio: </strong>@result.description</p>
+                    <p><strong>Location: </strong> @result.location</p>
+                </div>
+                <div class="panel-footer">
+                    <h4>External Link</h4>
+                    <a class="btn btn-lg" href="@result.url">
+                        Website
+                    </a>
+                </div>
+            </div>      
+        </div>
+        @*<div>
             <p>@result.Id</p>
             <p>@result.name</p>
             <p>@result.screen_name</p>
             <p>@result.description</p>
             <p>@result.location</p>
             <p>@result.url</p>
-        </div>
+        </div>*@
     }
 }
