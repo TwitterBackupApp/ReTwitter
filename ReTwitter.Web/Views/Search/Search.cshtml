@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "Search";
+}
+
+<h2>Search for Twitter Users</h2>
+
+<form asp-controller="Search" asp-action="Search">
+    <p>
+        Search Name: <input type="text" name="SearchString">
+        <input type="submit" value="Search" />
+    </p>
+</form>
