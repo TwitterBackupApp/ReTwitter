@@ -13,20 +13,21 @@ namespace ReTwitter.Data
         private IGenericRepository<Tag> tags;
         private IGenericRepository<Tweet> tweets;
 
-        public UnitOfWork(ReTwitterDbContext context)
-        {
-            if (context == null)
-            {
-                throw new ArgumentNullException("Context should not be null");
-            }
-            this.context = context;
-        }
+        //public UnitOfWork(ReTwitterDbContext context)
+        //{
+        //    if (context == null)
+        //    {
+        //        throw new ArgumentNullException("Context should not be null");
+        //    }
+        //    this.context = context;
+        //}
 
-        public UnitOfWork(IGenericRepository<User> users, 
+        public UnitOfWork(ReTwitterDbContext context, IGenericRepository<User> users, 
             IGenericRepository<Followee> followees, 
             IGenericRepository<Tag> tags, 
             IGenericRepository<Tweet> tweets)
         {
+            this.context = context;
             this.users = users;
             this.followees = followees;
             this.tags = tags;
