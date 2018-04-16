@@ -2,9 +2,9 @@
 {
     public class TwitterCredentials
     {
-        internal string ConsumerKey { get; set; }
-        internal string ConsumerSecret { get; set; }
-        internal string AccessToken { get; set; }
-        internal string AccessTokenSecret { get; set; }
+        public string ConsumerKey { get; set; }
+        public string ConsumerSecret { get; set; }
+        public string AccessToken { get; set; }
+        public string AccessTokenSecret { get; set; }
     }
 }

@@ -1,0 +1,22 @@
+﻿@model ReTwitter.Web.Models.SearchViewModels.SearchResultsViewModel
+
+@{
+    ViewData["Title"] = "Search result";
+}
+
+
+
+@if (@Model.SearchResults.Count() != 0)
+{
+    foreach (var result in Model.SearchResults)
+    {
+        <div>
+            <p>@result.Id</p>
+            <p>@result.name</p>
+            <p>@result.screen_name</p>
+            <p>@result.description</p>
+            <p>@result.location</p>
+            <p>@result.url</p>
+        </div>
+    }
+}

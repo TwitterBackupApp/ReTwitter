@@ -1,16 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using ReTwitter.DTO.TwitterDto;
+using ReTwitter.Services.Data.Contracts;
+using ReTwitter.Web.Models.SearchViewModels;
 
 namespace ReTwitter.Web.Controllers
 {
     public class SearchController: Controller
     {
-        public ActionResult Search()
-        {
+        private readonly ITwitterApiCallService twitterApiCallService;
 
+        public SearchController(ITwitterApiCallService twitterApiCallService)
+        {
+            this.twitterApiCallService = twitterApiCallService;
+        }
+
+        public IActionResult Search()
+        {
+            
+            return View();
+        }
+
+       
+        [HttpPost]
+        public IActionResult SearchResult(SearchViewModel model)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var result = twitterApiCallService.GetTwitterUsersByScreenName(model.SearchInput);
+
+                var vm = new SearchResultsViewModel() { SearchResults = result };
+
+
+                return View(vm);
+            }
+
+            
             return View();
         }
     }

@@ -6,25 +6,26 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using Microsoft.Extensions.Options;
 using ReTwitter.Services.External.Contracts;
 
 namespace ReTwitter.Services.External
 {
     public class TwitterApiCall : ITwitterApiCall
     {
-        private string consumerKey;
-        private string consumerSecret;
-        private string accessToken;
+        private readonly string consumerKey;
+        private readonly string consumerSecret;
+        private readonly string accessToken;
         private string accessSecret;
         private const string version = "1.0";
         private const string signatureMethod = "HMAC-SHA1";
 
-        public TwitterApiCall(TwitterCredentials credentials)
+        public TwitterApiCall(IOptions<TwitterCredentials> credentials)
         {
-            this.consumerKey = credentials.ConsumerKey;
-            this.consumerSecret = credentials.ConsumerSecret;
-            this.accessToken = credentials.AccessToken;
-            this.accessSecret = credentials.AccessTokenSecret;
+            this.consumerKey = credentials.Value.ConsumerKey;
+            this.consumerSecret = credentials.Value.ConsumerSecret;
+            this.accessToken = credentials.Value.AccessToken;
+            this.accessSecret = credentials.Value.AccessTokenSecret;
         }
 
         public string GetTwitterData(string resourceurl)
