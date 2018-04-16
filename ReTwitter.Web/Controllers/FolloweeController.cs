@@ -17,7 +17,7 @@ namespace ReTwitter.Web.Controllers
             this.followeeService = followees;
         }
 
-        public ActionResult FolloweesCollection()
+        public ActionResult FolloweeCollection()
         {
             var followees = this.followeeService.GetAllFollowees();
 

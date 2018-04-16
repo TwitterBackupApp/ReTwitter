@@ -13,7 +13,7 @@ using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External;
-using ReTwitter.Services.External.Contracts;
+using AutoMapper;
 
 namespace ReTwitter.Web
 {
@@ -41,7 +41,7 @@ namespace ReTwitter.Web
         private void RegisterInfrastructure(IServiceCollection services)
         {
             services.AddMvc();
-           // services.AddAutoMapper();
+            services.AddAutoMapper();
             services.AddScoped<IMappingProvider, MappingProvider>();
         }
 
