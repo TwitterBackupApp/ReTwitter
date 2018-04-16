@@ -9,6 +9,7 @@
     <ProjectReference Include="..\ReTwitter.Data\ReTwitter.Data.csproj" />
     <ProjectReference Include="..\ReTwitter.DTO\ReTwitter.DTO.csproj" />
     <ProjectReference Include="..\ReTwitter.Infrastructure\ReTwitter.Infrastructure.csproj" />
+    <ProjectReference Include="..\ReTwitter.Services.External\ReTwitter.Services.External.csproj" />
   </ItemGroup>
 
 </Project>

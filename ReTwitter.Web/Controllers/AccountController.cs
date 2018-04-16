@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ReTwitter.Data.Models;
 using ReTwitter.Services.External;
+using ReTwitter.Services.External.Contracts;
 using ReTwitter.Web.Models;
 using ReTwitter.Web.Models.AccountViewModels;
 using ReTwitter.Web.Services;

@@ -1,6 +1,7 @@
 ﻿namespace ReTwitter.Services.External.Contracts
 {
-    interface ITwitterApiCall
+    public interface ITwitterApiCall
     {
+        string GetTwitterData(string resourceUrl);
     }
 }

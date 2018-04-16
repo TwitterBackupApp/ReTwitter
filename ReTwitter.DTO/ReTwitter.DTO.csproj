@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ReTwitter.Data.Models\ReTwitter.Data.Models.csproj" />
     <ProjectReference Include="..\ReTwitter.Infrastructure\ReTwitter.Infrastructure.csproj" />
   </ItemGroup>

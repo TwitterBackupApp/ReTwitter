@@ -14,6 +14,7 @@ using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External;
 using AutoMapper;
+using ReTwitter.Services.Data.TwitterApiService;
 using ReTwitter.Services.External.Contracts;
 
 namespace ReTwitter.Web
@@ -48,8 +49,13 @@ namespace ReTwitter.Web
 
         private void RegisterServices(IServiceCollection services)
         {
+            services.Configure<TwitterCredentials>(Configuration.GetSection("TwitterSettings"));
+
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ITwitterApiCall, TwitterApiCall>();
+            services.AddTransient<IJsonDeserializer, JsonDeserializer>();
             services.AddTransient<IFolloweeService, FolloweeService>();
+            services.AddTransient<ITwitterApiCallService, TwitterApiCallService>();
             services.AddTransient<ITweetService, TweetService>();
             services.AddTransient<ITagService, TagService>();
         }
