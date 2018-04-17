@@ -15,11 +15,11 @@ namespace ReTwitter.Services.Data.TwitterApiService
             this.jsonDeserializer = jsonDeserializer;
         }
 
-        public UserDto[] GetTwitterUsersByScreenName(string name)
+        public FolloweeDto[] GetTwitterUsersByScreenName(string name)
         {
             var searchString = "https://api.twitter.com/1.1/users/search.json?q=";
             var foundUsersString = apiCall.GetTwitterData(searchString + name.Trim());
-            var deserializedUsers = this.jsonDeserializer.Deserialize<UserDto[]>(foundUsersString);
+            var deserializedUsers = this.jsonDeserializer.Deserialize<FolloweeDto[]>(foundUsersString);
             return deserializedUsers;
         }
     }

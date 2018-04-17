@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Web.Models.SearchViewModels;
 

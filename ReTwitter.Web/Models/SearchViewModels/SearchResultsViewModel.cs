@@ -5,6 +5,6 @@ namespace ReTwitter.Web.Models.SearchViewModels
 {
     public class SearchResultsViewModel
     {
-        public IEnumerable<UserDto> SearchResults { get; set; }
+        public IEnumerable<FolloweeDto> SearchResults { get; set; }
     }
 }

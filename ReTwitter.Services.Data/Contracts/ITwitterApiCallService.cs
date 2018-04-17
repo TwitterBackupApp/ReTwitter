@@ -4,6 +4,6 @@ namespace ReTwitter.Services.Data.Contracts
 {
     public interface ITwitterApiCallService
     {
-        UserDto[] GetTwitterUsersByScreenName(string name);
+        FolloweeDto[] GetTwitterUsersByScreenName(string name);
     }
 }
