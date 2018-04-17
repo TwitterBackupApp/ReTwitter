@@ -11,6 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ReTwitter.Data.Models\ReTwitter.Data.Models.csproj" />
+    <ProjectReference Include="..\ReTwitter.DTO\ReTwitter.DTO.csproj" />
+    <ProjectReference Include="..\ReTwitter.Services.External\ReTwitter.Services.External.csproj" />
   </ItemGroup>
 
 </Project>

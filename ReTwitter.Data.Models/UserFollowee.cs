@@ -12,7 +12,6 @@ namespace ReTwitter.Data.Models
         public string FolloweeId { get; set; }
         public Followee Followee { get; set; }
 
-        [Required]
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }

@@ -7,7 +7,7 @@ namespace ReTwitter.Infrastructure.Providers
 {
     public class MappingProvider : IMappingProvider
     {
-        private IMapper mapper;
+        private readonly IMapper mapper;
 
         public MappingProvider(IMapper mapper)
         {

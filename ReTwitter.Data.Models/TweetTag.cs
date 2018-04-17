@@ -15,7 +15,6 @@ namespace ReTwitter.Data.Models
         [Required]
         public Tag Tag { get; set; }
 
-        [Required]
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }

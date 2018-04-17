@@ -22,13 +22,11 @@ namespace ReTwitter.Data.Models
         [Required]
         public string OriginalTweetCreatedOn { get; set; }
 
-        [Required]
         public string FolloweeId  { get; set; }
 
         [Required]
         public Followee Followee { get; set; }
 
-        [Required]
         public bool IsDeleted { get; set; }
 
         [DataType(DataType.DateTime)]

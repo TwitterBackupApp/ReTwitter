@@ -32,14 +32,12 @@ namespace ReTwitter.Data.Models
 
         public int FriendsCount { get; set; }
 
-        [Required]
         public string FolloweeOriginallyCreatedOn { get; set; }
         
         public int FavoritesCount { get; set; }
 
         public int StatusesCount { get; set; }
         
-        [Required]
         public bool IsDeleted { get; set; }
 
         [DataType(DataType.DateTime)]

@@ -98,10 +98,11 @@ namespace ReTwitter.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
+                DbInitializer.Seed(serviceProvider, (ITwitterApiCall)serviceProvider.GetService(typeof(ITwitterApiCall)), (IMappingProvider)serviceProvider.GetService(typeof(IMappingProvider)));
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
