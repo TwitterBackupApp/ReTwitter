@@ -15,4 +15,4 @@
     <p><strong>Favorites count : </strong>@Html.DisplayFor(model => model.FavoritesCount)</p>
 </div>
 
-@Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { id = Model.FolloweeId }, new { @class = "btn btn-info" })
+@Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { screenName = Model.ScreenName }, new { @class = "btn btn-info" })

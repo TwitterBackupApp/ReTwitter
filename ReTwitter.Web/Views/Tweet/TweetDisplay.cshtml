@@ -5,18 +5,33 @@
 
 <h2>Tweet Display</h2>
 
-@foreach (var result in Model.TweetResults)
-{
-    <div class="col-sm-4 col-xs-8">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <h1>@result.Text</h1>
-            </div>
-            <div class="panel-body">
-                <p><strong>Screen name: </strong>@result.TweetId</p>
+<table class="table">
+<tr>
+    <th>
+        Text
+    </th>
+    <th>
+        OriginalTweetCreatedOn
+    </th>
+    <th>
+        Entities
+    </th>
+</tr>
 
-             
-            </div>
-        </div>
-    </div>
+@foreach (var item in Model.TweetResults) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn)
+        </td>
+        <td>      
+            @Html.DisplayFor(model => item.Entities)                  
+        </td>
+        <td>
+                 
+        </td>
+    </tr>
 }
+</table>
