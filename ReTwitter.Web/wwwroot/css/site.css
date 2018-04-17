@@ -33,3 +33,8 @@
         display: none;
     }
 }
+
+.photo {
+    width: 50% !important;
+    height: 50% !important;
+}

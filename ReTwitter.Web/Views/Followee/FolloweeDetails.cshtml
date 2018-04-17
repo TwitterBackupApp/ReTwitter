@@ -1,7 +1,18 @@
 ﻿
+@model ReTwitter.DTO.TwitterDto.FolloweeDto
 @{
     ViewData["Title"] = "FolloweeDetails";
 }
 
-<h2>FolloweeDetails</h2>
+<h2>@Html.DisplayFor(model => model.Name)'s Details</h2>
 
+<div>
+    <img src="@string.Concat("https://twitter.com/", Model.ScreenName, "/profile_image?size=original")" class="photo" aria-controlsalt="" />
+    <h4><strong>Screen name:</strong> @Html.DisplayFor(model => model.ScreenName)</h4>
+    <p><strong>Description: </strong>@Html.DisplayFor(model => model.Description)</p>
+    <p><strong>Followers count : </strong>@Html.DisplayFor(model => model.FollowersCount)</p>
+    <p><strong>Friends count : </strong>@Html.DisplayFor(model => model.FriendsCount)</p>
+    <p><strong>Favorites count : </strong>@Html.DisplayFor(model => model.FavoritesCount)</p>
+</div>
+
+@Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { id = Model.FolloweeId }, new { @class = "btn btn-info" })
