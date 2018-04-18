@@ -13,6 +13,24 @@ namespace ReTwitter.Services.Data
             CreateMap<FolloweeDto, Followee>().ReverseMap();
             CreateMap<UserMentionDto, Followee>().ReverseMap();
 
+            CreateMap<UserFollowee, Followee>()
+                .ForMember(
+                    ivm => ivm.FolloweeId,
+                    cfg => cfg.MapFrom(
+                        issue => issue.FolloweeId))
+                .ForMember(ivm => ivm.CreatedOn,
+                    cfg => cfg.MapFrom(
+                        issue => issue.CreatedOn))
+                .ForMember(ivm => ivm.DeletedOn,
+                    cfg => cfg.MapFrom(
+                        issue => issue.DeletedOn))
+                .ForMember(ivm => ivm.ModifiedOn,
+                    cfg => cfg.MapFrom(
+                        issue => issue.ModifiedOn))
+                .ForMember(ivm => ivm.IsDeleted,
+                    cfg => cfg.MapFrom(
+                        issue => issue.IsDeleted));
+
             CreateMap<TweetDto, Tweet>()
                 .ForMember(
                 ivm => ivm.Followee,

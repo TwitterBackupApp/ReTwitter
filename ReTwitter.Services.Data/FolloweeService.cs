@@ -25,9 +25,13 @@ namespace ReTwitter.Services.Data
             var storedFollowees = this.unitOfWork.Users.All
                                                  .Where(w => w.Id == userId)
                                                  .Select(s => s.FollowedPeople)
-                                                 .ToList(); //TODO REVIEW AND AMEND, IT RETURNS THE COLLECTION OF MANY-TO-MANY
+                                                 .ToList(); 
 
-            return this.mapper.ProjectTo<FolloweeDto>(storedFollowees).ToList();
+
+            //TODO REVIEW AND AMEND, IT RETURNS THE COLLECTION OF MANY-TO-MANY
+
+            var test = this.mapper.ProjectTo<Followee>(storedFollowees).ToList();
+            return this.mapper.ProjectTo<FolloweeDto>(test).ToList();
         }
 
         public FolloweeDto GetFolloweeById(string followeeId)
