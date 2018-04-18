@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.KeyVault.Models;
-using ReTwitter.DTO;
+using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
+using System.Threading.Tasks;
 
 namespace ReTwitter.Web.Controllers
 {
@@ -14,20 +11,28 @@ namespace ReTwitter.Web.Controllers
         private readonly IFolloweeService followeeService;
         private readonly ITwitterApiCallService twitterApiCallService;
         private readonly IUserFolloweeService userFolloweeService;
-        // We need user context
+        private readonly UserManager<User> manager;
 
-        public FolloweeController(IFolloweeService followees, ITwitterApiCallService twitterApiCallService, IUserFolloweeService userFolloweeService)
+        public FolloweeController(IFolloweeService followees, 
+            ITwitterApiCallService twitterApiCallService, IUserFolloweeService userFolloweeService, 
+            UserManager<User> manager)
         {
             this.followeeService = followees;
             this.twitterApiCallService = twitterApiCallService;
             this.userFolloweeService = userFolloweeService;
+            this.manager = manager;
         }
 
-        public ActionResult FolloweeCollection()
-        {
-         //   var followees = this.followeeService.GetAllFollowees();
 
-            return View();
+        public async Task<ActionResult> FolloweeCollection()
+        {
+            //   var followees = this.followeeService.GetAllFollowees();
+            var user = await manager.GetUserAsync(HttpContext.User);
+            var userId = user.Id;
+
+            var followees = this.followeeService.GetAllFollowees(userId);
+
+            return View(followees);
         }
 
         public ActionResult FolloweeDetails(string id)
@@ -37,9 +42,12 @@ namespace ReTwitter.Web.Controllers
             return View(followee);
         }
 
-        public ActionResult FolloweeAdded(string followeeId)
+        public async Task<ActionResult> FolloweeAdded(string followeeId)
         {
-            this.userFolloweeService.SaveUserFollowee("9b76c8f0-294b-4210-a0e8-563e3c226c7e", followeeId);
+            var user = await manager.GetUserAsync(HttpContext.User);
+            var userId = user.Id;
+
+            this.userFolloweeService.SaveUserFollowee(userId, followeeId);
 
             return View();
         }
