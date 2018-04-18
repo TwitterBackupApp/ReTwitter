@@ -1,4 +1,5 @@
-﻿using ReTwitter.DTO;
+﻿using ReTwitter.Data.Models;
+using ReTwitter.DTO;
 
 namespace ReTwitter.Services.Data.Contracts
 {
@@ -6,5 +7,6 @@ namespace ReTwitter.Services.Data.Contracts
     {
         void Save(TagDto dto);
         void Delete(int id);
+        Tag FindOrCreate(string name);
     }
 }

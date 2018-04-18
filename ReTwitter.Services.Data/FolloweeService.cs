@@ -1,9 +1,11 @@
-﻿using ReTwitter.Data.Contracts;
+﻿using System;
+using ReTwitter.Data.Contracts;
 using ReTwitter.DTO;
 using ReTwitter.Infrastructure.Providers;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data
@@ -38,10 +40,18 @@ namespace ReTwitter.Services.Data
 
             if (followee == null)
             {
-                return null;
+                throw new ArgumentException("Followee not found!");
             }
 
             return this.mapper.MapTo<FolloweeDto>(followee);
+        }
+
+        public Followee Create(FolloweeDto followee)
+        {
+            var followeeToAdd = mapper.MapTo<Followee>(followee);
+            this.unitOfWork.Followees.Add(followeeToAdd);
+            this.unitOfWork.SaveChanges();
+            return followeeToAdd;
         }
     }
 }

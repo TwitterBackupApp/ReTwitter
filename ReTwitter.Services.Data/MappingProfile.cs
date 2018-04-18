@@ -17,8 +17,7 @@ namespace ReTwitter.Services.Data
                 .ForMember(
                 ivm => ivm.Followee,
                 cfg => cfg.MapFrom(
-                    issue => issue.Followee)
-             )
+                    issue => issue.Followee))
                 .ForMember(ivm => ivm.UsersMentioned,
                     cfg => cfg.MapFrom(
                         imp => imp.Entities.UserMentions.Length));

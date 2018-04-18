@@ -1,5 +1,6 @@
 ﻿using ReTwitter.DTO;
 using System.Collections.Generic;
+using ReTwitter.Data.Models;
 
 namespace ReTwitter.Services.Data.Contracts
 {
@@ -8,5 +9,6 @@ namespace ReTwitter.Services.Data.Contracts
         List<FolloweeDto> GetAllFollowees(string userId);
 
         FolloweeDto GetFolloweeById(string id);
+        Followee Create(FolloweeDto followee);
     }
 }

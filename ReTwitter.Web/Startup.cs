@@ -55,6 +55,7 @@ namespace ReTwitter.Web
             services.AddTransient<ITwitterApiCall, TwitterApiCall>();
             services.AddTransient<IJsonDeserializer, JsonDeserializer>();
             services.AddTransient<IFolloweeService, FolloweeService>();
+            services.AddTransient<IUserFolloweeService, UserFolloweeService>();
             services.AddTransient<ITwitterApiCallService, TwitterApiCallService>();
             services.AddTransient<ITweetService, TweetService>();
             services.AddTransient<ITagService, TagService>();

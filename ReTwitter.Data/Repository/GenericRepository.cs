@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using ReTwitter.Data.Models.Abstracts;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ReTwitter.Data.Repository
@@ -68,6 +69,25 @@ namespace ReTwitter.Data.Repository
             {
                 this.dbSet.Add(entity);
             }
+        }
+
+        public void AddRange(IEnumerable<T> entities)
+        {
+            var entitiesToAdd = new List<T>();
+            foreach (var entity in entities)
+            {
+                EntityEntry entry = this.context.Entry(entity);
+
+                if (entry.State != EntityState.Detached)
+                {
+                    entry.State = EntityState.Added;
+                }
+                else
+                {
+                    entitiesToAdd.Add(entity);
+                }
+            }
+            this.dbSet.AddRange(entitiesToAdd);
         }
 
         public void Delete(T entity)

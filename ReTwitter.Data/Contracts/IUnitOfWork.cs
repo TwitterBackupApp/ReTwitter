@@ -9,7 +9,7 @@ namespace ReTwitter.Data.Contracts
         IGenericRepository<Followee> Followees { get; }
         IGenericRepository<Tag> Tags { get; }
         IGenericRepository<Tweet> Tweets { get; }
-
+        IGenericRepository<UserFollowee> UserFollowees { get; }
         int SaveChanges();
     }
 }

@@ -1,4 +1,5 @@
-﻿using ReTwitter.Data.Models.Abstracts;
+﻿using System.Collections.Generic;
+using ReTwitter.Data.Models.Abstracts;
 using System.Linq;
 
 namespace ReTwitter.Data.Repository
@@ -11,6 +12,7 @@ namespace ReTwitter.Data.Repository
      //   T GetById(T id);
 
         void Add(T entity);
+        void AddRange(IEnumerable<T> entities);
         void Delete(T entity);
         void Update(T entity);
     }
