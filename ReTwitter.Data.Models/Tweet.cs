@@ -11,7 +11,7 @@ namespace ReTwitter.Data.Models
         public Tweet()
         {
             this.TweetTags = new HashSet<TweetTag>();
-            this.UsersMentioned = new HashSet<TweetUserMention>();
+            this.UserTweetCollection = new HashSet<UserTweet>();
         }
 
         public string TweetId { get; set; }
@@ -21,6 +21,8 @@ namespace ReTwitter.Data.Models
 
         [Required]
         public string OriginalTweetCreatedOn { get; set; }
+
+        public int UsersMentioned { get; set; }
 
         public string FolloweeId  { get; set; }
 
@@ -39,6 +41,6 @@ namespace ReTwitter.Data.Models
         public DateTime? ModifiedOn { get; set; }
 
         public ICollection<TweetTag> TweetTags { get; set; }
-        public ICollection<TweetUserMention> UsersMentioned { get; set; }
+        public ICollection<UserTweet> UserTweetCollection { get; set; }
     }
 }

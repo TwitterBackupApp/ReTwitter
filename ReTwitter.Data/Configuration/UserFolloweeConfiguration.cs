@@ -19,6 +19,9 @@ namespace ReTwitter.Data.Configuration
                 .WithMany(a => a.FollowedPeople)
                 .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            //builder.Property(p => p.IsDeleted)
+            //    .HasDefaultValue(false);
         }
     }
 }

@@ -8,8 +8,8 @@ namespace ReTwitter.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-            builder.Property(p => p.IsDeleted)
-                .HasDefaultValue(false);
+            //builder.Property(p => p.IsDeleted)
+            //    .HasDefaultValue(false);
         }
     }
 }

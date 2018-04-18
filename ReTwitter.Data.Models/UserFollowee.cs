@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using ReTwitter.Data.Models.Abstracts;
 
 namespace ReTwitter.Data.Models

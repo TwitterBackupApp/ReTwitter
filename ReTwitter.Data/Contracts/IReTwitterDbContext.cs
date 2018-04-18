@@ -10,7 +10,7 @@ namespace ReTwitter.Data.Contracts
         DbSet<Tag> Tags { get; set; }
         DbSet<Tweet> Tweets { get; set; }
         DbSet<TweetTag> TweetTags { get; set; }
-        DbSet<TweetUserMention> TweetUserMentions { get; set; }
+        DbSet<UserTweet> UserTweets { get; set; }
         DbSet<UserFollowee> UserFollowees { get; set; }
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;

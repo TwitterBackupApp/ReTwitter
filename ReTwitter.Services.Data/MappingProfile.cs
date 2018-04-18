@@ -10,15 +10,18 @@ namespace ReTwitter.Services.Data
     {
         public MappingProfile()
         {
-            CreateMap<FolloweeDto, Followee>();
-            CreateMap<UserMentionDto, Followee>();
+            CreateMap<FolloweeDto, Followee>().ReverseMap();
+            CreateMap<UserMentionDto, Followee>().ReverseMap();
 
             CreateMap<TweetDto, Tweet>()
                 .ForMember(
                 ivm => ivm.Followee,
                 cfg => cfg.MapFrom(
                     issue => issue.Followee)
-             );
+             )
+                .ForMember(ivm => ivm.UsersMentioned,
+                    cfg => cfg.MapFrom(
+                        imp => imp.Entities.UserMentions.Length));
 
             CreateMap<HashtagDto, Tag>()
                 .ForMember(

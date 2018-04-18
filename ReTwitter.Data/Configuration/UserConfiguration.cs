@@ -8,10 +8,8 @@ namespace ReTwitter.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            //builder.HasMany(m => m.FollowedPeople)
-            //    .WithOne(o => o.User)
-            //    .HasForeignKey(fk => fk.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict);
+        //    builder.Property(p => p.IsDeleted)
+        //        .HasDefaultValue(false);
         }
     }
 }

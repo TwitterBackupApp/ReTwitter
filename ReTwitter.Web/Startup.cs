@@ -102,7 +102,9 @@ namespace ReTwitter.Web
         {
             if (env.IsDevelopment())
             {
-                DbInitializer.Seed(serviceProvider, (ITwitterApiCall)serviceProvider.GetService(typeof(ITwitterApiCall)), (IMappingProvider)serviceProvider.GetService(typeof(IMappingProvider)));
+                DbInitializer.Seed(serviceProvider,
+                                  (ITwitterApiCall)serviceProvider.GetService(typeof(ITwitterApiCall)),
+                                  (IMappingProvider)serviceProvider.GetService(typeof(IMappingProvider)));
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();

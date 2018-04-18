@@ -11,7 +11,6 @@ namespace ReTwitter.Data.Models
         {
             this.InUsersFavorites = new List<UserFollowee>();
             this.TweetCollection = new List<Tweet>();
-            this.MentionedInTweets = new List<TweetUserMention>();
         }
 
         [Key]
@@ -51,6 +50,5 @@ namespace ReTwitter.Data.Models
 
         public ICollection<UserFollowee> InUsersFavorites { get; set; }
         public ICollection<Tweet> TweetCollection { get; set; }
-        public ICollection<TweetUserMention> MentionedInTweets { get; set; }
     }
 }

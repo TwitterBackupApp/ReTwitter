@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -10,8 +9,6 @@ using ReTwitter.Data.Models;
 using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.External.Contracts;
-using AutoMapper.QueryableExtensions;
-
 
 namespace ReTwitter.Data
 {
@@ -76,13 +73,11 @@ namespace ReTwitter.Data
                     var tweetsDonald = GetTweets(twitterApiCall, "25073877");
 
                     var tagsToAdd = new List<Tag>();
-                    var followeesToAdd = new List<Followee>();
 
                     foreach (var tweet in tweetsDonald)
                     {
                         var tweetToAdd = mapper.MapTo<Tweet>(tweet);
                         var tags = tweet.Entities.Hashtags;
-                        var usersMentioned = tweet.Entities.UserMentions;
 
                         context.Tweets.Add(tweetToAdd);
 
@@ -106,26 +101,9 @@ namespace ReTwitter.Data
                             context.TweetTags.Add(tweetTagToAdd);
                         }
 
-                        foreach (var followee in usersMentioned)
-                        {
-                            var followeeFound = context.Followees.FirstOrDefault(t => t.FolloweeId == followee.FolloweeId);
+                        var userTweetToAdd = new UserTweet { Tweet = tweetToAdd, User = firstDemouser };
+                        context.UserTweets.Add(userTweetToAdd);
 
-                            if (followeeFound == null)
-                            {
-                                if (followeesToAdd.Any(t => t.FolloweeId == followee.FolloweeId))
-                                {
-                                    followeeFound = followeesToAdd.FirstOrDefault(t => t.FolloweeId == followee.FolloweeId);
-                                }
-                                else
-                                {
-                                    followeeFound = mapper.MapTo<Followee>(followee);
-                                    followeesToAdd.Add(followeeFound);
-                                }
-                            }
-
-                            var tweetUserMentionToAdd = new TweetUserMention { Tweet = tweetToAdd, Followee = followeeFound };
-                            context.TweetUserMentions.Add(tweetUserMentionToAdd);
-                        }
                     }
 
                     var tweetsJustin = GetTweets(twitterApiCall, "14260960");
@@ -134,7 +112,6 @@ namespace ReTwitter.Data
                     {
                         var tweetToAdd = mapper.MapTo<Tweet>(tweet);
                         var tags = tweet.Entities.Hashtags;
-                        var usersMentioned = tweet.Entities.UserMentions;
 
                         context.Tweets.Add(tweetToAdd);
 
@@ -158,26 +135,8 @@ namespace ReTwitter.Data
                             context.TweetTags.Add(tweetTagToAdd);
                         }
 
-                        foreach (var followee in usersMentioned)
-                        {
-                            var followeeFound = context.Followees.FirstOrDefault(t => t.FolloweeId == followee.FolloweeId);
-
-                            if (followeeFound == null)
-                            {
-                                if (followeesToAdd.Any(t => t.FolloweeId == followee.FolloweeId))
-                                {
-                                    followeeFound = followeesToAdd.FirstOrDefault(t => t.FolloweeId == followee.FolloweeId);
-                                }
-                                else
-                                {
-                                    followeeFound = mapper.MapTo<Followee>(followee);
-                                    followeesToAdd.Add(followeeFound);
-                                }
-                            }
-
-                            var tweetUserMentionToAdd = new TweetUserMention { Tweet = tweetToAdd, Followee = followeeFound };
-                            context.TweetUserMentions.Add(tweetUserMentionToAdd);
-                        }
+                        var userTweetToAdd = new UserTweet { Tweet = tweetToAdd, User = secondDemouser };
+                        context.UserTweets.Add(userTweetToAdd);
                     }
 
                     var tweetsBoyko = GetTweets(twitterApiCall, "229635171");
@@ -186,7 +145,6 @@ namespace ReTwitter.Data
                     {
                         var tweetToAdd = mapper.MapTo<Tweet>(tweet);
                         var tags = tweet.Entities.Hashtags;
-                        var usersMentioned = tweet.Entities.UserMentions;
 
                         context.Tweets.Add(tweetToAdd);
 
@@ -210,30 +168,11 @@ namespace ReTwitter.Data
                             context.TweetTags.Add(tweetTagToAdd);
                         }
 
-                        foreach (var followee in usersMentioned)
-                        {
-                            var followeeFound = context.Followees.FirstOrDefault(t => t.FolloweeId == followee.FolloweeId);
-
-                            if (followeeFound == null)
-                            {
-                                if (followeesToAdd.Any(t => t.FolloweeId == followee.FolloweeId))
-                                {
-                                    followeeFound = followeesToAdd.FirstOrDefault(t => t.FolloweeId == followee.FolloweeId);
-                                }
-                                else
-                                {
-                                    followeeFound = mapper.MapTo<Followee>(followee);
-                                    followeesToAdd.Add(followeeFound);
-                                }
-                            }
-
-                            var tweetUserMentionToAdd = new TweetUserMention { Tweet = tweetToAdd, Followee = followeeFound };
-                            context.TweetUserMentions.Add(tweetUserMentionToAdd);
-                        }
+                        var userTweetToAdd = new UserTweet { Tweet = tweetToAdd, User = secondDemouser };
+                        context.UserTweets.Add(userTweetToAdd);
                     }
 
                     context.Tags.AddRange(tagsToAdd);
-                    context.Followees.AddRange(followeesToAdd);
                     context.SaveChanges();
                 }
 

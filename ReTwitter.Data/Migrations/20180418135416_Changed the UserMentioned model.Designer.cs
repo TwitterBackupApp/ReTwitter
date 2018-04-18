@@ -11,9 +11,10 @@ using System;
 namespace ReTwitter.Data.Migrations
 {
     [DbContext(typeof(ReTwitterDbContext))]
-    partial class ReTwitterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180418135416_Changed the UserMentioned model")]
+    partial class ChangedtheUserMentionedmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,7 +148,9 @@ namespace ReTwitter.Data.Migrations
 
                     b.Property<int>("FriendsCount");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("ModifiedOn");
 
@@ -228,7 +231,9 @@ namespace ReTwitter.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("ModifiedOn");
 
@@ -314,7 +319,9 @@ namespace ReTwitter.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("ModifiedOn");
 
@@ -335,7 +342,9 @@ namespace ReTwitter.Data.Migrations
 
                     b.Property<DateTime?>("DeletedOn");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("ModifiedOn");
 

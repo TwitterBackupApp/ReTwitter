@@ -20,7 +20,7 @@ namespace ReTwitter.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Tweet> Tweets { get; set; }
         public DbSet<TweetTag> TweetTags { get; set; }
-        public DbSet<TweetUserMention> TweetUserMentions { get; set; }
+        public DbSet<UserTweet> UserTweets { get; set; }
         public DbSet<UserFollowee> UserFollowees { get; set; }
 
         public override int SaveChanges()
@@ -33,7 +33,7 @@ namespace ReTwitter.Data
         {
             builder.ApplyConfiguration(new FolloweeConfiguration());
             builder.ApplyConfiguration(new TweetTagConfiguration());
-            builder.ApplyConfiguration(new TweetUserMentionConfiguration());
+            builder.ApplyConfiguration(new UserTweetConfiguration());
             builder.ApplyConfiguration(new UserFolloweeConfiguration());
             
             base.OnModelCreating(builder);
