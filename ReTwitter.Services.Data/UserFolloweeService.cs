@@ -44,5 +44,21 @@ namespace ReTwitter.Services.Data
             this.unitOfWork.UserFollowees.AddRange(userFolloweesToAdd);
             this.unitOfWork.SaveChanges();
         }
+
+        public void SaveUserFollowee(string userId, string followeeId)
+        {
+            var followee = this.followeeService.GetFolloweeById(followeeId);
+
+            if (!this.UserFolloweeExists(userId, followeeId))
+            {
+                var followeeToAddId = (
+                    this.unitOfWork.Followees.All.FirstOrDefault(f => f.FolloweeId == followee.FolloweeId) ??
+                    this.followeeService.Create(followee)).FolloweeId;
+                var userFolloweeToadd = new UserFollowee { UserId = userId, FolloweeId = followeeToAddId };
+           
+                this.unitOfWork.UserFollowees.Add(userFolloweeToadd);
+                this.unitOfWork.SaveChanges();
+            }
+        }
     }
 }

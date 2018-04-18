@@ -8,7 +8,8 @@ namespace ReTwitter.Services.Data.Contracts
     {
         List<FolloweeDto> GetAllFollowees(string userId);
 
-        FolloweeDto GetFolloweeById(string id);
+        FolloweeDto GetFolloweeById(string followeeId);
+
         Followee Create(FolloweeDto followee);
     }
 }

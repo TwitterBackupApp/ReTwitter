@@ -1,12 +1,11 @@
-﻿using System;
-using ReTwitter.Data.Contracts;
+﻿using ReTwitter.Data.Contracts;
+using ReTwitter.Data.Models;
 using ReTwitter.DTO;
 using ReTwitter.Infrastructure.Providers;
+using ReTwitter.Services.Data.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using ReTwitter.Data.Models;
-using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data
 {
@@ -31,12 +30,12 @@ namespace ReTwitter.Services.Data
             return this.mapper.ProjectTo<FolloweeDto>(storedFollowees).ToList();
         }
 
-        public FolloweeDto GetFolloweeById(string id)
+        public FolloweeDto GetFolloweeById(string followeeId)
         {
             var followee = this.unitOfWork
                 .Followees
                 .All
-                .FirstOrDefault(x => x.FolloweeId == id);
+                .FirstOrDefault(x => x.FolloweeId == followeeId);
 
             if (followee == null)
             {
