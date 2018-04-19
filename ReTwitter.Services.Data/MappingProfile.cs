@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ReTwitter.Data.Models;
+using ReTwitter.DTO;
 using ReTwitter.DTO.TwitterDto;
 using FolloweeDto = ReTwitter.DTO.TwitterDto.FolloweeDto;
 using TweetDto = ReTwitter.DTO.TwitterDto.TweetDto;
@@ -10,26 +11,21 @@ namespace ReTwitter.Services.Data
     {
         public MappingProfile()
         {
-            CreateMap<FolloweeDto, Followee>().ReverseMap();
-            CreateMap<UserMentionDto, Followee>().ReverseMap();
+            CreateMap<FolloweeDto, Followee>();
+            CreateMap<UserMentionDto, Followee>();
 
-            CreateMap<UserFollowee, Followee>()
-                .ForMember(
-                    ivm => ivm.FolloweeId,
-                    cfg => cfg.MapFrom(
-                        issue => issue.FolloweeId))
-                .ForMember(ivm => ivm.CreatedOn,
-                    cfg => cfg.MapFrom(
-                        issue => issue.CreatedOn))
-                .ForMember(ivm => ivm.DeletedOn,
-                    cfg => cfg.MapFrom(
-                        issue => issue.DeletedOn))
-                .ForMember(ivm => ivm.ModifiedOn,
-                    cfg => cfg.MapFrom(
-                        issue => issue.ModifiedOn))
-                .ForMember(ivm => ivm.IsDeleted,
-                    cfg => cfg.MapFrom(
-                        issue => issue.IsDeleted));
+            CreateMap<Followee, FolloweeDisplayListDto>()
+                .ForMember(ivm => ivm.Description, cfg => cfg.MapFrom(
+                    imp => imp.Description))
+                .ForMember(ivm => ivm.FolloweeOriginallyCreatedOn, cfg => cfg.MapFrom(
+                    imp => imp.FolloweeOriginallyCreatedOn))
+                .ForMember(ivm => ivm.FolloweeId, cfg => cfg.MapFrom(
+                    imp => imp.FolloweeId))
+                .ForMember(ivm => ivm.Name, cfg => cfg.MapFrom(
+                    imp => imp.Name))
+                .ForMember(ivm => ivm.ScreenName, cfg => cfg.MapFrom(
+                    imp => imp.ScreenName));
+                
 
             CreateMap<TweetDto, Tweet>()
                 .ForMember(

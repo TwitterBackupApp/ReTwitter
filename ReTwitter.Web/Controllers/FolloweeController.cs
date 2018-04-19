@@ -29,9 +29,9 @@ namespace ReTwitter.Web.Controllers
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
-            var followees = this.followeeService.GetAllFollowees(userId);
+            var followeesToDisplay = this.followeeService.GetAllFollowees(userId);
 
-            return View(followees);
+            return View(followeesToDisplay);
         }
 
         public ActionResult FolloweeDetails(string id)

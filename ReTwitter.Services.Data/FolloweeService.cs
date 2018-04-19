@@ -20,18 +20,20 @@ namespace ReTwitter.Services.Data
             this.mapper = mapper;
         }
 
-        public List<FolloweeDto> GetAllFollowees(string userId)
+        public List<FolloweeDisplayListDto> GetAllFollowees(string userId)
         {
-            var storedFollowees = this.unitOfWork.Users.All
-                                                 .Where(w => w.Id == userId)
-                                                 .Select(s => s.FollowedPeople)
-                                                 .ToList(); 
-
-
-            //TODO REVIEW AND AMEND, IT RETURNS THE COLLECTION OF MANY-TO-MANY
-
-            var test = this.mapper.ProjectTo<Followee>(storedFollowees).ToList();
-            return this.mapper.ProjectTo<FolloweeDto>(test).ToList();
+            var storedFollowees = this.unitOfWork.UserFollowees.All
+                                                 .Where(w => w.UserId == userId)
+                                                 .Select(s => new FolloweeDisplayListDto
+                                                 {
+                                                     FolloweeId = s.Followee.FolloweeId,
+                                                     Description = s.Followee.Description,
+                                                     FolloweeOriginallyCreatedOn = s.Followee.FolloweeOriginallyCreatedOn,
+                                                     ScreenName = s.Followee.ScreenName,
+                                                     Name = s.Followee.Name
+                                                 })
+                                                 .ToList();
+            return storedFollowees;
         }
 
         public FolloweeDto GetFolloweeById(string followeeId)

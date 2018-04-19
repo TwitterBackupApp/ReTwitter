@@ -6,7 +6,7 @@ namespace ReTwitter.Services.Data.Contracts
 {
     public interface IFolloweeService
     {
-        List<FolloweeDto> GetAllFollowees(string userId);
+        List<FolloweeDisplayListDto> GetAllFollowees(string userId);
 
         FolloweeDto GetFolloweeById(string followeeId);
 

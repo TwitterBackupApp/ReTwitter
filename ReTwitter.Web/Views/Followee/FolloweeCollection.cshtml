@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReTwitter.DTO.FolloweeDto>
+﻿@model IEnumerable<ReTwitter.DTO.FolloweeDisplayListDto>
 @{
     ViewData["Title"] = "FolloweeCollection";
 }
@@ -26,6 +26,11 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FolloweeOriginallyCreatedOn)
+                </td><td>
                     @Html.ActionLink("Details", "FolloweeDetails", new {id = item.FolloweeId})
                 </td>
             </tr>
