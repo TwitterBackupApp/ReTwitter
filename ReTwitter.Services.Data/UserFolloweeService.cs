@@ -3,6 +3,7 @@ using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.DTO;
+using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data
@@ -25,7 +26,7 @@ namespace ReTwitter.Services.Data
             return exists;
         }
 
-        public void SaveUserFollowees(string userId, IEnumerable<FolloweeDto> followees)
+        public void SaveUserFollowees(string userId, IEnumerable<FolloweeFromApiDto> followees)
         {
             var userFolloweesToAdd = new List<UserFollowee>();
 
@@ -36,7 +37,7 @@ namespace ReTwitter.Services.Data
                     var followeeToAddId = (
                         this.unitOfWork.Followees.All.FirstOrDefault(f => f.FolloweeId == followee.FolloweeId) ??
                         this.followeeService.Create(followee)).FolloweeId;
-                    var userFolloweeToadd = new UserFollowee {UserId = userId, FolloweeId = followeeToAddId};
+                    var userFolloweeToadd = new UserFollowee { UserId = userId, FolloweeId = followeeToAddId };
                     userFolloweesToAdd.Add(userFolloweeToadd);
                 }
             }
@@ -45,20 +46,33 @@ namespace ReTwitter.Services.Data
             this.unitOfWork.SaveChanges();
         }
 
-        public void SaveUserFollowee(string userId, string followeeId)
+        public void SaveUserFollowee(string userId, FolloweeFromApiDto followee)
         {
-            var followee = this.followeeService.GetFolloweeById(followeeId);
-
-            if (!this.UserFolloweeExists(userId, followeeId))
+            if (!this.UserFolloweeExists(userId, followee.FolloweeId))
             {
                 var followeeToAddId = (
                     this.unitOfWork.Followees.All.FirstOrDefault(f => f.FolloweeId == followee.FolloweeId) ??
                     this.followeeService.Create(followee)).FolloweeId;
                 var userFolloweeToadd = new UserFollowee { UserId = userId, FolloweeId = followeeToAddId };
-           
+
                 this.unitOfWork.UserFollowees.Add(userFolloweeToadd);
                 this.unitOfWork.SaveChanges();
             }
+        }
+
+        public byte DeleteUserFollowee(string userId, string followeeId)
+        {
+            var userFolloweeFound =
+                this.unitOfWork.UserFollowees.All.FirstOrDefault(w => w.FolloweeId == followeeId && w.UserId == userId);
+
+            if (userFolloweeFound != null)
+            {
+                this.unitOfWork.UserFollowees.Delete(userFolloweeFound);
+                this.unitOfWork.SaveChanges();
+                return 1;
+            }
+
+            return 0;
         }
     }
 }

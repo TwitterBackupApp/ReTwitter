@@ -6,39 +6,39 @@ namespace ReTwitter.Services.Data.TwitterApiService
 {
     public class TwitterApiCallService : ITwitterApiCallService
     {
-        private readonly ITwitterApiCaller apiCall;
+        private readonly ITwitterApiCaller _apiCaller;
         private readonly IJsonDeserializer jsonDeserializer;
 
-        public TwitterApiCallService(ITwitterApiCaller apiCall, IJsonDeserializer jsonDeserializer)
+        public TwitterApiCallService(ITwitterApiCaller apiCaller, IJsonDeserializer jsonDeserializer)
         {
-            this.apiCall = apiCall;
+            this._apiCaller = apiCaller;
             this.jsonDeserializer = jsonDeserializer;
         }
 
-        public FolloweeDto[] GetTwitterUsersByScreenName(string name)
+        public FolloweeFromApiDto[] GetTwitterUsersByScreenName(string name)
         {
             var searchString = "https://api.twitter.com/1.1/users/search.json?q=";
-            var foundUsersString = apiCall.GetTwitterData(searchString + name.Trim());
-            var deserializedUsers = this.jsonDeserializer.Deserialize<FolloweeDto[]>(foundUsersString);
+            var foundUsersString = _apiCaller.GetTwitterData(searchString + name.Trim());
+            var deserializedUsers = this.jsonDeserializer.Deserialize<FolloweeFromApiDto[]>(foundUsersString);
             return deserializedUsers;
         }
 
         // Test method -  to be replaced via hashing
-        public FolloweeDto GetTwitterUserDetailsById(string id)
+        public FolloweeFromApiDto GetTwitterUserDetailsById(string id)
         {
             var searchString = "https://api.twitter.com/1.1/users/show.json?user_id=";
-            var foundUsersString = apiCall.GetTwitterData(searchString + id.Trim());       
-            var deserializedUser = this.jsonDeserializer.Deserialize<FolloweeDto>(foundUsersString);
+            var foundUsersString = _apiCaller.GetTwitterData(searchString + id.Trim());       
+            var deserializedUser = this.jsonDeserializer.Deserialize<FolloweeFromApiDto>(foundUsersString);
             return deserializedUser;
         }
 
         // Test method -  to be replaced via hashing
-        public TweetDto[] GetTweetsByUserScreenName(string screenName)
+        public TweetFromApiDto[] GetTweetsByUserScreenName(string screenName)
         {
-            var link = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + screenName +
+            var link = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + screenName.Trim() +
                        "&count=100";
-            var foundTweets = apiCall.GetTwitterData(link);
-            var deserializedTweet = this.jsonDeserializer.Deserialize<TweetDto[]>(foundTweets);
+            var foundTweets = _apiCaller.GetTwitterData(link);
+            var deserializedTweet = this.jsonDeserializer.Deserialize<TweetFromApiDto[]>(foundTweets);
 
             return deserializedTweet;
         }

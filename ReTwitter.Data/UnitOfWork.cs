@@ -13,6 +13,7 @@ namespace ReTwitter.Data
         private IGenericRepository<Tag> tags;
         private IGenericRepository<Tweet> tweets;
         private IGenericRepository<UserFollowee> userFollowees;
+        private IGenericRepository<UserTweet> userTweets;
 
         //public UnitOfWork(ReTwitterDbContext context)
         //{
@@ -27,7 +28,8 @@ namespace ReTwitter.Data
             IGenericRepository<Followee> followees, 
             IGenericRepository<Tag> tags, 
             IGenericRepository<Tweet> tweets,
-            IGenericRepository<UserFollowee> userFollowees)
+            IGenericRepository<UserFollowee> userFollowees,
+            IGenericRepository<UserTweet> userTweets)
         {
             this.context = context;
             this.users = users;
@@ -35,6 +37,7 @@ namespace ReTwitter.Data
             this.tags = tags;
             this.tweets = tweets;
             this.userFollowees = userFollowees;
+            this.userTweets = userTweets;
         }
 
         public IGenericRepository<User> Users
@@ -99,6 +102,19 @@ namespace ReTwitter.Data
                 }
 
                 return this.userFollowees;
+            }
+        }
+
+        public IGenericRepository<UserTweet> UserTweets
+        {
+            get
+            {
+                if (this.userTweets == null)
+                {
+                    this.userTweets = new GenericRepository<UserTweet>(context);
+                }
+
+                return this.userTweets;
             }
         }
 
