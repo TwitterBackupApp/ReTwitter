@@ -13,11 +13,11 @@ namespace ReTwitter.Web.Controllers
         private readonly IUserFolloweeService userFolloweeService;
         private readonly UserManager<User> manager;
 
-        public FolloweeController(IFolloweeService followees, 
+        public FolloweeController(IFolloweeService followeeService, 
             ITwitterApiCallService twitterApiCallService, IUserFolloweeService userFolloweeService, 
             UserManager<User> manager)
         {
-            this.followeeService = followees;
+            this.followeeService = followeeService;
             this.twitterApiCallService = twitterApiCallService;
             this.userFolloweeService = userFolloweeService;
             this.manager = manager;

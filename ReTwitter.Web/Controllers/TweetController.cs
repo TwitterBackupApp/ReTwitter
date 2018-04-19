@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External.Contracts;
 using ReTwitter.Web.Models.TweetViewModel;
@@ -11,7 +7,7 @@ namespace ReTwitter.Web.Controllers
 {
     public class TweetController: Controller
     {
-        private readonly ITwitterApiCall twitterApiCall;
+        private readonly ITwitterApiCaller twitterApiCall;
         private readonly ITwitterApiCallService twitterApiCallService;
 
         public TweetController(ITwitterApiCallService twitterApiCallService)

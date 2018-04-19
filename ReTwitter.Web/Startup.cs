@@ -52,7 +52,7 @@ namespace ReTwitter.Web
             services.Configure<TwitterCredentials>(Configuration.GetSection("TwitterSettings"));
 
             services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<ITwitterApiCall, TwitterApiCall>();
+            services.AddTransient<ITwitterApiCaller, TwitterApiCaller>();
             services.AddTransient<IJsonDeserializer, JsonDeserializer>();
             services.AddTransient<IFolloweeService, FolloweeService>();
             services.AddTransient<IUserFolloweeService, UserFolloweeService>();
@@ -104,7 +104,7 @@ namespace ReTwitter.Web
             if (env.IsDevelopment())
             {
                 DbInitializer.Seed(serviceProvider,
-                                  (ITwitterApiCall)serviceProvider.GetService(typeof(ITwitterApiCall)),
+                                  (ITwitterApiCaller)serviceProvider.GetService(typeof(ITwitterApiCaller)),
                                   (IMappingProvider)serviceProvider.GetService(typeof(IMappingProvider)));
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();

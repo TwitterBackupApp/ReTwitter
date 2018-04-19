@@ -6,10 +6,10 @@ namespace ReTwitter.Services.Data.TwitterApiService
 {
     public class TwitterApiCallService : ITwitterApiCallService
     {
-        private readonly ITwitterApiCall apiCall;
+        private readonly ITwitterApiCaller apiCall;
         private readonly IJsonDeserializer jsonDeserializer;
 
-        public TwitterApiCallService(ITwitterApiCall apiCall, IJsonDeserializer jsonDeserializer)
+        public TwitterApiCallService(ITwitterApiCaller apiCall, IJsonDeserializer jsonDeserializer)
         {
             this.apiCall = apiCall;
             this.jsonDeserializer = jsonDeserializer;

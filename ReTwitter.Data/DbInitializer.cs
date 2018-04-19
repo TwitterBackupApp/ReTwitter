@@ -14,7 +14,7 @@ namespace ReTwitter.Data
 {
     public static class DbInitializer
     {
-        public static async void Seed(IServiceProvider serviceProvider, ITwitterApiCall twitterApiCall, IMappingProvider mapper)
+        public static async void Seed(IServiceProvider serviceProvider, ITwitterApiCaller twitterApiCall, IMappingProvider mapper)
         {
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
@@ -216,7 +216,7 @@ namespace ReTwitter.Data
             }
         }
 
-        private static FolloweeDto GetFolloweeById(ITwitterApiCall apiCall, string id)
+        private static FolloweeDto GetFolloweeById(ITwitterApiCaller apiCall, string id)
         {
             var searchString = "https://api.twitter.com/1.1/users/show.json?user_id=";
             var foundUserString = apiCall.GetTwitterData(searchString + id.Trim());
@@ -224,7 +224,7 @@ namespace ReTwitter.Data
             return deserializedUser;
         }
 
-        private static TweetDto[] GetTweets(ITwitterApiCall apiCall, string followeeId)
+        private static TweetDto[] GetTweets(ITwitterApiCaller apiCall, string followeeId)
         {
             var searchString = "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=";
             var searchCountString = "&count=30";
