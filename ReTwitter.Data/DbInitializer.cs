@@ -216,21 +216,21 @@ namespace ReTwitter.Data
             }
         }
 
-        private static FolloweeDto GetFolloweeById(ITwitterApiCaller apiCall, string id)
+        private static FolloweeFromApiDto GetFolloweeById(ITwitterApiCaller apiCall, string id)
         {
             var searchString = "https://api.twitter.com/1.1/users/show.json?user_id=";
             var foundUserString = apiCall.GetTwitterData(searchString + id.Trim());
-            var deserializedUser = JsonConvert.DeserializeObject<FolloweeDto>(foundUserString);
+            var deserializedUser = JsonConvert.DeserializeObject<FolloweeFromApiDto>(foundUserString);
             return deserializedUser;
         }
 
-        private static TweetDto[] GetTweets(ITwitterApiCaller apiCall, string followeeId)
+        private static TweetFromApiDto[] GetTweets(ITwitterApiCaller apiCall, string followeeId)
         {
             var searchString = "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=";
             var searchCountString = "&count=30";
             var foundTweetsString = apiCall.GetTwitterData(searchString + followeeId + searchCountString);
 
-            var deserializedTweets = JsonConvert.DeserializeObject<TweetDto[]>(foundTweetsString);
+            var deserializedTweets = JsonConvert.DeserializeObject<TweetFromApiDto[]>(foundTweetsString);
             return deserializedTweets;
         }
     }

@@ -1,15 +1,16 @@
 ﻿using ReTwitter.DTO;
 using System.Collections.Generic;
 using ReTwitter.Data.Models;
+using ReTwitter.DTO.TwitterDto;
 
 namespace ReTwitter.Services.Data.Contracts
 {
     public interface IFolloweeService
     {
-        List<FolloweeDisplayListDto> GetAllFollowees(string userId);
+        List<FolloweeDisplayListDto> GetAllFolloweesByUserId(string userId);
 
         FolloweeDto GetFolloweeById(string followeeId);
 
-        Followee Create(FolloweeDto followee);
+        Followee Create(FolloweeFromApiDto followee);
     }
 }

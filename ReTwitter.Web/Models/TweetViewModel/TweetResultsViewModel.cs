@@ -8,6 +8,6 @@ namespace ReTwitter.Web.Models.TweetViewModel
 {
     public class TweetResultsViewModel
     {
-        public IEnumerable<TweetDto> TweetResults { get; set; }
+        public IEnumerable<TweetFromApiDto> TweetResults { get; set; }
     }
 }

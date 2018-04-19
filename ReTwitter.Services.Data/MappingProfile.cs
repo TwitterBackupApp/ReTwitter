@@ -2,8 +2,6 @@
 using ReTwitter.Data.Models;
 using ReTwitter.DTO;
 using ReTwitter.DTO.TwitterDto;
-using FolloweeDto = ReTwitter.DTO.TwitterDto.FolloweeDto;
-using TweetDto = ReTwitter.DTO.TwitterDto.TweetDto;
 
 namespace ReTwitter.Services.Data
 {
@@ -11,7 +9,7 @@ namespace ReTwitter.Services.Data
     {
         public MappingProfile()
         {
-            CreateMap<FolloweeDto, Followee>();
+            CreateMap<FolloweeFromApiDto, Followee>();
             CreateMap<UserMentionDto, Followee>();
 
             CreateMap<Followee, FolloweeDisplayListDto>()
@@ -27,7 +25,7 @@ namespace ReTwitter.Services.Data
                     imp => imp.ScreenName));
                 
 
-            CreateMap<TweetDto, Tweet>()
+            CreateMap<TweetFromApiDto, Tweet>()
                 .ForMember(
                 ivm => ivm.Followee,
                 cfg => cfg.MapFrom(

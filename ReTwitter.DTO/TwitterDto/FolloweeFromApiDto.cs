@@ -2,7 +2,7 @@
 
 namespace ReTwitter.DTO.TwitterDto
 {
-    public class FolloweeDto
+    public class FolloweeFromApiDto
     {
         [JsonProperty("id_str")]
         public string FolloweeId { get; set; }

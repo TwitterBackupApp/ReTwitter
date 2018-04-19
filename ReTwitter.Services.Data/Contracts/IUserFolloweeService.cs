@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ReTwitter.DTO;
+using ReTwitter.DTO.TwitterDto;
 
 namespace ReTwitter.Services.Data.Contracts
 {
@@ -7,8 +8,10 @@ namespace ReTwitter.Services.Data.Contracts
     {
         bool UserFolloweeExists(string userId, string followeeId);
 
-        void SaveUserFollowees(string userId, IEnumerable<FolloweeDto> followees);
+        void SaveUserFollowees(string userId, IEnumerable<FolloweeFromApiDto> followees);
 
-        void SaveUserFollowee(string userId, string followeeId);
+        void SaveUserFollowee(string userId, FolloweeFromApiDto followee);
+
+        byte DeleteUserFollowee(string userId, string followeeId);
     }
 }

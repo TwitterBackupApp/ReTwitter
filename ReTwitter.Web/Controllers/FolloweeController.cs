@@ -24,31 +24,31 @@ namespace ReTwitter.Web.Controllers
         }
 
 
-        public async Task<ActionResult> FolloweeCollection()
+        public async Task<IActionResult> FolloweeCollection()
         {
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
-            var followeesToDisplay = this.followeeService.GetAllFollowees(userId);
+            var followeesToDisplay = this.followeeService.GetAllFolloweesByUserId(userId);
 
             return View(followeesToDisplay);
         }
 
-        public ActionResult FolloweeDetails(string id)
+        public IActionResult FolloweeDetails(string id)
         {
             var followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
 
             return View(followee);
         }
 
-        public async Task<ActionResult> FolloweeAdded(string followeeId)
-        {
-            var user = await manager.GetUserAsync(HttpContext.User);
-            var userId = user.Id;
+        //public async Task<IActionResult> FolloweeAdded(string followeeId)
+        //{
+        //    var user = await manager.GetUserAsync(HttpContext.User);
+        //    var userId = user.Id;
 
-            this.userFolloweeService.SaveUserFollowee(userId, followeeId);
+        //    this.userFolloweeService.SaveUserFollowee(userId, followeeId);
 
-            return View();
-        }
+        //    return View();
+        //}
     }
 }

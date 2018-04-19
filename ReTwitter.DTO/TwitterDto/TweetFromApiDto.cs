@@ -2,7 +2,7 @@
 
 namespace ReTwitter.DTO.TwitterDto
 {
-    public class TweetDto
+    public class TweetFromApiDto
     {
         [JsonProperty("id_str")]
         public string TweetId { get; set; }
@@ -14,7 +14,7 @@ namespace ReTwitter.DTO.TwitterDto
         public string OriginalTweetCreatedOn { get; set; }
 
         [JsonProperty("user")]
-        public FolloweeDto Followee { get; set; }
+        public FolloweeFromApiDto Followee { get; set; }
 
         [JsonProperty("entities")]
         public EntitiesDto Entities { get; set; }
