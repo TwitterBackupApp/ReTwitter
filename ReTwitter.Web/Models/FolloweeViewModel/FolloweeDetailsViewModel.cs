@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ReTwitter.DTO;
+﻿using ReTwitter.DTO;
 
 namespace ReTwitter.Web.Models.FolloweeViewModel
 {
