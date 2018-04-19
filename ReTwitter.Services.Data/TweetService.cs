@@ -20,7 +20,7 @@ namespace ReTwitter.Services.Data
             this.unitOfWork = unitOfWork;
         }
 
-       public TweetDto GetTweetByTweetId(string tweetId)
+        public TweetDto GetTweetByTweetId(string tweetId)
         {
             var tweet = this.unitOfWork.Tweets.All
                 .FirstOrDefault(x => x.TweetId == tweetId);
@@ -40,9 +40,9 @@ namespace ReTwitter.Services.Data
             this.unitOfWork.SaveChanges();
         }
 
-        public void Delete(string id)
+        public void Delete(string tweetId)
         {
-            var tweet = this.unitOfWork.Tweets.All.FirstOrDefault(x => x.TweetId == id);
+            var tweet = this.unitOfWork.Tweets.All.FirstOrDefault(x => x.TweetId == tweetId);
 
             if (tweet == null)
             {

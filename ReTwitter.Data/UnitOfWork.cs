@@ -1,7 +1,6 @@
 ﻿using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
-using System;
 
 namespace ReTwitter.Data
 {
@@ -14,6 +13,7 @@ namespace ReTwitter.Data
         private IGenericRepository<Tweet> tweets;
         private IGenericRepository<UserFollowee> userFollowees;
         private IGenericRepository<UserTweet> userTweets;
+        private IGenericRepository<TweetTag> tweetTags;
 
         //public UnitOfWork(ReTwitterDbContext context)
         //{
@@ -29,7 +29,8 @@ namespace ReTwitter.Data
             IGenericRepository<Tag> tags, 
             IGenericRepository<Tweet> tweets,
             IGenericRepository<UserFollowee> userFollowees,
-            IGenericRepository<UserTweet> userTweets)
+            IGenericRepository<UserTweet> userTweets,
+            IGenericRepository<TweetTag> tweetTags)
         {
             this.context = context;
             this.users = users;
@@ -38,6 +39,7 @@ namespace ReTwitter.Data
             this.tweets = tweets;
             this.userFollowees = userFollowees;
             this.userTweets = userTweets;
+            this.tweetTags = tweetTags;
         }
 
         public IGenericRepository<User> Users
@@ -115,6 +117,19 @@ namespace ReTwitter.Data
                 }
 
                 return this.userTweets;
+            }
+        }
+
+        public IGenericRepository<TweetTag> TweetTags
+        {
+            get
+            {
+                if (this.tweetTags == null)
+                {
+                    this.tweetTags = new GenericRepository<TweetTag>(context);
+                }
+
+                return this.tweetTags;
             }
         }
 

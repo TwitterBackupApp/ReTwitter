@@ -14,12 +14,14 @@ namespace ReTwitter.Services.Data
         private readonly IUnitOfWork unitOfWork;
         private readonly ITweetService tweetService;
         private readonly IMappingProvider mapper;
+        private readonly ITweetTagService tweetTagService;
 
-        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper)
+        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper, ITweetTagService tweetTagService)
         {
             this.unitOfWork = unitOfWork;
             this.tweetService = tweetService;
             this.mapper = mapper;
+            this.tweetTagService = tweetTagService;
         }
 
         public IEnumerable<TweetDto> GetTweetsByUserIdAndFolloweeId(string userId, string followeeId)
@@ -56,6 +58,33 @@ namespace ReTwitter.Services.Data
 
             this.unitOfWork.UserTweets.AddRange(userTweetsToAdd);
             this.unitOfWork.SaveChanges();
+        }
+
+        public void DeleteUserTweet(string userId, string tweetId)
+        {
+            var userTweetFound = this.unitOfWork.UserTweets.All.FirstOrDefault(w => w.UserId == userId && w.TweetId == tweetId);
+
+            if (userTweetFound != null)
+            {
+                this.unitOfWork.UserTweets.Delete(userTweetFound);
+                this.unitOfWork.SaveChanges();
+
+                foreach (var tag in userTweetFound.Tweet.TweetTags)
+                {
+                    this.tweetTagService.DeleteTweetTag(tag.TagId, tweetId);
+                }
+                if (!this.UsersSavedThisTweetById(tweetId))
+                {
+                    this.tweetService.Delete(tweetId);
+                }
+            }
+
+
+        }
+
+        public bool UsersSavedThisTweetById(string tweetId)
+        {
+            return this.unitOfWork.UserTweets.All.Any(a => a.TweetId == tweetId);
         }
     }
 }

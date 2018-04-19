@@ -12,11 +12,13 @@ namespace ReTwitter.Services.Data
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IFolloweeService followeeService;
+        private readonly IUserTweetService userTweetService;
 
-        public UserFolloweeService(IUnitOfWork unitOfWork, IFolloweeService followeeService)
+        public UserFolloweeService(IUnitOfWork unitOfWork, IFolloweeService followeeService, IUserTweetService userTweetService)
         {
             this.unitOfWork = unitOfWork;
             this.followeeService = followeeService;
+            this.userTweetService = userTweetService;
         }
 
         public bool UserFolloweeExists(string userId, string followeeId)
@@ -69,10 +71,24 @@ namespace ReTwitter.Services.Data
             {
                 this.unitOfWork.UserFollowees.Delete(userFolloweeFound);
                 this.unitOfWork.SaveChanges();
+                foreach (var tweet in userFolloweeFound.Followee.TweetCollection)
+                {
+                    this.userTweetService.DeleteUserTweet(userId, tweet.TweetId);
+                }
+
+                if (!this.UsersSavedThisFolloweeById(followeeId))
+                {
+                    this.followeeService.Delete(followeeId);
+                }
                 return 1;
             }
 
             return 0;
+        }
+
+        public bool UsersSavedThisFolloweeById(string followeeId)
+        {
+            return this.unitOfWork.UserFollowees.All.Any(a => a.FolloweeId == followeeId);
         }
     }
 }

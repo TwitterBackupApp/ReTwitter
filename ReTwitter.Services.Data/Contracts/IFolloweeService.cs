@@ -12,5 +12,7 @@ namespace ReTwitter.Services.Data.Contracts
         FolloweeDto GetFolloweeById(string followeeId);
 
         Followee Create(FolloweeFromApiDto followee);
+
+        void Delete(string followeeId);
     }
 }

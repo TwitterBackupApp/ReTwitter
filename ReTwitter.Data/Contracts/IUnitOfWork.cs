@@ -15,6 +15,7 @@ namespace ReTwitter.Data.Contracts
 
         IGenericRepository<UserFollowee> UserFollowees { get; }
         IGenericRepository<UserTweet> UserTweets { get; }
+        IGenericRepository<TweetTag> TweetTags { get; }
 
         int SaveChanges();
     }

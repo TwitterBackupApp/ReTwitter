@@ -1,4 +1,5 @@
-﻿using ReTwitter.Data.Contracts;
+﻿using System;
+using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.DTO;
 using ReTwitter.Infrastructure.Providers;
@@ -52,6 +53,19 @@ namespace ReTwitter.Services.Data
             this.unitOfWork.Followees.Add(followeeToAdd);
             this.unitOfWork.SaveChanges();
             return followeeToAdd;
+        }
+
+        public void Delete(string followeeId)
+        {
+            var followeeFound = this.unitOfWork.Followees.All.FirstOrDefault(x => x.FolloweeId == followeeId);
+
+            if (followeeFound == null)
+            {
+                throw new ArgumentException("Tag with such ID is not found!");
+            }
+
+            this.unitOfWork.Followees.Delete(followeeFound);
+            this.unitOfWork.SaveChanges();
         }
     }
 }
