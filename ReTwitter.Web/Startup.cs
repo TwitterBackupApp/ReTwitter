@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ReTwitter.Data;
@@ -12,10 +12,10 @@ using ReTwitter.Data.Repository;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
-using ReTwitter.Services.External;
-using AutoMapper;
 using ReTwitter.Services.Data.TwitterApiService;
+using ReTwitter.Services.External;
 using ReTwitter.Services.External.Contracts;
+using System;
 
 namespace ReTwitter.Web
 {

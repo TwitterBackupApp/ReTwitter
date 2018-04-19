@@ -23,9 +23,7 @@ namespace ReTwitter.Services.Data
 
         public bool UserFolloweeExists(string userId, string followeeId)
         {
-            bool exists = this.unitOfWork.UserFollowees.All.Any(a => a.UserId == userId && a.FolloweeId == followeeId);
-
-            return exists;
+            return this.unitOfWork.UserFollowees.AllAndDeleted.Any(a => a.FolloweeId == followeeId);
         }
 
         public void SaveUserFollowees(string userId, IEnumerable<FolloweeFromApiDto> followees)
@@ -60,6 +58,19 @@ namespace ReTwitter.Services.Data
                 this.unitOfWork.UserFollowees.Add(userFolloweeToadd);
                 this.unitOfWork.SaveChanges();
             }
+            else
+            {
+                var followeeToBeReadded =
+                    this.unitOfWork.UserFollowees.AllAndDeleted.FirstOrDefault(a =>
+                        a.FolloweeId == followee.FolloweeId && a.UserId == userId);
+
+                if (followeeToBeReadded != null)
+                {
+                    followeeToBeReadded.IsDeleted = false;
+
+                    this.unitOfWork.SaveChanges();
+                }
+            }
         }
 
         public byte DeleteUserFollowee(string userId, string followeeId)
@@ -88,7 +99,7 @@ namespace ReTwitter.Services.Data
 
         public bool UsersSavedThisFolloweeById(string followeeId)
         {
-            return this.unitOfWork.UserFollowees.All.Any(a => a.FolloweeId == followeeId);
+              return this.unitOfWork.UserFollowees.All.Any(a => a.FolloweeId == followeeId);
         }
     }
 }

@@ -60,6 +60,7 @@ namespace ReTwitter.Web.Controllers
             var userId = user.Id;
 
             this.userFolloweeService.DeleteUserFollowee(userId, followeeId);
+
             return View();
         }
     }
