@@ -71,10 +71,10 @@ namespace ReTwitter.Services.Data
             {
                 this.unitOfWork.UserFollowees.Delete(userFolloweeFound);
                 this.unitOfWork.SaveChanges();
-                foreach (var tweet in userFolloweeFound.Followee.TweetCollection)
-                {
-                    this.userTweetService.DeleteUserTweet(userId, tweet.TweetId);
-                }
+                //foreach (var tweet in userFolloweeFound.Followee.TweetCollection)
+                //{
+                //    this.userTweetService.DeleteUserTweet(userId, tweet.TweetId);
+                //}
 
                 if (!this.UsersSavedThisFolloweeById(followeeId))
                 {

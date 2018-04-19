@@ -105,11 +105,11 @@ namespace ReTwitter.Data.Repository
             {
                 entry.State = EntityState.Modified;
             }
-            else
-            {
-                this.dbSet.Attach(entity);
-                this.dbSet.Remove(entity);
-            }
+            //else
+            //{
+            //    this.dbSet.Attach(entity);
+            //    this.dbSet.Remove(entity);
+            //}
         }
 
         public void Update(T entity)

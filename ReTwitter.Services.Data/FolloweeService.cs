@@ -31,7 +31,7 @@ namespace ReTwitter.Services.Data
                                                      Description = s.Followee.Description.Substring(0, 15) + "...",
                                                      FolloweeOriginallyCreatedOn = s.Followee.FolloweeOriginallyCreatedOn,
                                                      ScreenName = s.Followee.ScreenName,
-                                                     Name = s.Followee.Name
+                                                     Name = s.Followee.Name,
                                                  })
                                                  .ToList();
             return storedFollowees;

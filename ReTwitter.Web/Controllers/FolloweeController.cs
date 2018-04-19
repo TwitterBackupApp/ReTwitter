@@ -53,5 +53,14 @@ namespace ReTwitter.Web.Controllers
 
             return View();
         }
+
+        public async Task<IActionResult> FolloweeDeleted(string followeeId)
+        {
+            var user = await manager.GetUserAsync(HttpContext.User);
+            var userId = user.Id;
+
+            this.userFolloweeService.DeleteUserFollowee(userId, followeeId);
+            return View();
+        }
     }
 }
