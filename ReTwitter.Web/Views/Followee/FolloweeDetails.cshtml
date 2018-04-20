@@ -17,4 +17,4 @@
 </div>
 
 @Html.ActionLink("Follow", "FolloweeAdded", "Followee" , new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })
-@Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { screenName = Model.ScreenName }, new { @class = "btn btn-info" })
+@Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })

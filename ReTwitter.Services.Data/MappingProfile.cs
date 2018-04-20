@@ -41,6 +41,21 @@ namespace ReTwitter.Services.Data
                         issue => issue.Hashtag)
                 );
 
+            CreateMap<Tweet, TweetDto>()
+                .ForMember(
+                    ivm => ivm.Text,
+                    cfg => cfg.MapFrom(
+                        issue => issue.Text)
+                ).ForMember(
+                    ivm => ivm.OriginalTweetCreatedOn,
+                    cfg => cfg.MapFrom(
+                        issue => issue.OriginalTweetCreatedOn)
+                ).ForMember(
+                    ivm => ivm.UsersMentioned,
+                    cfg => cfg.MapFrom(
+                        issue => issue.UsersMentioned.ToString())
+                );
+
         }
     }
 }
