@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using System.Threading.Tasks;
-using ReTwitter.DTO.TwitterDto;
 
 namespace ReTwitter.Web.Controllers
 {
@@ -62,6 +61,13 @@ namespace ReTwitter.Web.Controllers
             this.userFolloweeService.DeleteUserFollowee(userId, followeeId);
 
             return View();
+        }
+
+        public IActionResult FolloweeUpdate(string followeeId)
+        {
+            this.followeeService.Update(followeeId);
+
+            return RedirectToAction("FolloweeCollection");
         }
     }
 }
