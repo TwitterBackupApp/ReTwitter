@@ -14,11 +14,13 @@ namespace ReTwitter.Services.Data
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMappingProvider mapper;
+        private readonly ITwitterApiCallService twitterApiCallService;
 
-        public FolloweeService(IUnitOfWork unitOfWork, IMappingProvider mapper)
+        public FolloweeService(IUnitOfWork unitOfWork, IMappingProvider mapper, ITwitterApiCallService twitterApiCallService)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.twitterApiCallService = twitterApiCallService;
         }
 
         public List<FolloweeDisplayListDto> GetAllFolloweesByUserId(string userId)
@@ -61,10 +63,33 @@ namespace ReTwitter.Services.Data
 
             if (followeeFound == null)
             {
-                throw new ArgumentException("Tag with such ID is not found!");
+                throw new ArgumentException("Followee with such ID is not found!");
             }
 
             this.unitOfWork.Followees.Delete(followeeFound);
+            this.unitOfWork.SaveChanges();
+        }
+
+        public void Update(string followeeId)
+        {
+            var followeeToUpdate = this.unitOfWork.Followees.All.FirstOrDefault(fd => fd.FolloweeId == followeeId);
+
+            if (followeeToUpdate == null)
+            {
+                throw new ArgumentException("Followee with such ID is not found!");
+            }
+
+            var updatedFollowee = this.twitterApiCallService.GetTwitterUserDetailsById(followeeId);
+
+            followeeToUpdate.Description = updatedFollowee.Description;
+            followeeToUpdate.FavoritesCount = updatedFollowee.FavoritesCount;
+            followeeToUpdate.FollowersCount = updatedFollowee.FollowersCount;
+            followeeToUpdate.FriendsCount = updatedFollowee.FriendsCount;
+            followeeToUpdate.StatusesCount = updatedFollowee.StatusesCount;
+            followeeToUpdate.Name = updatedFollowee.Name;
+            followeeToUpdate.ScreenName = updatedFollowee.ScreenName;
+
+            this.unitOfWork.Followees.Update(followeeToUpdate);
             this.unitOfWork.SaveChanges();
         }
     }

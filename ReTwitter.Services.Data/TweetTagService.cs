@@ -23,14 +23,14 @@ namespace ReTwitter.Services.Data
             {
                 this.unitOfWork.TweetTags.Delete(tweetTagFound);
                 this.unitOfWork.SaveChanges();
-                if (!this.TweetsSavedThisTagById(tagId))
+                if (!this.AnyTweetSavedThisTagById(tagId))
                 {
                     this.tagService.Delete(tagId);
                 }
             }
         }
 
-        public bool TweetsSavedThisTagById(int tagId)
+        public bool AnyTweetSavedThisTagById(int tagId)
         {
             return this.unitOfWork.TweetTags.All.Any(a => a.TagId == tagId);
         }

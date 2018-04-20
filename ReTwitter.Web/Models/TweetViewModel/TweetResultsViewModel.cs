@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using ReTwitter.DTO.TwitterDto;
+﻿using System.Collections.Generic;
+using ReTwitter.DTO;
 
 namespace ReTwitter.Web.Models.TweetViewModel
 {
     public class TweetResultsViewModel
     {
-        public IEnumerable<TweetFromApiDto> TweetResults { get; set; }
+        public IEnumerable<TweetDto> TweetResults { get; set; }
     }
 }

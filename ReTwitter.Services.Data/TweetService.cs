@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
@@ -59,6 +60,20 @@ namespace ReTwitter.Services.Data
             this.unitOfWork.Tweets.Add(tweetToAdd);
             this.unitOfWork.SaveChanges();
             return tweetToAdd;
+        }
+
+        public IEnumerable<TweetDto> GetTweetsByFolloweeIdAndUserId(string followeeId, string userId)
+        {
+            var tweets = this.unitOfWork.UserTweets.All.Where(w => w.UserId == userId && w.Tweet.FolloweeId == followeeId).Select(se => se.Tweet).ToList();
+
+            var tweetDtos = tweets.Select(s => new TweetDto
+            {
+                OriginalTweetCreatedOn = s.OriginalTweetCreatedOn,
+                UsersMentioned = s.UsersMentioned.ToString(),
+                Text = s.Text
+            });
+
+            return tweetDtos;
         }
     }
 }

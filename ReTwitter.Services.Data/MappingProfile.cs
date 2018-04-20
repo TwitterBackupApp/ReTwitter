@@ -23,7 +23,7 @@ namespace ReTwitter.Services.Data
                     imp => imp.Name))
                 .ForMember(ivm => ivm.ScreenName, cfg => cfg.MapFrom(
                     imp => imp.ScreenName));
-                
+
 
             CreateMap<TweetFromApiDto, Tweet>()
                 .ForMember(
@@ -40,7 +40,6 @@ namespace ReTwitter.Services.Data
                     cfg => cfg.MapFrom(
                         issue => issue.Hashtag)
                 );
-
         }
     }
 }
