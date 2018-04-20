@@ -15,25 +15,31 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
 
         @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ScreenName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FolloweeOriginallyCreatedOn)
-                </td><td>
-                    @Html.ActionLink("Details", "FolloweeDetails", new {id = item.FolloweeId})
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ScreenName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FolloweeOriginallyCreatedOn)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "FolloweeDetails", new { id = item.FolloweeId })
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
+            </td>          
+        </tr>
         }
-
-    </table>
+</table>
