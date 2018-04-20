@@ -70,6 +70,12 @@ namespace ReTwitter.Web
                 .AddEntityFrameworkStores<ReTwitterDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
             if (this.Environment.IsDevelopment())
             {
                 services.Configure<IdentityOptions>(options =>
@@ -85,6 +91,23 @@ namespace ReTwitter.Web
                     // Lockout settings
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(1);
                     options.Lockout.MaxFailedAccessAttempts = 999;
+                });
+            }
+            else
+            {
+                services.Configure<IdentityOptions>(options =>
+                {
+                    // Password settings
+                    options.Password.RequireDigit = true;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequiredUniqueChars = 4;
+
+                    // Lockout settings
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                    options.Lockout.MaxFailedAccessAttempts = 10;
                 });
             }
         }

@@ -33,10 +33,10 @@ namespace ReTwitter.Data
                     var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
                     var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
 
-                    await CreateUser(userManager, "admin@gmail.com", "123");
-                    await CreateUser(userManager, "gosho@gmail.com", "123");
-                    await CreateUser(userManager, "pesho@gmail.com", "123");
-                    await CreateUser(userManager, "merry@gmail.com", "123");
+                    await CreateUser(userManager, "admin", "admin@gmail.com", "123");
+                    await CreateUser(userManager, "gosho", "gosho@gmail.com", "123");
+                    await CreateUser(userManager, "pesho","pesho@gmail.com", "123");
+                    await CreateUser(userManager, "merry", "merry@gmail.com", "123");
 
                     await CreateRole(roleManager, "Administrators");
                     await AddUserToRole(userManager, "admin@gmail.com", "Administrators");
@@ -180,12 +180,12 @@ namespace ReTwitter.Data
             }
         }
 
-        private static async Task CreateUser(UserManager<User> userManager,
+        private static async Task CreateUser(UserManager<User> userManager, string username,
               string email, string password)
         {
             var user = new User
             {
-                UserName = email,
+                UserName = username,
                 Email = email
             };
 
