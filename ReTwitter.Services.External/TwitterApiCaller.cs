@@ -6,7 +6,6 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using Microsoft.Extensions.Options;
 using ReTwitter.Services.External.Contracts;
 
 namespace ReTwitter.Services.External
@@ -20,12 +19,12 @@ namespace ReTwitter.Services.External
         private const string version = "1.0";
         private const string signatureMethod = "HMAC-SHA1";
 
-        public TwitterApiCaller(IOptions<TwitterCredentials> credentials)
+        public TwitterApiCaller(ITwitterCredentialsProvider credentials)
         {
-            this.consumerKey = credentials.Value.ConsumerKey;
-            this.consumerSecret = credentials.Value.ConsumerSecret;
-            this.accessToken = credentials.Value.AccessToken;
-            this.accessSecret = credentials.Value.AccessTokenSecret;
+            this.consumerKey = credentials.ConsumerKey;
+            this.consumerSecret = credentials.ConsumerSecret;
+            this.accessToken = credentials.AccessToken;
+            this.accessSecret = credentials.AccessTokenSecret;
         }
 
         public string GetTwitterData(string resourceurl)

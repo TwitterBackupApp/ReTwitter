@@ -49,9 +49,8 @@ namespace ReTwitter.Web
 
         private void RegisterServices(IServiceCollection services)
         {
-            services.Configure<TwitterCredentials>(Configuration.GetSection("TwitterSettings"));
-
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ITwitterCredentialsProvider, TwitterCredentialsProvider>();
             services.AddTransient<ITwitterApiCaller, TwitterApiCaller>();
             services.AddTransient<IJsonDeserializer, JsonDeserializer>();
             services.AddTransient<IFolloweeService, FolloweeService>();
