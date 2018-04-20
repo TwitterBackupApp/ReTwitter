@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.DTO;
@@ -69,20 +70,25 @@ namespace ReTwitter.Services.Data
                 this.unitOfWork.UserTweets.Delete(userTweetFound);
                 this.unitOfWork.SaveChanges();
 
-                foreach (var tag in userTweetFound.Tweet.TweetTags)
+                if (!this.AnyUserSavedThisTweetById(tweetId))
                 {
-                    this.tweetTagService.DeleteTweetTag(tag.TagId, tweetId);
-                }
-                if (!this.UsersSavedThisTweetById(tweetId))
-                {
+                    var tweetTagsToDelete =
+                        this.unitOfWork.TweetTags.All.Where(w => w.TweetId == tweetId).Select(s => s.TagId).ToList();
+
+                    if (tweetTagsToDelete.Any())
+                    {
+                        foreach (var tagId in tweetTagsToDelete)
+                        {
+                            this.tweetTagService.DeleteTweetTag(tagId, tweetId);
+                        }
+                    }
+
                     this.tweetService.Delete(tweetId);
                 }
             }
-
-
         }
 
-        public bool UsersSavedThisTweetById(string tweetId)
+        public bool AnyUserSavedThisTweetById(string tweetId)
         {
             return this.unitOfWork.UserTweets.All.Any(a => a.TweetId == tweetId);
         }

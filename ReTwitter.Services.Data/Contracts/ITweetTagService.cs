@@ -4,6 +4,6 @@
     {
         void DeleteTweetTag(int tagId, string tweetId);
 
-        bool TweetsSavedThisTagById(int tagId);
+        bool AnyTweetSavedThisTagById(int tagId);
     }
 }
