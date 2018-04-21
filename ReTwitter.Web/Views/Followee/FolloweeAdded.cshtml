@@ -1,7 +1,21 @@
-﻿
+﻿@model ReTwitter.DTO.TwitterDto.FolloweeFromApiDto
 @{
     ViewData["Title"] = "FolloweeAdded";
 }
+<br /><br /><br />
+<environment include="Development">
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+        swal(
+            'Congrats!',
+            'You successfully followed the user!',
+            'success'
+        )</script>
+</environment>
 
-<h2>FolloweeAdded</h2>
+
+<div class="btns-go-back" align="center">
+    @Html.ActionLink("Go to Your Collection", "FolloweeCollection", "Followee", new { @class = "btn btn-go-back-to-collection" }, new { @class = "btn btn-go-back-to-collection" })
+    @Html.ActionLink("Go Back to Search", "Search", "Search", new { @class = "btn btn-go-back-to-search" }, new { @class = "btn btn-go-back-to-search" })
+</div>
 

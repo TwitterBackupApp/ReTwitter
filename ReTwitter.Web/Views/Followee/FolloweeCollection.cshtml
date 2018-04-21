@@ -3,24 +3,27 @@
     ViewData["Title"] = "FolloweeCollection";
 }
 
-
+<br />
+<br />
+<br />
 <h2>Followees Collection</h2>
 
 <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ScreenName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ScreenName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
 
-        @foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ScreenName)
@@ -39,10 +42,10 @@
             </td>
             <td>
                 @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-            </td>  
+            </td>
             <td>
                 @Html.ActionLink("Delete", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-            </td>          
+            </td>
         </tr>
-        }
+    }
 </table>

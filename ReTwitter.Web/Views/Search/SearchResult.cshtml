@@ -5,7 +5,8 @@
 }
 
 <br />
-
+<br />
+<br />
 @if (@Model.SearchResults.Count() != 0)
 {
     foreach (var result in Model.SearchResults)
@@ -27,7 +28,7 @@
                     </a>
                     @Html.ActionLink("Details", "FolloweeDetails", "Followee", new { id = result.FolloweeId }, new { @class = "btn btn-info" })
                 </div>
-            </div>      
+            </div>
         </div>
     }
 }
