@@ -1,7 +1,47 @@
 ﻿@{
     ViewData["Title"] = "About";
 }
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/about-view.css" />
+</environment>
+<br/>
+<br/>
+<br/>
+<div class="center-about-info">
+    <h2 class="about-title">@ViewData["Title"]</h2>
+    <h3 class="about-title info-about">Graduation project done with ASP.NET Core</h3>
 
-<p>Use this area to provide additional information.</p>
+    <p class="info-about">This web application is a graduation project for <strong>Telerik Academy Alpha</strong>, done by <strong>Sophia Kiryakova</strong> and <strong>Alex Parvanov</strong>.</p>
+    <p class="info-about">
+        ReTwitter is a web application where you can register or use your twitter credentials.
+        You can search for people and follow them through the app, check out their recent tweets,
+        save your favourites and of course you can unfollow people. You can also browse through your personal collection of followees.
+    </p>
+</div>
+
+<div class="images-container">
+    <div class="row">
+        <div class="col-sm-5">
+            <p class="text-center-name"><strong>Sophie</strong></p><br>
+            <a href="#sophie" data-toggle="collapse">
+                <img src="/images/picture-Sophie.jpg" class="img-circle " alt="Sophie" width="255" height="255">
+            </a>
+            <div id="sophie" class="collapse">
+                <p>Sophie loves partying.</p>
+                <p>She can help you discover the night life</p>
+                <p>in the biggest cities and the seaside.</p>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <p class="text-center-name"><strong>Alex</strong></p><br>
+            <a href="#alex-parvanov" data-toggle="collapse">
+                <img src="/images/picture-Alex.jpg" class="img-circle " alt="Alex" width="255" height="255">
+            </a>
+            <div id="alex-parvanov" class="collapse">
+                <p>Alex adores Bulgarian seaside.</p>
+                <p>He can tell you stories for the beaches</p>
+                <p>from Durankulak to Silistar.</p>
+            </div>
+        </div>
+    </div>
+</div>

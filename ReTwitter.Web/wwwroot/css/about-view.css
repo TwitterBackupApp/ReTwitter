@@ -1,0 +1,26 @@
+﻿/* About section */
+.the-tripsters-about {
+    font-size: 50px !important;
+    letter-spacing: 2px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.text-center-name {
+    font-size: 50px !important;
+    letter-spacing: 2px;
+    margin-top: 30px;
+}
+
+#alex-parvanov, #sophie {
+    margin-top: 20px;
+}
+
+.info-about, .center-about-info {
+    text-align: center;
+}
+
+.images-container {
+    text-align: center;
+    padding-left: 15%
+}

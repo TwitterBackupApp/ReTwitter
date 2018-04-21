@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using ReTwitter.DTO;
-using ReTwitter.DTO.TwitterDto;
+﻿using ReTwitter.DTO.TwitterDto;
+using System.Collections.Generic;
 
 namespace ReTwitter.Services.Data.Contracts
 {
