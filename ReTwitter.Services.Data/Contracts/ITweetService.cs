@@ -13,8 +13,10 @@ namespace ReTwitter.Services.Data.Contracts
 
         void Delete(string id);
 
-        Tweet Create(TweetFromApiDto tweet);
+        Tweet CreateFromApiDto(TweetFromApiDto tweet);
 
         IEnumerable<TweetDto> GetTweetsByFolloweeIdAndUserId(string followeeId, string userId);
+
+        Tweet CreateFromApiById(string tweetId);
     }
 }

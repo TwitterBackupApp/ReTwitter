@@ -1,6 +1,4 @@
-﻿@using ReTwitter.Data.Models
-@using ReTwitter.DTO
-@model ReTwitter.DTO.TwitterDto.FolloweeFromApiDto
+﻿@model ReTwitter.DTO.TwitterDto.FolloweeFromApiDto
 
 @{
     ViewData["Title"] = "FolloweeDetails";
@@ -19,5 +17,6 @@
     <p><strong>Favorites count : </strong>@Html.DisplayFor(model => model.FavoritesCount)</p>
 </div>
 
-@Html.ActionLink("Follow", "FolloweeAdded", "Followee", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })
+@Html.ActionLink("Follow", "FolloweeAdded", "Followee", Model, new { @class = "btn btn-info" })
 @Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })
+@Html.ActionLink("Search for latest 100 Tweets", "TweetSearchResult", "Tweet", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })

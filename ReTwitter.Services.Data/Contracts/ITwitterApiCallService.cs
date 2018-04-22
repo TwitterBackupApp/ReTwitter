@@ -9,5 +9,9 @@ namespace ReTwitter.Services.Data.Contracts
         FolloweeFromApiDto GetTwitterUserDetailsById(string id);
 
         TweetFromApiDto[] GetTweetsByUserScreenName(string screenName);
+
+        TweetFromApiDto[] GetTweetsByUserId(string userId);
+
+        TweetFromApiDto GetTweetByTweetId(string tweetId);
     }
 }

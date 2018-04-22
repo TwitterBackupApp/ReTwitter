@@ -1,0 +1,42 @@
+﻿@model ReTwitter.Web.Models.TweetViewModel.TweetSearchResultViewModel
+
+@{
+    ViewData["Title"] = "Latest 100 tweets";
+}
+
+<br />
+<br />
+<br />
+@if (@Model.TweetSearchResults.Count() != 0)
+{
+    <table class="table">
+        <tr>
+            <th>
+                Text
+            </th>
+            <th>
+                Original Tweet Created On
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.TweetSearchResults)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn)
+                </td>
+                <td>
+                    @Html.ActionLink("Save", "TweetAdd", "Tweet", new {tweetId = item.TweetId}, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+    </table>
+}
+@*else
+    {
+        <p><strong>No tweets by </strong>@Model.</p>
+    }*@

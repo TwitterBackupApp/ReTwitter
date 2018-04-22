@@ -6,19 +6,19 @@ namespace ReTwitter.Services.Data.TwitterApiService
 {
     public class TwitterApiCallService : ITwitterApiCallService
     {
-        private readonly ITwitterApiCaller _apiCaller;
+        private readonly ITwitterApiCaller apiCaller;
         private readonly IJsonDeserializer jsonDeserializer;
 
         public TwitterApiCallService(ITwitterApiCaller apiCaller, IJsonDeserializer jsonDeserializer)
         {
-            this._apiCaller = apiCaller;
+            this.apiCaller = apiCaller;
             this.jsonDeserializer = jsonDeserializer;
         }
 
         public FolloweeFromApiDto[] GetTwitterUsersByScreenName(string name)
         {
             var searchString = "https://api.twitter.com/1.1/users/search.json?q=";
-            var foundUsersString = _apiCaller.GetTwitterData(searchString + name.Trim());
+            var foundUsersString = apiCaller.GetTwitterData(searchString + name.Trim());
             var deserializedUsers = this.jsonDeserializer.Deserialize<FolloweeFromApiDto[]>(foundUsersString);
             return deserializedUsers;
         }
@@ -27,7 +27,7 @@ namespace ReTwitter.Services.Data.TwitterApiService
         public FolloweeFromApiDto GetTwitterUserDetailsById(string id)
         {
             var searchString = "https://api.twitter.com/1.1/users/show.json?user_id=";
-            var foundUsersString = _apiCaller.GetTwitterData(searchString + id.Trim());       
+            var foundUsersString = apiCaller.GetTwitterData(searchString + id.Trim());       
             var deserializedUser = this.jsonDeserializer.Deserialize<FolloweeFromApiDto>(foundUsersString);
             return deserializedUser;
         }
@@ -37,8 +37,27 @@ namespace ReTwitter.Services.Data.TwitterApiService
         {
             var link = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + screenName.Trim() +
                        "&count=100";
-            var foundTweets = _apiCaller.GetTwitterData(link);
+            var foundTweets = apiCaller.GetTwitterData(link);
             var deserializedTweet = this.jsonDeserializer.Deserialize<TweetFromApiDto[]>(foundTweets);
+
+            return deserializedTweet;
+        }
+
+        public TweetFromApiDto[] GetTweetsByUserId(string userId)
+        {
+            var link = "https://api.twitter.com/1.1/statuses/user_timeline.json?user_id=" + userId.Trim() +
+                       "&count=100";
+            var foundTweets = apiCaller.GetTwitterData(link);
+            var deserializedTweet = this.jsonDeserializer.Deserialize<TweetFromApiDto[]>(foundTweets);
+
+            return deserializedTweet;
+        }
+
+        public TweetFromApiDto GetTweetByTweetId(string tweetId)
+        {
+            var link = "https://api.twitter.com/1.1/statuses/show.json?id=" + tweetId.Trim();
+            var foundTweet = apiCaller.GetTwitterData(link);
+            var deserializedTweet = this.jsonDeserializer.Deserialize<TweetFromApiDto>(foundTweet);
 
             return deserializedTweet;
         }

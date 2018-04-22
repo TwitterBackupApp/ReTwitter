@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using System.Threading.Tasks;
+using ReTwitter.DTO.TwitterDto;
 
 namespace ReTwitter.Web.Controllers
 {
@@ -41,14 +42,14 @@ namespace ReTwitter.Web.Controllers
             return View(followee);
         }
 
-        public async Task<IActionResult> FolloweeAdded(string followeeId)
+        public async Task<IActionResult> FolloweeAdded(FolloweeFromApiDto followee)
         {
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
             
-            var followeeToAdd = this.twitterApiCallService.GetTwitterUserDetailsById(followeeId);
+            //var followeeToAdd = this.twitterApiCallService.GetTwitterUserDetailsById(followeeId);
 
-            this.userFolloweeService.SaveUserFollowee(userId, followeeToAdd);
+            this.userFolloweeService.SaveUserFollowee(userId, followee);
 
             return View();
         }

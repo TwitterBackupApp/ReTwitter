@@ -30,7 +30,7 @@ namespace ReTwitter.Services.Data
                                                  .Select(s => new FolloweeDisplayListDto
                                                  {
                                                      FolloweeId = s.Followee.FolloweeId,
-                                                     Description = s.Followee.Description.Substring(0, 15) + "...",
+                                                     Description = s.Followee.Description.Substring(0, 20) + "...",
                                                      FolloweeOriginallyCreatedOn = s.Followee.FolloweeOriginallyCreatedOn,
                                                      ScreenName = s.Followee.ScreenName,
                                                      Name = s.Followee.Name,

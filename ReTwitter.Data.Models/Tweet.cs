@@ -14,6 +14,7 @@ namespace ReTwitter.Data.Models
             this.UserTweetCollection = new HashSet<UserTweet>();
         }
 
+        [Key]
         public string TweetId { get; set; }
 
         [Required]
@@ -24,9 +25,9 @@ namespace ReTwitter.Data.Models
 
         public int UsersMentioned { get; set; }
 
+        [Required]
         public string FolloweeId  { get; set; }
 
-        [Required]
         public Followee Followee { get; set; }
 
         public bool IsDeleted { get; set; }

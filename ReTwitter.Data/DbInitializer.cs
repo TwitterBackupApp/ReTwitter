@@ -35,7 +35,7 @@ namespace ReTwitter.Data
 
                     await CreateUser(userManager, "admin", "admin@gmail.com", "123");
                     await CreateUser(userManager, "gosho", "gosho@gmail.com", "123");
-                    await CreateUser(userManager, "pesho","pesho@gmail.com", "123");
+                    await CreateUser(userManager, "pesho", "pesho@gmail.com", "123");
                     await CreateUser(userManager, "merry", "merry@gmail.com", "123");
 
                     await CreateRole(roleManager, "Administrators");
@@ -73,10 +73,19 @@ namespace ReTwitter.Data
                     var tweetsDonald = GetTweets(twitterApiCall, "25073877");
 
                     var tagsToAdd = new List<Tag>();
+                    var tweetTagsToAdd = new List<TweetTag>();
 
                     foreach (var tweet in tweetsDonald)
                     {
-                        var tweetToAdd = mapper.MapTo<Tweet>(tweet);
+                        var tweetToAdd = new Tweet
+                        {
+                            FolloweeId = tweet.Followee.FolloweeId,
+                            OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                            TweetId = tweet.TweetId,
+                            Text = tweet.Text,
+                            UsersMentioned = tweet.Entities.UserMentions.Length
+                        };
+
                         var tags = tweet.Entities.Hashtags;
 
                         context.Tweets.Add(tweetToAdd);
@@ -97,8 +106,14 @@ namespace ReTwitter.Data
                                     tagsToAdd.Add(foundTag);
                                 }
                             }
-                            var tweetTagToAdd = new TweetTag { Tweet = tweetToAdd, Tag = foundTag };
-                            context.TweetTags.Add(tweetTagToAdd);
+                            if (!context.TweetTags.Any(a => a.Tag == foundTag && a.Tweet == tweetToAdd))
+                            {
+                                if (!tweetTagsToAdd.Any(a => a.Tag == foundTag && a.Tweet == tweetToAdd))
+                                {
+                                    var tweetTagToAdd = new TweetTag { Tweet = tweetToAdd, Tag = foundTag };
+                                    tweetTagsToAdd.Add(tweetTagToAdd);
+                                }
+                            }
                         }
 
                         var userTweetToAdd = new UserTweet { Tweet = tweetToAdd, User = firstDemouser };
@@ -110,7 +125,14 @@ namespace ReTwitter.Data
 
                     foreach (var tweet in tweetsJustin)
                     {
-                        var tweetToAdd = mapper.MapTo<Tweet>(tweet);
+                        var tweetToAdd = new Tweet
+                        {
+                            FolloweeId = tweet.Followee.FolloweeId,
+                            OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                            TweetId = tweet.TweetId,
+                            Text = tweet.Text,
+                            UsersMentioned = tweet.Entities.UserMentions.Length
+                        };
                         var tags = tweet.Entities.Hashtags;
 
                         context.Tweets.Add(tweetToAdd);
@@ -131,8 +153,15 @@ namespace ReTwitter.Data
                                     tagsToAdd.Add(foundTag);
                                 }
                             }
-                            var tweetTagToAdd = new TweetTag { Tweet = tweetToAdd, Tag = foundTag };
-                            context.TweetTags.Add(tweetTagToAdd);
+                            if (!context.TweetTags.Any(a => a.Tag == foundTag && a.Tweet == tweetToAdd))
+                            {
+                                if (!tweetTagsToAdd.Any(a => a.Tag == foundTag && a.Tweet == tweetToAdd))
+                                {
+                                    var tweetTagToAdd = new TweetTag { Tweet = tweetToAdd, Tag = foundTag };
+                                    tweetTagsToAdd.Add(tweetTagToAdd);
+                                }
+                            }
+
                         }
 
                         var userTweetToAdd = new UserTweet { Tweet = tweetToAdd, User = secondDemouser };
@@ -143,7 +172,14 @@ namespace ReTwitter.Data
 
                     foreach (var tweet in tweetsBoyko)
                     {
-                        var tweetToAdd = mapper.MapTo<Tweet>(tweet);
+                        var tweetToAdd = new Tweet
+                        {
+                            FolloweeId = tweet.Followee.FolloweeId,
+                            OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                            TweetId = tweet.TweetId,
+                            Text = tweet.Text,
+                            UsersMentioned = tweet.Entities.UserMentions.Length
+                        };
                         var tags = tweet.Entities.Hashtags;
 
                         context.Tweets.Add(tweetToAdd);
@@ -164,8 +200,14 @@ namespace ReTwitter.Data
                                     tagsToAdd.Add(foundTag);
                                 }
                             }
-                            var tweetTagToAdd = new TweetTag { Tweet = tweetToAdd, Tag = foundTag };
-                            context.TweetTags.Add(tweetTagToAdd);
+                            if (!context.TweetTags.Any(a => a.Tag == foundTag && a.Tweet == tweetToAdd))
+                            {
+                                if (!tweetTagsToAdd.Any(a => a.Tag == foundTag && a.Tweet == tweetToAdd))
+                                {
+                                    var tweetTagToAdd = new TweetTag { Tweet = tweetToAdd, Tag = foundTag };
+                                    tweetTagsToAdd.Add(tweetTagToAdd);
+                                }
+                            }
                         }
 
                         var userTweetToAdd = new UserTweet { Tweet = tweetToAdd, User = secondDemouser };
@@ -173,6 +215,7 @@ namespace ReTwitter.Data
                     }
 
                     context.Tags.AddRange(tagsToAdd);
+                    context.TweetTags.AddRange(tweetTagsToAdd);
                     context.SaveChanges();
                 }
 

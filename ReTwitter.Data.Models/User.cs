@@ -10,8 +10,8 @@ namespace ReTwitter.Data.Models
     {
         public User()
         {
-            this.FollowedPeople = new List<UserFollowee>();
-            this.TweetCollection = new List<UserTweet>();
+            this.FollowedPeople = new HashSet<UserFollowee>();
+            this.TweetCollection = new HashSet<UserTweet>();
         }
         
         public string FirstName { get; set; }

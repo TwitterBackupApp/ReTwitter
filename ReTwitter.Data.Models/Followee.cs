@@ -9,8 +9,8 @@ namespace ReTwitter.Data.Models
     {
         public Followee()
         {
-            this.InUsersFavorites = new List<UserFollowee>();
-            this.TweetCollection = new List<Tweet>();
+            this.InUsersFavorites = new HashSet<UserFollowee>();
+            this.TweetCollection = new HashSet<Tweet>();
         }
 
         [Key]

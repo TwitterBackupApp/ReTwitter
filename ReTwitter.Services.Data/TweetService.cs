@@ -14,11 +14,17 @@ namespace ReTwitter.Services.Data
     {
         private readonly IMappingProvider mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly ITwitterApiCallService twitterApiCallService;
+        private readonly ITweetTagService tweetTagService;
+        private readonly ITagService tagService;
 
-        public TweetService(IMappingProvider mapper, IUnitOfWork unitOfWork)
+        public TweetService(IMappingProvider mapper, IUnitOfWork unitOfWork, ITwitterApiCallService twitterApiCallService, ITweetTagService tweetTagService, ITagService tagService)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
+            this.twitterApiCallService = twitterApiCallService;
+            this.tweetTagService = tweetTagService;
+            this.tagService = tagService;
         }
 
         public TweetDto GetTweetByTweetId(string tweetId)
@@ -54,11 +60,39 @@ namespace ReTwitter.Services.Data
             this.unitOfWork.SaveChanges();
         }
 
-        public Tweet Create(TweetFromApiDto tweet)
+        public Tweet CreateFromApiDto(TweetFromApiDto tweet)
         {
             var tweetToAdd = mapper.MapTo<Tweet>(tweet);
             this.unitOfWork.Tweets.Add(tweetToAdd);
             this.unitOfWork.SaveChanges();
+            return tweetToAdd;
+        }
+
+        public Tweet CreateFromApiById(string tweetId)
+        {
+            var tweet = this.twitterApiCallService.GetTweetByTweetId(tweetId);
+            var tags = tweet.Entities.Hashtags;
+
+            var tweetToAdd = new Tweet
+            {
+                FolloweeId = tweet.Followee.FolloweeId,
+                OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                TweetId = tweet.TweetId,
+                Text = tweet.Text,
+                UsersMentioned = tweet.Entities.UserMentions.Length
+            };
+            this.unitOfWork.Tweets.Add(tweetToAdd);
+            this.unitOfWork.SaveChanges();
+
+            if (tags != null)
+            {
+                foreach (var tag in tags)
+                {
+                    var tagFound = this.tagService.FindOrCreate(tag.Hashtag);
+                    this.tweetTagService.AddTweetTagByTweetIdTagId(tagFound.Id, tweetId);
+                }
+            }
+
             return tweetToAdd;
         }
 

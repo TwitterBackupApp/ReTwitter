@@ -9,6 +9,7 @@ namespace ReTwitter.Services.Data.Contracts
         IEnumerable<TweetDto> GetTweetsByUserIdAndFolloweeId(string userId, string followeeId);
         bool UserTweetExists(string userId, string tweetId);
         void SaveUserTweets(string userId, IEnumerable<TweetFromApiDto> tweets);
+        void SaveSingleTweetToUserByTweetId(string userId, string tweetId);
         void DeleteUserTweet(string userId, string tweetTweetId);
         bool AnyUserSavedThisTweetById(string tweetId);
     }

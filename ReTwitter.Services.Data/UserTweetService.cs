@@ -51,7 +51,7 @@ namespace ReTwitter.Services.Data
                 {
                     var tweetToAddId = (
                         this.unitOfWork.Tweets.All.FirstOrDefault(f => f.TweetId == tweet.TweetId) ??
-                        this.tweetService.Create(tweet)).TweetId;
+                        this.tweetService.CreateFromApiDto(tweet)).TweetId;
                     var userTweetToadd = new UserTweet { UserId = userId, TweetId = tweetToAddId };
                     userTweetsToAdd.Add(userTweetToadd);
                 }
@@ -59,6 +59,19 @@ namespace ReTwitter.Services.Data
 
             this.unitOfWork.UserTweets.AddRange(userTweetsToAdd);
             this.unitOfWork.SaveChanges();
+        }
+
+        public void SaveSingleTweetToUserByTweetId(string userId, string tweetId)
+        {
+            if (!this.UserTweetExists(userId, tweetId))
+            {
+                var tweetToAddId = (
+                    this.unitOfWork.Tweets.All.FirstOrDefault(f => f.TweetId == tweetId) ??
+                    this.tweetService.CreateFromApiById(tweetId)).TweetId;
+                var userTweetToadd = new UserTweet { UserId = userId, TweetId = tweetToAddId };
+                this.unitOfWork.UserTweets.Add(userTweetToadd);
+                this.unitOfWork.SaveChanges();
+            }
         }
 
         public void DeleteUserTweet(string userId, string tweetId)

@@ -7,12 +7,11 @@ namespace ReTwitter.Data.Models
 
     public class TweetTag: IDeletable, IAuditable
     {
-        public string TweetId { get; set; }
         [Required]
+        public string TweetId { get; set; }
         public Tweet Tweet { get; set; }
 
         public int TagId { get; set; }
-        [Required]
         public Tag Tag { get; set; }
 
         public bool IsDeleted { get; set; }
