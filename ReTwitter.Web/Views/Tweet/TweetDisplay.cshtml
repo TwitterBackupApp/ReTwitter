@@ -2,36 +2,37 @@
 @{
     ViewData["Title"] = "TweetDisplay";
 }
-
+<br />
+<br />
+<br />
 <h2>Tweet Display</h2>
 
 <table class="table">
-<tr>
-    <th>
-        Text
-    </th>
-    <th>
-        Original Tweet Created On
-    </th>
-    <th>
-        Users Mentioned
-    </th>
-</tr>
-
-@foreach (var item in Model.TweetResults) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Text)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn)
-        </td>
-        <td>      
-            @Html.DisplayFor(model => item.UsersMentioned)                  
-        </td>
-        <td>
-                 
-        </td>
+        <th>
+            Text
+        </th>
+        <th>
+            Original Tweet Created On
+        </th>
+        <th>
+            Users Mentioned
+        </th>
     </tr>
-}
+
+    @foreach (var item in Model.TweetResults)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.UsersMentioned)
+            </td>
+            <td></td>
+        </tr>
+    }
 </table>
