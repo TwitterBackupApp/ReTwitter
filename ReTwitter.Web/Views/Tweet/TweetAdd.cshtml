@@ -1,0 +1,22 @@
+﻿@model ReTwitter.Web.Models.TweetViewModel.TweetSearchResultViewModel
+@{
+    ViewData["Title"] = "TweetAdd";
+}
+<br />
+<br />
+<br />
+<environment include="Development">
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+        swal({
+            position: 'top-end',
+            type: 'success',
+            title: 'Your tweet has been saved',
+            showConfirmButton: false,
+            timer: 1500
+        })</script>
+</environment>
+
+<div class="btns-go-back" align="center">
+    @Html.ActionLink("Go Back to Your Collection", "FolloweeCollection", "Followee", new { @class = "btn btn-go-back-to-collection" }, new { @class = "btn btn-go-back-to-collection" })    
+</div>

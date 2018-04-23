@@ -5,6 +5,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External.Contracts;
+using ReTwitter.Web.Models.FolloweeViewModel;
 using ReTwitter.Web.Models.TweetViewModel;
 
 namespace ReTwitter.Web.Controllers
@@ -58,10 +59,9 @@ namespace ReTwitter.Web.Controllers
         {
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
-
             this.userTweetService.SaveSingleTweetToUserByTweetId(userId, tweetId);
 
-            return RedirectToAction("TweetDisplay");
+            return View();
         }
     }
 }
