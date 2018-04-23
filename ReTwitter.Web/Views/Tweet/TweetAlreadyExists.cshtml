@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "TweetAlreadyExists";
+}
+
+
+<br /><br /><br />
+<environment include="Development">
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+    swal({
+        type: 'error',
+        title: 'Oops...',
+        text: 'You have already added this tweet!'
+    })</script>
+</environment>
+
+
+<div class="btns-go-back" align="center">
+    @Html.ActionLink("Go to Your Collection", "FolloweeCollection", "Followee", new { @class = "btn btn-go-back-to-collection" }, new { @class = "btn btn-go-back-to-collection" })
+    @Html.ActionLink("Go Back to Search", "Search", "Search", new { @class = "btn btn-go-back-to-search" }, new { @class = "btn btn-go-back-to-search" })
+</div>

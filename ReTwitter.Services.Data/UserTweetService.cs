@@ -36,9 +36,16 @@ namespace ReTwitter.Services.Data
 
         public bool UserTweetExists(string userId, string tweetId)
         {
-            bool exists = this.unitOfWork.UserTweets.All.Any(a => a.UserId == userId && a.TweetId == tweetId);
+            return this.unitOfWork.UserTweets
+                .All
+                .Any(a => a.UserId == userId && a.TweetId == tweetId);
+        }
 
-            return exists;
+        public bool UserTweetExistsInDeleted(string userId, string tweetId)
+        {
+            return this.unitOfWork.UserTweets
+                .AllAndDeleted
+                .Any(a => a.UserId == userId && a.TweetId == tweetId);
         }
 
         public void SaveUserTweets(string userId, IEnumerable<TweetFromApiDto> tweets)
@@ -63,14 +70,28 @@ namespace ReTwitter.Services.Data
 
         public void SaveSingleTweetToUserByTweetId(string userId, string tweetId)
         {
-            if (!this.UserTweetExists(userId, tweetId))
+            if (!this.UserTweetExistsInDeleted(userId, tweetId))
             {
                 var tweetToAddId = (
                     this.unitOfWork.Tweets.All.FirstOrDefault(f => f.TweetId == tweetId) ??
                     this.tweetService.CreateFromApiById(tweetId)).TweetId;
                 var userTweetToadd = new UserTweet { UserId = userId, TweetId = tweetToAddId };
+
                 this.unitOfWork.UserTweets.Add(userTweetToadd);
                 this.unitOfWork.SaveChanges();
+            }
+            else
+            {
+                var tweetToBeReadded =
+                    this.unitOfWork.UserTweets.AllAndDeleted.FirstOrDefault(a =>
+                        a.TweetId == tweetId && a.UserId == userId);
+
+                if (tweetToBeReadded != null)
+                {
+                    tweetToBeReadded.IsDeleted = false;
+
+                    this.unitOfWork.SaveChanges();
+                }
             }
         }
 
