@@ -38,13 +38,13 @@
                 @Html.DisplayFor(modelItem => item.FolloweeOriginallyCreatedOn)
             </td>
             <td>
-                @Html.ActionLink("Details", "FolloweeDetails", new { id = item.FolloweeId })
+                @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId })
             </td>
             <td>
                 @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
             </td>
             <td>
-                @Html.ActionLink("Delete", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
+                @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
             </td>
         </tr>
     }

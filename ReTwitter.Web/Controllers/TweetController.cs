@@ -42,6 +42,7 @@ namespace ReTwitter.Web.Controllers
             return View();
         }
 
+        // Await?? Since is asyncronous operation?
         public async Task<IActionResult> TweetSearchResult(string followeeId)
         {
             if (this.ModelState.IsValid)
