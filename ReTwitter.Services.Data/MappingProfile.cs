@@ -27,6 +27,10 @@ namespace ReTwitter.Services.Data
 
             CreateMap<TweetFromApiDto, Tweet>()
                 .ForMember(
+                    ivm => ivm.TweetId,
+                    cfg => cfg.MapFrom(
+                        issue => issue.TweetId))
+                .ForMember(
                 ivm => ivm.Followee,
                 cfg => cfg.MapFrom(
                     issue => issue.Followee))

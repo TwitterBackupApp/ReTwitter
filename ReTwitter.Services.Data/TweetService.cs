@@ -102,6 +102,7 @@ namespace ReTwitter.Services.Data
 
             var tweetDtos = tweets.Select(s => new TweetDto
             {
+                TweetId = s.TweetId,
                 OriginalTweetCreatedOn = s.OriginalTweetCreatedOn,
                 UsersMentioned = s.UsersMentioned.ToString(),
                 Text = s.Text
