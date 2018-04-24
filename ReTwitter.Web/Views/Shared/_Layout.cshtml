@@ -36,18 +36,41 @@
                     <li><a asp-area="" asp-controller="Followee" asp-action="FolloweeCollection">Followees</a></li>
                     <li><a asp-area="" asp-controller="Search" asp-action="Search">Search</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    @if (User.IsInRole("Administrators"))
+                    {
+                        <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
+                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2018 - ReTwitter</p>
-        </footer>
-    </div>
+<div class="container body-content">
+    @if (((string)(TempData["Success-Message"] ?? "")).Any())
+    {
+        <br />
+        <br />
+        <br />
+        <div class="alert alert-success">
+            <strong>Success!</strong> @TempData["Success-Message"]
+        </div>
+    }
+
+    @if (((string)(TempData["Error-Message"] ?? "")).Any())
+    {
+        <br />
+        <br />
+        <br />
+        <div class="alert alert-danger">
+            <strong>Error!</strong> @TempData["Error-Message"]
+        </div>
+    }
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; 2018 - ReTwitter</p>
+    </footer>
+</div>
 
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>

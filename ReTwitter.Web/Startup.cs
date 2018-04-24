@@ -53,6 +53,7 @@ namespace ReTwitter.Web
             services.AddTransient<ITwitterCredentialsProvider, TwitterCredentialsProvider>();
             services.AddTransient<ITwitterApiCaller, TwitterApiCaller>();
             services.AddTransient<IJsonDeserializer, JsonDeserializer>();
+            services.AddTransient<ICascadeDeleteService, CascadeDeleteService>();
             services.AddTransient<IFolloweeService, FolloweeService>();
             services.AddTransient<IAdminUserService, AdminUserService>();
             services.AddTransient<IUserFolloweeService, UserFolloweeService>();
@@ -146,6 +147,10 @@ namespace ReTwitter.Web
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

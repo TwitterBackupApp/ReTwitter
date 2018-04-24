@@ -7,5 +7,7 @@ namespace ReTwitter.Services.Data.Contracts
     public interface IAdminUserService
     {
         Task<IEnumerable<UserDto>> AllAsync();
+
+        void DeleteByUserId(string userId);
     }
 }
