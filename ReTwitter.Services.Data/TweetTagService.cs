@@ -23,7 +23,7 @@ namespace ReTwitter.Services.Data
 
             if (tweetTagFound == null)
             {
-                var tweetTagToAdd = new TweetTag {TweetId = tweetId, TagId = tagId};
+                var tweetTagToAdd = new TweetTag { TweetId = tweetId, TagId = tagId };
                 this.unitOfWork.TweetTags.Add(tweetTagToAdd);
                 this.unitOfWork.SaveChanges();
             }
@@ -44,9 +44,6 @@ namespace ReTwitter.Services.Data
             }
         }
 
-        public bool AnyTweetSavedThisTagById(int tagId)
-        {
-            return this.unitOfWork.TweetTags.All.Any(a => a.TagId == tagId);
-        }
+        public bool AnyTweetSavedThisTagById(int tagId) => this.unitOfWork.TweetTags.All.Any(a => a.TagId == tagId);
     }
 }

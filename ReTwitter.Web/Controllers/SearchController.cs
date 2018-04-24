@@ -26,7 +26,7 @@ namespace ReTwitter.Web.Controllers
             {
                 var result = twitterApiCallService.GetTwitterUsersByScreenName(model.SearchInput);
 
-                var vm = new SearchResultsViewModel() { SearchResults = result };
+                var vm = new SearchResultsViewModel { SearchResults = result };
 
 
                 return View(vm);

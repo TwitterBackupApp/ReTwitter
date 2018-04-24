@@ -17,16 +17,19 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
     {
         private readonly IAdminUserService userService;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly ICascadeDeleteService cascadeDeleteService;
         private readonly UserManager<User> userManager;
 
         public UsersController(
             IAdminUserService userService,
             UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ICascadeDeleteService cascadeDeleteService)
         {
             this.userService = userService;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.cascadeDeleteService = cascadeDeleteService;
         }
 
         public async Task<IActionResult> Index()
@@ -50,8 +53,7 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
 
         public IActionResult Delete(string userId)
         {
-            this.userService.DeleteByUserId(userId);
-
+            this.cascadeDeleteService.DeleteUserAndHisEntities(userId);
 
             TempData["Success-Message"] = $"User with id {userId} deleted successfully!";
 

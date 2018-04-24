@@ -55,6 +55,7 @@ namespace ReTwitter.Web
             services.AddTransient<IJsonDeserializer, JsonDeserializer>();
             services.AddTransient<ICascadeDeleteService, CascadeDeleteService>();
             services.AddTransient<IFolloweeService, FolloweeService>();
+            services.AddTransient<IDateTimeParser, DateTimeParser>();
             services.AddTransient<IAdminUserService, AdminUserService>();
             services.AddTransient<IUserFolloweeService, UserFolloweeService>();
             services.AddTransient<IUserTweetService, UserTweetService>();

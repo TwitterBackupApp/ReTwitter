@@ -14,7 +14,7 @@ namespace ReTwitter.DTO.TwitterDto
         public string ScreenName { get; set; }
 
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string Bio { get; set; }
 
         [JsonProperty("url")]
         public string Url { get; set; }

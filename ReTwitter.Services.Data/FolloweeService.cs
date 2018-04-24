@@ -15,12 +15,14 @@ namespace ReTwitter.Services.Data
         private readonly IUnitOfWork unitOfWork;
         private readonly IMappingProvider mapper;
         private readonly ITwitterApiCallService twitterApiCallService;
+        private readonly IDateTimeParser dateTimeParser;
 
-        public FolloweeService(IUnitOfWork unitOfWork, IMappingProvider mapper, ITwitterApiCallService twitterApiCallService)
+        public FolloweeService(IUnitOfWork unitOfWork, IMappingProvider mapper, ITwitterApiCallService twitterApiCallService, IDateTimeParser dateTimeParser)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.twitterApiCallService = twitterApiCallService;
+            this.dateTimeParser = dateTimeParser;
         }
 
         public List<FolloweeDisplayListDto> GetAllFolloweesByUserId(string userId)
@@ -30,7 +32,7 @@ namespace ReTwitter.Services.Data
                                                  .Select(s => new FolloweeDisplayListDto
                                                  {
                                                      FolloweeId = s.Followee.FolloweeId,
-                                                     Description = s.Followee.Description.Substring(0, 20) + "...",
+                                                     Bio = s.Followee.Bio.Substring(0, 25) + "...",
                                                      FolloweeOriginallyCreatedOn = s.Followee.FolloweeOriginallyCreatedOn,
                                                      ScreenName = s.Followee.ScreenName,
                                                      Name = s.Followee.Name,
@@ -51,7 +53,20 @@ namespace ReTwitter.Services.Data
 
         public Followee Create(FolloweeFromApiDto followee)
         {
-            var followeeToAdd = mapper.MapTo<Followee>(followee);
+            Followee followeeToAdd = new Followee
+            {
+                FolloweeId = followee.FolloweeId,
+                Bio = followee.Bio,
+                ScreenName = followee.ScreenName,
+                Name = followee.Name,
+                FolloweeOriginallyCreatedOn = dateTimeParser.ParseFromTwitter(followee.FolloweeOriginallyCreatedOn),
+                Url = followee.Url,
+                FavoritesCount = followee.FavoritesCount,
+                FollowersCount = followee.FollowersCount,
+                FriendsCount = followee.FriendsCount,
+                StatusesCount = followee.StatusesCount
+            };
+            
             this.unitOfWork.Followees.Add(followeeToAdd);
             this.unitOfWork.SaveChanges();
             return followeeToAdd;
@@ -81,7 +96,7 @@ namespace ReTwitter.Services.Data
 
             var updatedFollowee = this.twitterApiCallService.GetTwitterUserDetailsById(followeeId);
 
-            followeeToUpdate.Description = updatedFollowee.Description;
+            followeeToUpdate.Bio = updatedFollowee.Bio;
             followeeToUpdate.FavoritesCount = updatedFollowee.FavoritesCount;
             followeeToUpdate.FollowersCount = updatedFollowee.FollowersCount;
             followeeToUpdate.FriendsCount = updatedFollowee.FriendsCount;

@@ -1,10 +1,12 @@
-﻿namespace ReTwitter.DTO
+﻿using System;
+
+namespace ReTwitter.DTO
 {
     public class TweetDto
     {
         public string Text { get; set; }
 
-        public string OriginalTweetCreatedOn { get; set; }
+        public DateTime OriginalTweetCreatedOn { get; set; }
 
         public string UsersMentioned { get; set; }
     }

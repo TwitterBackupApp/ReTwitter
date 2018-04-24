@@ -21,7 +21,7 @@ namespace ReTwitter.Data.Models
         public string Text { get; set; }
 
         [Required]
-        public string OriginalTweetCreatedOn { get; set; }
+        public DateTime OriginalTweetCreatedOn { get; set; }
 
         public int UsersMentioned { get; set; }
 

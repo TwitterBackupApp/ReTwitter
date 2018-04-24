@@ -11,6 +11,7 @@ namespace ReTwitter.Services.Data.Contracts
 
         void SaveUserFollowee(string userId, FolloweeFromApiDto followee);
 
-        byte DeleteUserFollowee(string userId, string followeeId);
+        void DeleteUserFollowee(string userId, string followeeId);
+        bool AnyUserSavedThisFolloweeById(string followeeId);
     }
 }

@@ -13,15 +13,17 @@ namespace ReTwitter.Web.Controllers
         private readonly ITwitterApiCallService twitterApiCallService;
         private readonly IUserFolloweeService userFolloweeService;
         private readonly UserManager<User> manager;
+        private readonly ICascadeDeleteService cascadeDeleteService;
 
         public FolloweeController(IFolloweeService followeeService, 
             ITwitterApiCallService twitterApiCallService, IUserFolloweeService userFolloweeService, 
-            UserManager<User> manager)
+            UserManager<User> manager, ICascadeDeleteService cascadeDeleteService)
         {
             this.followeeService = followeeService;
             this.twitterApiCallService = twitterApiCallService;
             this.userFolloweeService = userFolloweeService;
             this.manager = manager;
+            this.cascadeDeleteService = cascadeDeleteService;
         }
 
 
@@ -74,7 +76,7 @@ namespace ReTwitter.Web.Controllers
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
-            this.userFolloweeService.DeleteUserFollowee(userId, followeeId);
+            this.cascadeDeleteService.DeleteUserFolloweeAndEntries(followeeId, userId);
 
             return View();
         }

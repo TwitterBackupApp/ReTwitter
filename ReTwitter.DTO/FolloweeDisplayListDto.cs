@@ -1,4 +1,6 @@
-﻿namespace ReTwitter.DTO
+﻿using System;
+
+namespace ReTwitter.DTO
 {
     public class FolloweeDisplayListDto
     {
@@ -8,8 +10,8 @@
 
         public string ScreenName { get; set; }
 
-        public string Description { get; set; }
+        public string Bio { get; set; }
 
-        public string FolloweeOriginallyCreatedOn { get; set; }
+        public DateTime FolloweeOriginallyCreatedOn { get; set; }
     }
 }

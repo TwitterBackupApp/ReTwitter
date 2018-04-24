@@ -23,7 +23,7 @@ namespace ReTwitter.Data.Models
         [Required]
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string Bio { get; set; }
 
         public string Url { get; set; }
 
@@ -31,7 +31,7 @@ namespace ReTwitter.Data.Models
 
         public int FriendsCount { get; set; }
 
-        public string FolloweeOriginallyCreatedOn { get; set; }
+        public DateTime FolloweeOriginallyCreatedOn { get; set; }
         
         public int FavoritesCount { get; set; }
 

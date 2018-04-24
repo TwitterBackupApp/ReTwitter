@@ -19,6 +19,7 @@ namespace ReTwitter.Data
             using (var serviceScope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<ReTwitterDbContext>();
+                var parser = serviceScope.ServiceProvider.GetService<IDateTimeParser>();
 
                 context.Database.EnsureCreated();
                 //context.Database.Migrate();
@@ -51,19 +52,55 @@ namespace ReTwitter.Data
                 {
                     var donaldTrump = GetFolloweeById(twitterApiCall, "25073877");
 
-                    var followeesToAdd = mapper.MapTo<Followee>(donaldTrump);
+                    var followeesToAdd = new Followee
+                    {
+                        FolloweeId = donaldTrump.FolloweeId,
+                        Bio = donaldTrump.Bio,
+                        ScreenName = donaldTrump.ScreenName,
+                        Name = donaldTrump.Name,
+                        FolloweeOriginallyCreatedOn = parser.ParseFromTwitter(donaldTrump.FolloweeOriginallyCreatedOn),
+                        Url = donaldTrump.Url,
+                        FavoritesCount = donaldTrump.FavoritesCount,
+                        FollowersCount = donaldTrump.FollowersCount,
+                        FriendsCount = donaldTrump.FriendsCount,
+                        StatusesCount = donaldTrump.StatusesCount
+                    };
                     context.Followees.Add(followeesToAdd);
                     context.UserFollowees.Add(new UserFollowee { User = firstDemouser, Followee = followeesToAdd });
 
                     var justinTrudeau = GetFolloweeById(twitterApiCall, "14260960");
-                    followeesToAdd = mapper.MapTo<Followee>(justinTrudeau);
+                    followeesToAdd = new Followee
+                    {
+                        FolloweeId = justinTrudeau.FolloweeId,
+                        Bio = justinTrudeau.Bio,
+                        ScreenName = justinTrudeau.ScreenName,
+                        Name = justinTrudeau.Name,
+                        FolloweeOriginallyCreatedOn = parser.ParseFromTwitter(justinTrudeau.FolloweeOriginallyCreatedOn),
+                        Url = justinTrudeau.Url,
+                        FavoritesCount = justinTrudeau.FavoritesCount,
+                        FollowersCount = justinTrudeau.FollowersCount,
+                        FriendsCount = justinTrudeau.FriendsCount,
+                        StatusesCount = justinTrudeau.StatusesCount
+                    };
                     context.Followees.Add(followeesToAdd);
                     context.UserFollowees.Add(new UserFollowee { User = secondDemouser, Followee = followeesToAdd });
 
                     var boykoBorisov = GetFolloweeById(twitterApiCall, "229635171");
-                    followeesToAdd = mapper.MapTo<Followee>(boykoBorisov);
+                    followeesToAdd = new Followee
+                    {
+                        FolloweeId = boykoBorisov.FolloweeId,
+                        Bio = boykoBorisov.Bio,
+                        ScreenName = boykoBorisov.ScreenName,
+                        Name = boykoBorisov.Name,
+                        FolloweeOriginallyCreatedOn = parser.ParseFromTwitter(boykoBorisov.FolloweeOriginallyCreatedOn),
+                        Url = boykoBorisov.Url,
+                        FavoritesCount = boykoBorisov.FavoritesCount,
+                        FollowersCount = boykoBorisov.FollowersCount,
+                        FriendsCount = boykoBorisov.FriendsCount,
+                        StatusesCount = boykoBorisov.StatusesCount
+                    };
                     context.Followees.Add(followeesToAdd);
-                    context.UserFollowees.Add(new UserFollowee { User = firstDemouser, Followee = followeesToAdd });
+                    context.UserFollowees.Add(new UserFollowee { User = secondDemouser, Followee = followeesToAdd });
 
                     context.SaveChanges();
                 }
@@ -80,7 +117,7 @@ namespace ReTwitter.Data
                         var tweetToAdd = new Tweet
                         {
                             FolloweeId = tweet.Followee.FolloweeId,
-                            OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                            OriginalTweetCreatedOn = parser.ParseFromTwitter(tweet.OriginalTweetCreatedOn),
                             TweetId = tweet.TweetId,
                             Text = tweet.Text,
                             UsersMentioned = tweet.Entities.UserMentions.Length
@@ -128,7 +165,7 @@ namespace ReTwitter.Data
                         var tweetToAdd = new Tweet
                         {
                             FolloweeId = tweet.Followee.FolloweeId,
-                            OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                            OriginalTweetCreatedOn = parser.ParseFromTwitter(tweet.OriginalTweetCreatedOn),
                             TweetId = tweet.TweetId,
                             Text = tweet.Text,
                             UsersMentioned = tweet.Entities.UserMentions.Length
@@ -161,7 +198,6 @@ namespace ReTwitter.Data
                                     tweetTagsToAdd.Add(tweetTagToAdd);
                                 }
                             }
-
                         }
 
                         var userTweetToAdd = new UserTweet { Tweet = tweetToAdd, User = secondDemouser };
@@ -175,7 +211,7 @@ namespace ReTwitter.Data
                         var tweetToAdd = new Tweet
                         {
                             FolloweeId = tweet.Followee.FolloweeId,
-                            OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                            OriginalTweetCreatedOn = parser.ParseFromTwitter(tweet.OriginalTweetCreatedOn),
                             TweetId = tweet.TweetId,
                             Text = tweet.Text,
                             UsersMentioned = tweet.Entities.UserMentions.Length

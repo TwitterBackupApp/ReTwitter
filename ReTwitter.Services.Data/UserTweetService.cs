@@ -15,14 +15,12 @@ namespace ReTwitter.Services.Data
         private readonly IUnitOfWork unitOfWork;
         private readonly ITweetService tweetService;
         private readonly IMappingProvider mapper;
-        private readonly ITweetTagService tweetTagService;
 
-        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper, ITweetTagService tweetTagService)
+        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper)
         {
             this.unitOfWork = unitOfWork;
             this.tweetService = tweetService;
             this.mapper = mapper;
-            this.tweetTagService = tweetTagService;
         }
 
         public IEnumerable<TweetDto> GetTweetsByUserIdAndFolloweeId(string userId, string followeeId)
@@ -103,28 +101,9 @@ namespace ReTwitter.Services.Data
             {
                 this.unitOfWork.UserTweets.Delete(userTweetFound);
                 this.unitOfWork.SaveChanges();
-
-                if (!this.AnyUserSavedThisTweetById(tweetId))
-                {
-                    var tweetTagsToDelete =
-                        this.unitOfWork.TweetTags.All.Where(w => w.TweetId == tweetId).Select(s => s.TagId).ToList();
-
-                    if (tweetTagsToDelete.Any())
-                    {
-                        foreach (var tagId in tweetTagsToDelete)
-                        {
-                            this.tweetTagService.DeleteTweetTag(tagId, tweetId);
-                        }
-                    }
-
-                    this.tweetService.Delete(tweetId);
-                }
             }
         }
 
-        public bool AnyUserSavedThisTweetById(string tweetId)
-        {
-            return this.unitOfWork.UserTweets.All.Any(a => a.TweetId == tweetId);
-        }
+        public bool AnyUserSavedThisTweetById(string tweetId) => this.unitOfWork.UserTweets.All.Any(a => a.TweetId == tweetId);
     }
 }

@@ -11,9 +11,10 @@ using System;
 namespace ReTwitter.Data.Migrations
 {
     [DbContext(typeof(ReTwitterDbContext))]
-    partial class ReTwitterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180424144018_ChangeToDateTimeTwitterInput")]
+    partial class ChangeToDateTimeTwitterInput
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -133,11 +134,11 @@ namespace ReTwitter.Data.Migrations
                     b.Property<string>("FolloweeId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Bio");
-
                     b.Property<DateTime?>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
+
+                    b.Property<string>("Description");
 
                     b.Property<int>("FavoritesCount");
 

@@ -17,14 +17,16 @@ namespace ReTwitter.Services.Data
         private readonly ITwitterApiCallService twitterApiCallService;
         private readonly ITweetTagService tweetTagService;
         private readonly ITagService tagService;
+        private readonly IDateTimeParser dateTimeParser;
 
-        public TweetService(IMappingProvider mapper, IUnitOfWork unitOfWork, ITwitterApiCallService twitterApiCallService, ITweetTagService tweetTagService, ITagService tagService)
+        public TweetService(IMappingProvider mapper, IUnitOfWork unitOfWork, ITwitterApiCallService twitterApiCallService, ITweetTagService tweetTagService, ITagService tagService, IDateTimeParser dateTimeParser)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.twitterApiCallService = twitterApiCallService;
             this.tweetTagService = tweetTagService;
             this.tagService = tagService;
+            this.dateTimeParser = dateTimeParser;
         }
 
         public TweetDto GetTweetByTweetId(string tweetId)
@@ -76,7 +78,7 @@ namespace ReTwitter.Services.Data
             var tweetToAdd = new Tweet
             {
                 FolloweeId = tweet.Followee.FolloweeId,
-                OriginalTweetCreatedOn = tweet.OriginalTweetCreatedOn,
+                OriginalTweetCreatedOn = this.dateTimeParser.ParseFromTwitter(tweet.OriginalTweetCreatedOn),
                 TweetId = tweet.TweetId,
                 Text = tweet.Text,
                 UsersMentioned = tweet.Entities.UserMentions.Length

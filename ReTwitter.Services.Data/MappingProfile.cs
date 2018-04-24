@@ -13,8 +13,8 @@ namespace ReTwitter.Services.Data
             CreateMap<UserMentionDto, Followee>();
 
             CreateMap<Followee, FolloweeDisplayListDto>()
-                .ForMember(ivm => ivm.Description, cfg => cfg.MapFrom(
-                    imp => imp.Description))
+                .ForMember(ivm => ivm.Bio, cfg => cfg.MapFrom(
+                    imp => imp.Bio))
                 .ForMember(ivm => ivm.FolloweeOriginallyCreatedOn, cfg => cfg.MapFrom(
                     imp => imp.FolloweeOriginallyCreatedOn))
                 .ForMember(ivm => ivm.FolloweeId, cfg => cfg.MapFrom(
