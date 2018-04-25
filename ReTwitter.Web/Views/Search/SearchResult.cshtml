@@ -4,31 +4,25 @@
     ViewData["Title"] = "Search result";
 }
 
-<br />
-<br />
-<br />
+<br/>
+<br/>
+<br/>
+
 @if (@Model.SearchResults.Count() != 0)
 {
+    <br/> 
     foreach (var result in Model.SearchResults)
     {
-        <div class="col-sm-4 col-xs-8">
-            <div class="panel panel-default text-center">
-                <div class="panel-heading">
-                    <h1>@result.ScreenName</h1>
-                </div>
-                <div class="panel-body">
-                    <p><strong>Screen name: </strong>@result.Name</p>
-                    <p><strong>Bio: </strong>@result.Bio</p>
-                    @*<p><strong>Location: </strong> @result.</p>*@
-                </div>
-                <div class="panel-footer">
-                    <h4>External Link</h4>
-                    <a class="btn btn-lg" href="@result.Url">
-                        Website
-                    </a>
-                    @Html.ActionLink("Details", "FolloweeDetails", "Followee", new { id = result.FolloweeId }, new { @class = "btn btn-info" })
-                </div>
+        <div class="media">
+            <div class="media-left">
+                <img src="@string.Concat("https://twitter.com/", @result.ScreenName, "/profile_image?size=original")" class="photo media-object"  style="width: 45px" aria-controlsalt="" />
             </div>
+            <div class="media-body">
+                <h4 class="media-heading">@result.Name<small><i> User created on: @result.FolloweeOriginallyCreatedOn.Substring(0, 10)</i></small></h4>
+                <p><strong>Bio: </strong>@result.Bio</p>
+                @Html.ActionLink("Details", "FolloweeDetails", "Followee", new { id = result.FolloweeId }, new { @class = "btn btn-info" })
+            </div>
+            <hr />
         </div>
     }
 }
