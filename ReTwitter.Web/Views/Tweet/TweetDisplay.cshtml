@@ -2,9 +2,11 @@
 @{
     ViewData["Title"] = "TweetDisplay";
 }
-<br />
-<br />
-<br />
+
+<br/>
+<br/>
+<br/>
+
 <h2>Tweet Display</h2>
 
 <table class="table">
@@ -27,7 +29,7 @@
                 @Html.DisplayFor(modelItem => item.Text)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn)
+                @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn, "{0:dd/MM/yyyy}")
             </td>
             <td>
                 @Html.DisplayFor(model => item.UsersMentioned)

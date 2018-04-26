@@ -24,23 +24,6 @@ namespace ReTwitter.Data.Repository
             this.dbSet = context.Set<T>();
         }
 
-        //public virtual T GetById(T id)
-        //{
-        //    if (id == null)
-        //    {
-        //        throw new ArgumentNullException("Id cannot be null");
-        //    }
-
-        //    var item = this.dbSet.Find(id);
-
-        //    if (item == null)
-        //    {
-        //        throw new ArgumentNullException("No such item found");
-        //    }
-
-        //    return item;
-        //}
-
         public IQueryable<T> All
         {
             get
@@ -98,7 +81,8 @@ namespace ReTwitter.Data.Repository
             }
 
             entity.IsDeleted = true;
-            entity.DeletedOn = DateTime.Now;
+            entity.DeletedOn = null;
+
             var entry = this.context.Entry(entity);
 
             if (entry.State != EntityState.Modified)
@@ -124,5 +108,4 @@ namespace ReTwitter.Data.Repository
             entry.State = EntityState.Modified;
         }
     }
-
 }

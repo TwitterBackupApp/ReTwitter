@@ -4,9 +4,10 @@
     ViewData["Title"] = "Latest 100 tweets";
 }
 
-<br />
-<br />
-<br />
+<br/>
+<br/>
+<br/>
+
 @if (@Model.TweetSearchResults.Count() != 0)
 {
     <table class="table">
@@ -27,7 +28,7 @@
                     @Html.DisplayFor(modelItem => item.Text)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn)
+                    @item.OriginalTweetCreatedOn.Substring(0, 10)
                 </td>
                 <td>
                     @Html.ActionLink("Save", "TweetAdd", "Tweet", new {tweetId = item.TweetId}, new { @class = "btn btn-info" })
@@ -36,7 +37,3 @@
         }
     </table>
 }
-@*else
-    {
-        <p><strong>No tweets by </strong>@Model.</p>
-    }*@

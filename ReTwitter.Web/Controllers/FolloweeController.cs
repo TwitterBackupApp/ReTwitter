@@ -47,7 +47,8 @@ namespace ReTwitter.Web.Controllers
         // Get followee from Db not from API
         public IActionResult FolloweeDetailsFromDb(string id)
         {
-            var followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
+            var followee = this.followeeService.GetFolloweeById(id);
+               // this.twitterApiCallService.GetTwitterUserDetailsById(id);
 
             return View(followee);
         }
