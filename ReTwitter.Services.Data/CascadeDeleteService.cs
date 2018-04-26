@@ -33,6 +33,7 @@ namespace ReTwitter.Services.Data
             this.userService = userService;
         }
 
+
         public void DeleteUserAndHisEntities(string userId)
         {
             var followeeIds = this.unitOfWork.UserFollowees.All

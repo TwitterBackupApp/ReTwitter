@@ -16,16 +16,41 @@ namespace ReTwitter.Services.Data
             this.tagService = tagService;
         }
 
+
+        public bool TweetTagExists(int tagId, string tweetId)
+        {
+            return this.unitOfWork.TweetTags
+                .All
+                .Any(a => a.TweetId == tweetId && a.TagId == tagId);
+        }
+
+        public bool TweetTagExistsInDeleted(int tagId, string tweetId)
+        {
+            return this.unitOfWork.TweetTags
+                .AllAndDeleted
+                .Any(a => a.TweetId == tweetId && a.TagId == tagId);
+        }
+
         public void AddTweetTagByTweetIdTagId(int tagId, string tweetId)
         {
-            var tweetTagFound =
-                this.unitOfWork.TweetTags.All.FirstOrDefault(fd => fd.TagId == tagId && fd.TweetId == tweetId);
-
-            if (tweetTagFound == null)
+            if(!this.TweetTagExistsInDeleted(tagId, tweetId))
             {
                 var tweetTagToAdd = new TweetTag { TweetId = tweetId, TagId = tagId };
                 this.unitOfWork.TweetTags.Add(tweetTagToAdd);
                 this.unitOfWork.SaveChanges();
+            }
+            else
+            {
+                var tweetTagToBeReadded = this.unitOfWork
+                    .TweetTags
+                    .AllAndDeleted
+                    .FirstOrDefault(fd => fd.TagId == tagId && fd.TweetId == tweetId);
+
+                if(tweetTagToBeReadded != null)
+                {
+                    tweetTagToBeReadded.IsDeleted = false;
+                    this.unitOfWork.SaveChanges();
+                }
             }
         }
 

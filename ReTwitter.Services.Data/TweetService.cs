@@ -29,6 +29,7 @@ namespace ReTwitter.Services.Data
             this.dateTimeParser = dateTimeParser;
         }
 
+
         public TweetDto GetTweetByTweetId(string tweetId)
         {
             var tweet = this.unitOfWork.Tweets.All
@@ -83,6 +84,7 @@ namespace ReTwitter.Services.Data
                 Text = tweet.Text,
                 UsersMentioned = tweet.Entities.UserMentions.Length
             };
+
             this.unitOfWork.Tweets.Add(tweetToAdd);
             this.unitOfWork.SaveChanges();
 
@@ -100,7 +102,11 @@ namespace ReTwitter.Services.Data
 
         public IEnumerable<TweetDto> GetTweetsByFolloweeIdAndUserId(string followeeId, string userId)
         {
-            var tweets = this.unitOfWork.UserTweets.All.Where(w => w.UserId == userId && w.Tweet.FolloweeId == followeeId).Select(se => se.Tweet).ToList();
+            var tweets = this.unitOfWork
+                .UserTweets
+                .All
+                .Where(w => w.UserId == userId && w.Tweet.FolloweeId == followeeId).Select(se => se.Tweet)
+                .ToList();
 
             var tweetDtos = tweets.Select(s => new TweetDto
             {

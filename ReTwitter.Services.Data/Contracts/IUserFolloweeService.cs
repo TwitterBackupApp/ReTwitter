@@ -7,11 +7,10 @@ namespace ReTwitter.Services.Data.Contracts
     {
         bool UserFolloweeExists(string userId, string followeeId);
 
-        void SaveUserFollowees(string userId, IEnumerable<FolloweeFromApiDto> followees);
-
         void SaveUserFollowee(string userId, FolloweeFromApiDto followee);
 
         void DeleteUserFollowee(string userId, string followeeId);
+
         bool AnyUserSavedThisFolloweeById(string followeeId);
     }
 }

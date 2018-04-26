@@ -40,7 +40,7 @@ namespace ReTwitter.Data
                     await CreateUser(userManager, "merry", "merry@gmail.com", "123");
 
                     await CreateRole(roleManager, "Administrators");
-                    await AddUserToRole(userManager, "admin@gmail.com", "Administrators");
+                    await AddUserToRole(userManager, "admin", "Administrators");
 
                     context.SaveChanges();
                 }

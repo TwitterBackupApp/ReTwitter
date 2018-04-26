@@ -19,9 +19,11 @@ namespace ReTwitter.Services.Data
             this.unitOfWork = unitOfWork;
         }
 
+
         public Tag FindOrCreate(string name)
         {
             var tagFound = this.unitOfWork.Tags.All.FirstOrDefault(f => f.Text == name);
+
             if (tagFound == null)
             {
                 tagFound = new Tag { Text = name };

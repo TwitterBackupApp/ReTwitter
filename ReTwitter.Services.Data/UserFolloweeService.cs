@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ReTwitter.Data.Contracts;
+﻿using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Services.Data.Contracts;
+using System.Linq;
 
 namespace ReTwitter.Services.Data
 {
@@ -18,6 +17,7 @@ namespace ReTwitter.Services.Data
             this.followeeService = followeeService;
         }
 
+
         public bool UserFolloweeExists(string userId, string followeeId)
         {
             return this.unitOfWork.UserFollowees
@@ -30,26 +30,6 @@ namespace ReTwitter.Services.Data
             return this.unitOfWork.UserFollowees
                 .AllAndDeleted
                 .Any(a => a.FolloweeId == followeeId && a.UserId == userId);
-        }
-
-        public void SaveUserFollowees(string userId, IEnumerable<FolloweeFromApiDto> followees)
-        {
-            var userFolloweesToAdd = new List<UserFollowee>();
-
-            foreach (var followee in followees)
-            {
-                if (!this.UserFolloweeExists(userId, followee.FolloweeId))
-                {
-                    var followeeToAddId = (
-                        this.unitOfWork.Followees.All.FirstOrDefault(f => f.FolloweeId == followee.FolloweeId) ??
-                        this.followeeService.Create(followee)).FolloweeId;
-                    var userFolloweeToadd = new UserFollowee { UserId = userId, FolloweeId = followeeToAddId };
-                    userFolloweesToAdd.Add(userFolloweeToadd);
-                }
-            }
-
-            this.unitOfWork.UserFollowees.AddRange(userFolloweesToAdd);
-            this.unitOfWork.SaveChanges();
         }
 
         public void SaveUserFollowee(string userId, FolloweeFromApiDto followee)

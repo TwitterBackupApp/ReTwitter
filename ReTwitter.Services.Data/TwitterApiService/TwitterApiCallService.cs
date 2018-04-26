@@ -15,6 +15,7 @@ namespace ReTwitter.Services.Data.TwitterApiService
             this.jsonDeserializer = jsonDeserializer;
         }
 
+
         public FolloweeFromApiDto[] GetTwitterUsersByScreenName(string name)
         {
             var searchString = "https://api.twitter.com/1.1/users/search.json?q=";
@@ -23,7 +24,6 @@ namespace ReTwitter.Services.Data.TwitterApiService
             return deserializedUsers;
         }
 
-        // Test method -  to be replaced via hashing
         public FolloweeFromApiDto GetTwitterUserDetailsById(string id)
         {
             var searchString = "https://api.twitter.com/1.1/users/show.json?user_id=";
@@ -32,7 +32,6 @@ namespace ReTwitter.Services.Data.TwitterApiService
             return deserializedUser;
         }
 
-        // Test method -  to be replaced via hashing
         public TweetFromApiDto[] GetTweetsByUserScreenName(string screenName)
         {
             var link = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + screenName.Trim() +

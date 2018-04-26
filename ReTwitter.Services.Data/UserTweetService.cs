@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using ReTwitter.Data.Contracts;
+﻿using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.DTO;
-using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data.Contracts;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ReTwitter.Services.Data
 {
@@ -22,6 +20,7 @@ namespace ReTwitter.Services.Data
             this.tweetService = tweetService;
             this.mapper = mapper;
         }
+
 
         public IEnumerable<TweetDto> GetTweetsByUserIdAndFolloweeId(string userId, string followeeId)
         {
@@ -44,26 +43,6 @@ namespace ReTwitter.Services.Data
             return this.unitOfWork.UserTweets
                 .AllAndDeleted
                 .Any(a => a.UserId == userId && a.TweetId == tweetId);
-        }
-
-        public void SaveUserTweets(string userId, IEnumerable<TweetFromApiDto> tweets)
-        {
-            var userTweetsToAdd = new List<UserTweet>();
-
-            foreach (var tweet in tweets)
-            {
-                if (!this.UserTweetExists(userId, tweet.TweetId))
-                {
-                    var tweetToAddId = (
-                        this.unitOfWork.Tweets.All.FirstOrDefault(f => f.TweetId == tweet.TweetId) ??
-                        this.tweetService.CreateFromApiDto(tweet)).TweetId;
-                    var userTweetToadd = new UserTweet { UserId = userId, TweetId = tweetToAddId };
-                    userTweetsToAdd.Add(userTweetToadd);
-                }
-            }
-
-            this.unitOfWork.UserTweets.AddRange(userTweetsToAdd);
-            this.unitOfWork.SaveChanges();
         }
 
         public void SaveSingleTweetToUserByTweetId(string userId, string tweetId)

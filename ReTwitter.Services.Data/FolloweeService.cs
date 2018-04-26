@@ -25,6 +25,7 @@ namespace ReTwitter.Services.Data
             this.dateTimeParser = dateTimeParser;
         }
 
+
         public List<FolloweeDisplayListDto> GetAllFolloweesByUserId(string userId)
         {
             var storedFollowees = this.unitOfWork.UserFollowees.All

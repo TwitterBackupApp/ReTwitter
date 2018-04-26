@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using ReTwitter.DTO;
-using ReTwitter.DTO.TwitterDto;
+﻿using ReTwitter.DTO;
+using System.Collections.Generic;
 
 namespace ReTwitter.Services.Data.Contracts
 {
@@ -9,8 +8,6 @@ namespace ReTwitter.Services.Data.Contracts
         IEnumerable<TweetDto> GetTweetsByUserIdAndFolloweeId(string userId, string followeeId);
 
         bool UserTweetExists(string userId, string tweetId);
-
-        void SaveUserTweets(string userId, IEnumerable<TweetFromApiDto> tweets);
 
         void SaveSingleTweetToUserByTweetId(string userId, string tweetId);
 

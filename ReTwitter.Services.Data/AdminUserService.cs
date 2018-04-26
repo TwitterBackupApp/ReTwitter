@@ -13,10 +13,12 @@ namespace ReTwitter.Services.Data
     public class AdminUserService : IAdminUserService
     {
         private readonly IUnitOfWork unitOfWork;
+
         public AdminUserService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
+
 
         public async Task<IEnumerable<UserDto>> AllAsync()
             => await this.unitOfWork
