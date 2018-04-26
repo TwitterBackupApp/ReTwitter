@@ -3,6 +3,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Services.Data.Contracts;
 using System.Linq;
+using ReTwitter.Infrastructure.Providers;
 
 namespace ReTwitter.Services.Data
 {
@@ -10,11 +11,13 @@ namespace ReTwitter.Services.Data
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IFolloweeService followeeService;
-        
-        public UserFolloweeService(IUnitOfWork unitOfWork, IFolloweeService followeeService)
+        private readonly IDateTimeProvider dateTimeProvider;
+
+        public UserFolloweeService(IUnitOfWork unitOfWork, IFolloweeService followeeService, IDateTimeProvider dateTimeProvider)
         {
             this.unitOfWork = unitOfWork;
             this.followeeService = followeeService;
+            this.dateTimeProvider = dateTimeProvider;
         }
 
 
@@ -34,27 +37,46 @@ namespace ReTwitter.Services.Data
 
         public void SaveUserFollowee(string userId, FolloweeFromApiDto followee)
         {
-            if (!this.UserFolloweeExistsInDeleted(userId, followee.FolloweeId))
+            var followeeToSaveToUser = this.unitOfWork.Followees.AllAndDeleted.FirstOrDefault(w => w.FolloweeId == followee.FolloweeId);
+
+            if (followeeToSaveToUser == null) // if it's a new Followee, it's a new UserFollowee
             {
-                var followeeToAddId = (
-                    this.unitOfWork.Followees.All.FirstOrDefault(f => f.FolloweeId == followee.FolloweeId) ??
-                    this.followeeService.Create(followee)).FolloweeId;
-                var userFolloweeToadd = new UserFollowee { UserId = userId, FolloweeId = followeeToAddId };
+                followeeToSaveToUser = this.followeeService.Create(followee);
+                var userFolloweeToadd = new UserFollowee { UserId = userId, FolloweeId = followeeToSaveToUser.FolloweeId };
 
                 this.unitOfWork.UserFollowees.Add(userFolloweeToadd);
                 this.unitOfWork.SaveChanges();
             }
             else
             {
-                var followeeToBeReadded =
-                    this.unitOfWork.UserFollowees.AllAndDeleted.FirstOrDefault(a =>
-                        a.FolloweeId == followee.FolloweeId && a.UserId == userId);
-
-                if (followeeToBeReadded != null)
+                if (followeeToSaveToUser.IsDeleted)
                 {
-                    followeeToBeReadded.IsDeleted = false;
-
+                    followeeToSaveToUser.IsDeleted = false;
+                    followeeToSaveToUser.DeletedOn = null;
+                    followeeToSaveToUser.ModifiedOn = this.dateTimeProvider.Now;
                     this.unitOfWork.SaveChanges();
+                }
+
+                if (!this.UserFolloweeExistsInDeleted(userId, followee.FolloweeId))
+                {
+                   var userFolloweeToadd = new UserFollowee { UserId = userId, FolloweeId = followee.FolloweeId };
+
+                    this.unitOfWork.UserFollowees.Add(userFolloweeToadd);
+                    this.unitOfWork.SaveChanges();
+                }
+                else
+                {
+                    var userFolloweeToBeReadded =
+                        this.unitOfWork.UserFollowees.AllAndDeleted.FirstOrDefault(a =>
+                            a.FolloweeId == followee.FolloweeId && a.UserId == userId);
+
+                    if (userFolloweeToBeReadded != null)
+                    {
+                        userFolloweeToBeReadded.IsDeleted = false;
+                        userFolloweeToBeReadded.DeletedOn = null;
+                        userFolloweeToBeReadded.ModifiedOn = this.dateTimeProvider.Now;
+                        this.unitOfWork.SaveChanges();
+                    }
                 }
             }
         }

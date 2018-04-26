@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
+using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data
@@ -9,11 +10,13 @@ namespace ReTwitter.Services.Data
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ITagService tagService;
+        private readonly IDateTimeProvider dateTimeProvider;
 
-        public TweetTagService(IUnitOfWork unitOfWork, ITagService tagService)
+        public TweetTagService(IUnitOfWork unitOfWork, ITagService tagService, IDateTimeProvider dateTimeProvider)
         {
             this.unitOfWork = unitOfWork;
             this.tagService = tagService;
+            this.dateTimeProvider = dateTimeProvider;
         }
 
 
@@ -33,22 +36,22 @@ namespace ReTwitter.Services.Data
 
         public void AddTweetTagByTweetIdTagId(int tagId, string tweetId)
         {
-            if(!this.TweetTagExistsInDeleted(tagId, tweetId))
+            var tweetTagToAdd = this.unitOfWork.TweetTags.AllAndDeleted.FirstOrDefault(w => w.TweetId == tweetId && w.TagId == tagId);
+
+            if (tweetTagToAdd == null)
             {
-                var tweetTagToAdd = new TweetTag { TweetId = tweetId, TagId = tagId };
+                tweetTagToAdd = new TweetTag { TagId = tagId, TweetId = tweetId };
+
                 this.unitOfWork.TweetTags.Add(tweetTagToAdd);
                 this.unitOfWork.SaveChanges();
             }
             else
             {
-                var tweetTagToBeReadded = this.unitOfWork
-                    .TweetTags
-                    .AllAndDeleted
-                    .FirstOrDefault(fd => fd.TagId == tagId && fd.TweetId == tweetId);
-
-                if(tweetTagToBeReadded != null)
+                if (tweetTagToAdd.IsDeleted)
                 {
-                    tweetTagToBeReadded.IsDeleted = false;
+                    tweetTagToAdd.IsDeleted = false;
+                    tweetTagToAdd.DeletedOn = null;
+                    tweetTagToAdd.ModifiedOn = this.dateTimeProvider.Now;
                     this.unitOfWork.SaveChanges();
                 }
             }

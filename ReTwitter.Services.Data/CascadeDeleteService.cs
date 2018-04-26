@@ -70,19 +70,22 @@ namespace ReTwitter.Services.Data
             {
                 foreach (var tweetId in tweetIds)
                 {
-                    this.userTweetService.DeleteUserTweet(userId, tweetId);
-                }
-
-                foreach (var tweetId in tweetIds)
-                {
-                    if (!this.userTweetService.AnyUserSavedThisTweetById(tweetId))
-                    {
-                        this.tweetService.Delete(tweetId);
-                        this.DeleteEntitiesOfTweet(tweetId);
-                    }
+                    this.DeleteUserTweetAndEntities(userId, tweetId);
                 }
             }
         }
+
+        public void DeleteUserTweetAndEntities(string userId, string tweetId)
+        {
+            this.userTweetService.DeleteUserTweet(userId, tweetId);
+
+            if (!this.userTweetService.AnyUserSavedThisTweetById(tweetId))
+            {
+                this.tweetService.Delete(tweetId);
+                this.DeleteEntitiesOfTweet(tweetId);
+            }
+        }
+
 
         public void DeleteEntitiesOfTweet(string tweetId)
         {

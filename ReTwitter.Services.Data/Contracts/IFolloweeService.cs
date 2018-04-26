@@ -16,5 +16,7 @@ namespace ReTwitter.Services.Data.Contracts
         void Delete(string followeeId);
 
         void Update(string followeeId);
+
+        bool FolloweeExistsInDatabase(string followeeId);
     }
 }

@@ -4,6 +4,7 @@ using ReTwitter.Data.Models.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ReTwitter.Infrastructure.Providers;
 
 namespace ReTwitter.Data.Repository
 {
@@ -81,7 +82,7 @@ namespace ReTwitter.Data.Repository
             }
 
             entity.IsDeleted = true;
-            entity.DeletedOn = null;
+            entity.DeletedOn = DateTime.Now;
 
             var entry = this.context.Entry(entity);
 
@@ -89,11 +90,6 @@ namespace ReTwitter.Data.Repository
             {
                 entry.State = EntityState.Modified;
             }
-            //else
-            //{
-            //    this.dbSet.Attach(entity);
-            //    this.dbSet.Remove(entity);
-            //}
         }
 
         public void Update(T entity)

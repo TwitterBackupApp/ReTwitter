@@ -108,5 +108,12 @@ namespace ReTwitter.Services.Data
             this.unitOfWork.Followees.Update(followeeToUpdate);
             this.unitOfWork.SaveChanges();
         }
+
+        public bool FolloweeExistsInDatabase(string followeeId)
+        {
+            var exists = this.unitOfWork.Followees.AllAndDeleted.Any(a => a.FolloweeId == followeeId);
+
+            return exists;
+        }
     }
 }

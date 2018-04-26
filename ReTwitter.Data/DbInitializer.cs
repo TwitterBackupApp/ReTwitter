@@ -286,7 +286,7 @@ namespace ReTwitter.Data
 
         private static async Task AddUserToRole(UserManager<User> userManager, string username, string roleName)
         {
-            var user = await userManager.FindByEmailAsync(username);
+            var user = await userManager.FindByNameAsync(username);
 
             var addRoleResult = await userManager.AddToRoleAsync(user, roleName);
             if (!addRoleResult.Succeeded)

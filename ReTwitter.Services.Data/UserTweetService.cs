@@ -13,12 +13,16 @@ namespace ReTwitter.Services.Data
         private readonly IUnitOfWork unitOfWork;
         private readonly ITweetService tweetService;
         private readonly IMappingProvider mapper;
+        private readonly IDateTimeProvider dateTimeProvider;
+        private readonly ITweetTagService tweetTagService;
 
-        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper)
+        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper, IDateTimeProvider dateTimeProvider, ITweetTagService tweetTagService)
         {
             this.unitOfWork = unitOfWork;
             this.tweetService = tweetService;
             this.mapper = mapper;
+            this.dateTimeProvider = dateTimeProvider;
+            this.tweetTagService = tweetTagService;
         }
 
 
@@ -47,27 +51,67 @@ namespace ReTwitter.Services.Data
 
         public void SaveSingleTweetToUserByTweetId(string userId, string tweetId)
         {
-            if (!this.UserTweetExistsInDeleted(userId, tweetId))
+            var tweetToSaveToUser = this.unitOfWork.Tweets.AllAndDeleted.FirstOrDefault(w => w.TweetId == tweetId);
+
+            if (tweetToSaveToUser == null) // if it's a new Tweet, it's a new UserTweet
             {
-                var tweetToAddId = (
-                    this.unitOfWork.Tweets.All.FirstOrDefault(f => f.TweetId == tweetId) ??
-                    this.tweetService.CreateFromApiById(tweetId)).TweetId;
-                var userTweetToadd = new UserTweet { UserId = userId, TweetId = tweetToAddId };
+                tweetToSaveToUser = this.tweetService.CreateFromApiById(tweetId);
+                var userTweetToadd = new UserTweet { UserId = userId, TweetId = tweetToSaveToUser.TweetId };
 
                 this.unitOfWork.UserTweets.Add(userTweetToadd);
                 this.unitOfWork.SaveChanges();
             }
             else
             {
-                var tweetToBeReadded =
-                    this.unitOfWork.UserTweets.AllAndDeleted.FirstOrDefault(a =>
-                        a.TweetId == tweetId && a.UserId == userId);
-
-                if (tweetToBeReadded != null)
+                if (tweetToSaveToUser.IsDeleted)
                 {
-                    tweetToBeReadded.IsDeleted = false;
+                    tweetToSaveToUser.IsDeleted = false;
+                    tweetToSaveToUser.DeletedOn = null;
+                    tweetToSaveToUser.ModifiedOn = this.dateTimeProvider.Now;
 
+                    var tags = this.unitOfWork.TweetTags.AllAndDeleted.Where(w => w.TweetId == tweetId)
+                        .Select(s => s.Tag).ToList();
+                    foreach (var tag in tags)
+                    {
+                        var tweetTagToReAdd =
+                            this.unitOfWork.TweetTags.AllAndDeleted.FirstOrDefault(
+                                w => w.TagId == tag.Id && w.TweetId == tweetId);
+                        if (tweetTagToReAdd != null && tweetTagToReAdd.IsDeleted)
+                        {
+                            tweetTagToReAdd.IsDeleted = false;
+                            tweetTagToReAdd.DeletedOn = null;
+                            tweetTagToReAdd.ModifiedOn = this.dateTimeProvider.Now;
+                        }
+                        if (tag.IsDeleted)
+                        {
+                            tag.IsDeleted = false;
+                            tag.DeletedOn = null;
+                            tag.ModifiedOn = this.dateTimeProvider.Now;
+                        }
+                    }
                     this.unitOfWork.SaveChanges();
+                }
+
+                if (!this.UserTweetExistsInDeleted(userId, tweetId))
+                {
+                    var userTweetToadd = new UserTweet { UserId = userId, TweetId = tweetId };
+
+                    this.unitOfWork.UserTweets.Add(userTweetToadd);
+                    this.unitOfWork.SaveChanges();
+                }
+                else
+                {
+                    var userTweetToBeReadded =
+                        this.unitOfWork.UserTweets.AllAndDeleted.FirstOrDefault(a =>
+                            a.TweetId == tweetId && a.UserId == userId);
+
+                    if (userTweetToBeReadded != null)
+                    {
+                        userTweetToBeReadded.IsDeleted = false;
+                        userTweetToBeReadded.DeletedOn = null;
+                        userTweetToBeReadded.ModifiedOn = this.dateTimeProvider.Now;
+                        this.unitOfWork.SaveChanges();
+                    }
                 }
             }
         }

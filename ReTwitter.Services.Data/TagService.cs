@@ -12,23 +12,35 @@ namespace ReTwitter.Services.Data
     {
         private readonly IMappingProvider mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IDateTimeProvider dateTimeProvider;
 
-        public TagService(IMappingProvider mapper, IUnitOfWork unitOfWork)
+        public TagService(IMappingProvider mapper, IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider)
         {
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
+            this.dateTimeProvider = dateTimeProvider;
         }
 
 
         public Tag FindOrCreate(string name)
         {
-            var tagFound = this.unitOfWork.Tags.All.FirstOrDefault(f => f.Text == name);
+            var tagFound = this.unitOfWork.Tags.AllAndDeleted.FirstOrDefault(f => f.Text == name);
 
             if (tagFound == null)
             {
                 tagFound = new Tag { Text = name };
                 this.unitOfWork.Tags.Add(tagFound);
                 this.unitOfWork.SaveChanges();
+            }
+            else
+            {
+                if (tagFound.IsDeleted)
+                {
+                    tagFound.IsDeleted = false;
+                    tagFound.DeletedOn = null;
+                    tagFound.ModifiedOn = this.dateTimeProvider.Now;
+                    this.unitOfWork.SaveChanges();
+                }
             }
             return tagFound;
         }
