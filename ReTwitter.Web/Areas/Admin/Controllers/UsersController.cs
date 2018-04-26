@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Web.Areas.Admin.Models.Users;
 
@@ -18,16 +17,13 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
         private readonly IAdminUserService userService;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ICascadeDeleteService cascadeDeleteService;
-        private readonly UserManager<User> userManager;
-
+        
         public UsersController(
             IAdminUserService userService,
-            UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             ICascadeDeleteService cascadeDeleteService)
         {
             this.userService = userService;
-            this.userManager = userManager;
             this.roleManager = roleManager;
             this.cascadeDeleteService = cascadeDeleteService;
         }
@@ -51,11 +47,11 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
             });
         }
 
-        public IActionResult Delete(string userId)
+        public IActionResult Delete(string userId, string userName)
         {
             this.cascadeDeleteService.DeleteUserAndHisEntities(userId);
 
-            TempData["Success-Message"] = $"User with id {userId} deleted successfully!";
+            TempData["Success-Message"] = $"User {userName} deleted successfully!";
 
             return RedirectToAction("Index");
         }

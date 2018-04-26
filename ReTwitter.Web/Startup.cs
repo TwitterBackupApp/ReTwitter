@@ -16,6 +16,7 @@ using ReTwitter.Services.Data.TwitterApiService;
 using ReTwitter.Services.External;
 using ReTwitter.Services.External.Contracts;
 using System;
+using ReTwitter.Services.Data.Statistics;
 
 namespace ReTwitter.Web
 {
@@ -55,6 +56,9 @@ namespace ReTwitter.Web
             services.AddTransient<IJsonDeserializer, JsonDeserializer>();
             services.AddTransient<ICascadeDeleteService, CascadeDeleteService>();
             services.AddTransient<IFolloweeService, FolloweeService>();
+            services.AddTransient<IFolloweeStatisticsService, FolloweeStatisticsService>();
+            services.AddTransient<IUserStatisticsService, UserStatisticsService>();
+            services.AddTransient<ITweetStatisticsService, TweetStatisticsService>();
             services.AddTransient<IDateTimeParser, DateTimeParser>();
             services.AddTransient<IAdminUserService, AdminUserService>();
             services.AddTransient<IUserFolloweeService, UserFolloweeService>();

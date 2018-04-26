@@ -1,0 +1,56 @@
+﻿@using ReTwitter.Web.Areas.Admin.Models.Users
+@model ReTwitter.Web.Areas.Admin.Models.Statistics.StatisticsViewModel
+
+<br />
+<br />
+<br />
+@{
+    ViewData["Title"] = "Total Statistics";
+}
+
+<h1>@ViewData["Title"]</h1>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Active users
+            </th>
+            <th>
+                Deleted users
+            </th>
+            <th>
+                Twitter accounts currently saved
+            </th>
+            <th>
+                Deleted Accounts
+            </th>
+            <th>
+                Saved tweets
+            </th>
+            <th>
+                Deleted tweets
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th>
+            @Model.ActiveUsers
+        </th><th>
+            @Model.DeletedUsers
+        </th>
+        <th>
+            @Model.ActivelyFollowedAccountsCount
+        </th>
+        <th>
+            @Model.DeletedAccountsCount
+        </th>
+        <th>
+            @Model.SavedTweetsCount
+        </th>
+        <th>
+            @Model.DeletedTweetsCount
+        </th>
+    </tr>
+    </tbody>
+</table>
