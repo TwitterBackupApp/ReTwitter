@@ -54,21 +54,13 @@
     background-color: #000105;
     width: 100%;
     height: 100%;
-    opacity: 0.90;
     z-index: 5;
 }
 .img-responsive {
-    background-color: #000105;
-   
+    background-color: #000105; 
     width: 100%;
     height: 100%;
-    opacity: 0.20;
     z-index: 2;
-}
-
-/* Make .jpg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".jpg"] {
-    width: 100%;
 }
 
 /* QR code generator */
@@ -103,4 +95,36 @@
 }
 .btns-go-back {
     margin-top: 15%;
+}
+.topCenter span{
+    font-size: 40px;
+}
+.bottomCenter span {
+    font-size: 20px;
+}
+.topCenter, .bottomCenter {
+    top: 20%;
+    text-align: center;
+    width: 100%;
+}
+
+.bottomCenter {
+    top: auto;
+    bottom: 20%
+}
+
+.letters span{
+  color:#333;
+  letter-spacing:.3em;
+  transition:.8s;
+}
+
+.letters span.focus, .letters span.focus + span + span, .letters.minusTwo > span:first-child,.letters.minusOne > span:nth-child(2){
+  color:yellow;
+}
+  text-shadow:0 0 16px yellow;
+
+.letters span.focus + span, .letters.minusOne > span:first-child{
+  color:darkOrange;
+  text-shadow:0 0 16px darkOrange;
 }
