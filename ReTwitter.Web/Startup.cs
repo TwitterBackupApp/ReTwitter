@@ -59,6 +59,7 @@ namespace ReTwitter.Web
             services.AddTransient<IFolloweeStatisticsService, FolloweeStatisticsService>();
             services.AddTransient<IUserStatisticsService, UserStatisticsService>();
             services.AddTransient<ITweetStatisticsService, TweetStatisticsService>();
+            services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();
             services.AddTransient<IDateTimeParser, DateTimeParser>();
             services.AddTransient<IAdminUserService, AdminUserService>();

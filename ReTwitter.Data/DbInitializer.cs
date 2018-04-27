@@ -39,9 +39,15 @@ namespace ReTwitter.Data
                     await CreateUser(userManager, "pesho", "pesho@gmail.com", "123");
                     await CreateUser(userManager, "merry", "merry@gmail.com", "123");
 
+                    await CreateRole(roleManager, "MasterAdministrators");
                     await CreateRole(roleManager, "Administrators");
+                    await CreateRole(roleManager, "Users");
+                    await AddUserToRole(userManager, "admin", "MasterAdministrators");
                     await AddUserToRole(userManager, "admin", "Administrators");
-
+                    await AddUserToRole(userManager, "gosho", "Users");
+                    await AddUserToRole(userManager, "pesho", "Users");
+                    await AddUserToRole(userManager, "merry", "Users");
+                    
                     context.SaveChanges();
                 }
 
@@ -265,7 +271,8 @@ namespace ReTwitter.Data
             var user = new User
             {
                 UserName = username,
-                Email = email
+                Email = email,
+                CreatedOn = DateTime.Now
             };
 
             var userCreateResult = await userManager.CreateAsync(user, password);
