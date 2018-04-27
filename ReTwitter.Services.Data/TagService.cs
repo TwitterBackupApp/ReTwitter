@@ -45,13 +45,6 @@ namespace ReTwitter.Services.Data
             return tagFound;
         }
 
-        public void Save(TagDto dto)
-        {
-            var model = this.mapper.MapTo<Tag>(dto);
-            this.unitOfWork.Tags.Add(model);
-            this.unitOfWork.SaveChanges();
-        }
-
         public void Delete(int id)
         {
             var tag = this.unitOfWork.Tags.All.FirstOrDefault(x => x.Id == id);
