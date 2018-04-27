@@ -43,14 +43,28 @@ namespace ReTwitter.Web.Controllers
         {
             var followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
 
-            return View(followee);
+            if(followee != null)
+            {
+                return View(followee);
+            }
+            else
+            {
+                return View("NotFound");
+            }
         }
 
         public IActionResult FolloweeDetailsFromDb(string id)
         {
             var followee = this.followeeService.GetFolloweeById(id);
 
-            return View(followee);
+            if (followee != null)
+            {
+                return View(followee);
+            }
+            else
+            {
+                return View("NotFound");
+            }
         }
 
         public async Task<IActionResult> FolloweeAdded(FolloweeFromApiDto followee)

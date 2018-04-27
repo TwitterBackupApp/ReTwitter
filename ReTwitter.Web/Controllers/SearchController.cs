@@ -13,6 +13,7 @@ namespace ReTwitter.Web.Controllers
             this.twitterApiCallService = twitterApiCallService;
         }
 
+
         public IActionResult Search()
         {            
             return View();
@@ -20,6 +21,7 @@ namespace ReTwitter.Web.Controllers
 
        
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult SearchResult(SearchViewModel model)
         {
             if (this.ModelState.IsValid)
