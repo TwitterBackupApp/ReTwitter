@@ -6,6 +6,7 @@ using ReTwitter.DTO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data
@@ -21,6 +22,18 @@ namespace ReTwitter.Services.Data
 
 
         public async Task<IEnumerable<UserDto>> AllAsync()
+            => await this.unitOfWork
+                .Users.All
+                .ProjectTo<UserDto>()
+                .ToListAsync();
+
+        public async Task<User> SingleUserByUsernameAsync(string userName)
+            => await this.unitOfWork
+                .Users.All
+                .FirstOrDefaultAsync(w => w.UserName == userName);
+                
+
+        public async Task<IEnumerable<UserDto>> AllWithoutMasterAdmins()
             => await this.unitOfWork
                 .Users.All
                 .ProjectTo<UserDto>()

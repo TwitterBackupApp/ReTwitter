@@ -14,10 +14,16 @@
     <thead>
         <tr>
             <th>
-                Accounts currently saved
+                Username
             </th>
             <th>
-                Deleted Accounts
+                User status
+            </th>
+            <th>
+                Saved Twitter Accounts
+            </th>
+            <th>
+                Deleted Twitter Accounts
             </th>
             <th>
                 Saved tweets
@@ -28,19 +34,20 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <th>
-                @Model.ActivelyFollowedAccountsCount
-            </th>
-            <th>
-                @Model.DeletedAccountsCount
-            </th>
-            <th>
-                @Model.SavedTweetsCount
-            </th>
-            <th>
-                @Model.DeletedTweetsCount
-            </th>
-        </tr>
+    
+    <tr>
+        <th>
+            @Model.ActivelyFollowedAccountsCount
+        </th>
+        <th>
+            @Model.DeletedAccountsCount
+        </th>
+        <th>
+            @Model.SavedTweetsCount
+        </th>
+        <th>
+            @Model.DeletedTweetsCount
+        </th>
+    </tr>
     </tbody>
 </table>

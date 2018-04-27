@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Web.Areas.Admin.Models.Users;
 
@@ -16,23 +17,28 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
     {
         private readonly IAdminUserService userService;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<User> userManager;
         private readonly ICascadeDeleteService cascadeDeleteService;
         
         public UsersController(
             IAdminUserService userService,
             RoleManager<IdentityRole> roleManager,
+            UserManager<User> userManager,
             ICascadeDeleteService cascadeDeleteService)
         {
             this.userService = userService;
             this.roleManager = roleManager;
+            this.userManager = userManager;
             this.cascadeDeleteService = cascadeDeleteService;
         }
 
         public async Task<IActionResult> Index()
         {
             var users = await this.userService.AllAsync();
+            
             var roles = await this.roleManager
                 .Roles
+                .Where(r => r.Name != "MasterAdministrators")
                 .Select(r => new SelectListItem
                 {
                     Text = r.Name,
@@ -47,14 +53,57 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
             });
         }
 
-        public IActionResult Delete(string userId, string userName)
+        public async Task<IActionResult> Delete(string userId, string userName)
         {
+            var loggedUser =  await this.userManager.GetUserAsync(HttpContext.User);
+            
+            if (loggedUser.UserName == userName)
+            {
+                TempData["Error-Message"] = "You cannot delete yourself from the database! Please ask Administrator or Master Administrator!";
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            var loggedUserRoles = await this.userManager.GetRolesAsync(loggedUser);
+            var userToDelete = await this.userService.SingleUserByUsernameAsync(userName);
+            var userToDeleteRoles = await this.userManager.GetRolesAsync(userToDelete);
+
+            if (!loggedUserRoles.Contains("MasterAdministrators") && userToDeleteRoles.Contains("Administrators"))
+            {
+                TempData["Error-Message"] = $"User {userName} does not have Master Administration permissions and cannot remove other administrators!";
+
+                return RedirectToAction(nameof(Index));
+            }
+
             this.cascadeDeleteService.DeleteUserAndHisEntities(userId);
 
             TempData["Success-Message"] = $"User {userName} deleted successfully!";
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddToRole(AddUserToRoleViewModel model)
+        {
+            var roleExists = await this.roleManager.RoleExistsAsync(model.Role);
+            var user = await this.userManager.FindByIdAsync(model.UserId);
+            var userExists = user != null;
+
+            if (!roleExists || !userExists)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid identity details.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            await this.userManager.AddToRoleAsync(user, model.Role);
+
+            TempData["Success-Message"] = $"User {user.UserName} successfully added to the {model.Role} role.";
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

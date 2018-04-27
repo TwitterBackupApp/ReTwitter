@@ -12,12 +12,14 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
         private readonly IFolloweeStatisticsService followeeStatisticsService;
         private readonly ITweetStatisticsService tweetStatisticsService;
         private readonly IUserStatisticsService userStatisticsService;
+        private readonly IStatisticsService statisticsService;
 
-        public StatisticsController(IFolloweeStatisticsService followeeStatisticsService, ITweetStatisticsService tweetStatisticsService, IUserStatisticsService userStatisticsService)
+        public StatisticsController(IFolloweeStatisticsService followeeStatisticsService, ITweetStatisticsService tweetStatisticsService, IUserStatisticsService userStatisticsService, IStatisticsService statisticsService)
         {
             this.followeeStatisticsService = followeeStatisticsService;
             this.tweetStatisticsService = tweetStatisticsService;
             this.userStatisticsService = userStatisticsService;
+            this.statisticsService = statisticsService;
         }
 
         public IActionResult ShortStatistics(string userId, string userName)
@@ -57,6 +59,15 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
                 ActiveUsers = activeUsersCount,
                 DeletedUsers = deletedUsersCount
             };
+
+            return this.View(vm);
+        }
+
+        public IActionResult Index()
+        {
+            var userStatisticsModels = this.statisticsService.UsersStatistics();
+
+            var vm = new AllUserStatisticsViewModel { UserStatisticsModels = userStatisticsModels};
 
             return this.View(vm);
         }
