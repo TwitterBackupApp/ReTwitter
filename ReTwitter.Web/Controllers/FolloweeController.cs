@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using ReTwitter.DTO.TwitterDto;
 
 namespace ReTwitter.Web.Controllers
 {
+    [Authorize]
     public class FolloweeController: Controller
     {
         private readonly IFolloweeService followeeService;

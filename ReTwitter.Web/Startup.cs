@@ -76,6 +76,12 @@ namespace ReTwitter.Web
                 .AddEntityFrameworkStores<ReTwitterDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAuthentication().AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = Configuration["ConsumerKey"];
+                twitterOptions.ConsumerSecret = Configuration["ConsumerSecret"];
+            });
+
             services.Configure<IdentityOptions>(options =>
             {
                 // User settings

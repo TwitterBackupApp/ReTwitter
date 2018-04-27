@@ -86,7 +86,6 @@ namespace ReTwitter.Services.Data
             }
         }
 
-
         public void DeleteEntitiesOfTweet(string tweetId)
         {
             var tagIds = this.unitOfWork.TweetTags
