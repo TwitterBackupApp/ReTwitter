@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ReTwitter.Data.Contracts;
+using ReTwitter.DTO;
 using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data.Statistics
@@ -11,6 +13,20 @@ namespace ReTwitter.Services.Data.Statistics
         public FolloweeStatisticsService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+        }
+
+
+        public IEnumerable<ActivelyFollowingModel> GetActiveFolloweesByUserId(string userId)
+        {
+            var activeFollowees = this.unitOfWork.UserFollowees.All.Where(u => u.UserId == userId).Select(s =>
+                new ActivelyFollowingModel
+                {
+                    FolloweeId = s.FolloweeId,
+                    ScreenName = s.Followee.ScreenName,
+                    Bio = s.Followee.Bio
+                }).ToList();
+
+            return activeFollowees;
         }
 
         public int ActiveUserFolloweeCountByUserId(string userId)

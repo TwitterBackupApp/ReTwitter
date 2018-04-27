@@ -23,7 +23,6 @@
                     Change Role
                 </th>
                 <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -48,9 +47,6 @@
                             </div>
                         </div>
                     </form>
-                </th>
-                <th>
-                    @Html.ActionLink("Statistics", "ShortStatistics", "Statistics", new { userId = user.Id, userName = user.UserName }, new { @class = "btn btn-info" })
                 </th>
                 <th>
                     @Html.ActionLink("Delete", "Delete", "Users", new { userId = user.Id, userName = user.UserName }, new { @class = "btn btn-info" })

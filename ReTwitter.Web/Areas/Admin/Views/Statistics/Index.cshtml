@@ -38,30 +38,50 @@
     <tbody>
         @foreach (var user in Model.UserStatisticsModels)
         {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => user.UserName)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => user.UserNameCreatedOn)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => user.ActiveStatus)
+                </th>
+                <th>
+                    <a asp-controller="Statistics" asp-action="ActivelyFollowing" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.ActivelyFollowedAccountsCount)</a>
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => user.DeletedAccountsCount)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => user.SavedTweetsCount)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => user.DeletedTweetsCount)
+                </th>
+            </tr>
+        }
         <tr>
             <th>
-                @Html.DisplayFor(modelItem => user.UserName)
+                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalUsers) users
             </th>
             <th>
-                @Html.DisplayFor(modelItem => user.UserNameCreatedOn)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => user.ActiveStatus)
             </th>
             <th>
-                @Html.DisplayFor(modelItem => user.ActivelyFollowedAccountsCount)
+                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalActivelyFollowedAccountsCount) accounts
             </th>
             <th>
-                @Html.DisplayFor(modelItem => user.DeletedAccountsCount)
+                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalDeletedAccountsCount) accounts
             </th>
             <th>
-                @Html.DisplayFor(modelItem => user.SavedTweetsCount)
+                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalSavedTweetsCount) tweets
             </th>
             <th>
-                @Html.DisplayFor(modelItem => user.DeletedTweetsCount)
+                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalDeletedTweetsCount) tweets
             </th>
         </tr>
-        }
-
     </tbody>
 </table>

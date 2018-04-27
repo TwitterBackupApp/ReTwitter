@@ -22,24 +22,24 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
             this.statisticsService = statisticsService;
         }
 
-        public IActionResult ShortStatistics(string userId, string userName)
-        {
-            var activelyFollowedAccountsCount = this.followeeStatisticsService.ActiveUserFolloweeCountByUserId(userId);
-            var deletedAccountsCount = this.followeeStatisticsService.DeletedUserFolloweeCountByUserId(userId);
-            var savedTweetsCount = this.tweetStatisticsService.SavedTweetsCountByUserId(userId);
-            var deletedTweetsCount = this.tweetStatisticsService.DeletedTweetsCountByUserId(userId);
+        //public IActionResult ShortStatistics(string userId, string userName)
+        //{
+        //    var activelyFollowedAccountsCount = this.followeeStatisticsService.ActiveUserFolloweeCountByUserId(userId);
+        //    var deletedAccountsCount = this.followeeStatisticsService.DeletedUserFolloweeCountByUserId(userId);
+        //    var savedTweetsCount = this.tweetStatisticsService.SavedTweetsCountByUserId(userId);
+        //    var deletedTweetsCount = this.tweetStatisticsService.DeletedTweetsCountByUserId(userId);
 
-            var vm = new ShortStatisticsViewModel
-            {
-                ActivelyFollowedAccountsCount = activelyFollowedAccountsCount,
-                DeletedAccountsCount = deletedAccountsCount,
-                SavedTweetsCount = savedTweetsCount,
-                DeletedTweetsCount = deletedTweetsCount,
-                Username = userName
-            };
+        //    var vm = new ShortStatisticsViewModel
+        //    {
+        //        ActivelyFollowedAccountsCount = activelyFollowedAccountsCount,
+        //        DeletedAccountsCount = deletedAccountsCount,
+        //        SavedTweetsCount = savedTweetsCount,
+        //        DeletedTweetsCount = deletedTweetsCount,
+        //        Username = userName
+        //    };
 
-            return this.View(vm);
-        }
+        //    return this.View(vm);
+        //}
 
         public IActionResult TotalStatistics()
         {
@@ -67,9 +67,24 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
         {
             var userStatisticsModels = this.statisticsService.UsersStatistics();
 
-            var vm = new AllUserStatisticsViewModel { UserStatisticsModels = userStatisticsModels};
+            var vm = new AllUserStatisticsViewModel { UserStatisticsModels = userStatisticsModels.Item1, TotalStatistics = userStatisticsModels.Item2};
 
             return this.View(vm);
         }
+
+        public IActionResult ActivelyFollowing(string userId)
+        {
+            var activelyFollowedAccounts = this.followeeStatisticsService.GetActiveFolloweesByUserId(userId);
+            
+
+            var vm = new ActivelyFollowingViewModel
+            {
+               ActivelyFollowingModels = activelyFollowedAccounts,
+                UserId = userId
+            };
+
+            return this.View(vm);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.DTO;
@@ -15,13 +16,14 @@ namespace ReTwitter.Services.Data.Statistics
             this.unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<UserStatisticsModel> UsersStatistics()
+        public Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel> UsersStatistics()
         {
-            var allUsersTst = this.unitOfWork.Users.AllAndDeleted.ToList();
+            var totalStatistics = new TotalStatisticsModel();
 
             var allUsers = this.unitOfWork.Users.AllAndDeleted.Select(s => new
             {
                 Username = s.UserName,
+                UserId = s.Id,
                 CreatedOn = s.CreatedOn.Value,
                 DeletedStatus = s.IsDeleted
             }).ToList();
@@ -42,9 +44,11 @@ namespace ReTwitter.Services.Data.Statistics
 
             foreach (var user in allUsers)
             {
+                totalStatistics.TotalUsers++;
                 usesStatisticsModels[user.Username] = new UserStatisticsModel
                 {
                     UserName = user.Username,
+                    UserId = user.UserId,
                     UserNameCreatedOn = user.CreatedOn,
                     ActiveStatus = user.DeletedStatus == true ? "Deleted" : "Active"
                 };
@@ -53,12 +57,16 @@ namespace ReTwitter.Services.Data.Statistics
             foreach (var userModel in usesStatisticsModels)
             {
                 userModel.Value.ActivelyFollowedAccountsCount = allUserFolloweeStatus.Count(w => w.UserName == userModel.Key && w.DeletedStatus == false);
+                totalStatistics.TotalActivelyFollowedAccountsCount += userModel.Value.ActivelyFollowedAccountsCount;
                 userModel.Value.DeletedAccountsCount = allUserFolloweeStatus.Count(w => w.UserName == userModel.Key && w.DeletedStatus == true);
+                totalStatistics.TotalDeletedAccountsCount += userModel.Value.DeletedAccountsCount;
                 userModel.Value.SavedTweetsCount = allUserTweetsStatus.Count(w => w.UserName == userModel.Key && w.DeletedStatus == false);
+                totalStatistics.TotalSavedTweetsCount += userModel.Value.SavedTweetsCount;
                 userModel.Value.DeletedTweetsCount = allUserTweetsStatus.Count(w => w.UserName == userModel.Key && w.DeletedStatus == true);
+                totalStatistics.TotalDeletedTweetsCount += userModel.Value.DeletedTweetsCount;
             }
 
-            var statisticsModels = usesStatisticsModels.Values;
+            var statisticsModels = new Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel>(usesStatisticsModels.Values, totalStatistics);
 
             return statisticsModels;
         }

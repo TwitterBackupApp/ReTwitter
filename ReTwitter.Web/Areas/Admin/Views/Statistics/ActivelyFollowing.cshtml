@@ -1,0 +1,41 @@
+﻿@using ReTwitter.Web.Areas.Admin.Models.Users
+@model ReTwitter.Web.Areas.Admin.Models.Statistics.ActivelyFollowingViewModel
+
+<br />
+<br />
+<br />
+@{
+    ViewData["Title"] = "Individual User Statistics";
+}
+
+<h1>@ViewData["Title"]</h1>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                ScreenName
+            </th>
+            <th>
+                Bio
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var followeeModel in Model.ActivelyFollowingModels)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => followeeModel.ScreenName)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => followeeModel.Bio)
+                </th>
+                <th>
+                    @Html.ActionLink("Delete", "FolloweeAdminDelete", "Followee", new { followeeId = followeeModel.FolloweeId, userId = Model.UserId }, new { @class = "btn btn-info" })
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

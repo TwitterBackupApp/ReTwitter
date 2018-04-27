@@ -1,4 +1,7 @@
-﻿namespace ReTwitter.Services.Data.Contracts
+﻿using System.Collections.Generic;
+using ReTwitter.DTO;
+
+namespace ReTwitter.Services.Data.Contracts
 {
     public interface IFolloweeStatisticsService
     {
@@ -9,6 +12,8 @@
         int ActiveFolloweeCount();
 
         int DeletedFolloweeCount();
+
+        IEnumerable<ActivelyFollowingModel> GetActiveFolloweesByUserId(string userId);
 
         // IEnumerable<FolloweeStatisticsDto> AllAndDeletedFolloweesByUserId(string userId);
     }

@@ -102,5 +102,13 @@ namespace ReTwitter.Web.Controllers
 
             return RedirectToAction("FolloweeCollection");
         }
+
+        public IActionResult FolloweeAdminDelete(string followeeId, string userId)
+        {
+            this.cascadeDeleteService.DeleteUserFolloweeAndEntries(followeeId, userId);
+
+            return RedirectToAction("ActivelyFollowing", "Statistics", userId);
+        }
+
     }
 }
