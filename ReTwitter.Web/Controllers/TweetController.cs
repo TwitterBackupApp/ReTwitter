@@ -72,5 +72,15 @@ namespace ReTwitter.Web.Controllers
                 return View();
             }          
         }
+
+        public async Task<IActionResult> TweetDelete(string tweetId)
+        {
+            var user = await manager.GetUserAsync(HttpContext.User);
+            var userId = user.Id;
+
+            this.userTweetService.DeleteUserTweet(userId, tweetId);
+
+            return View();
+        }
     }
 }

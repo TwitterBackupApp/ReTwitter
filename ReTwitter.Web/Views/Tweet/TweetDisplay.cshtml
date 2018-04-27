@@ -24,17 +24,19 @@
 
     @foreach (var item in Model.TweetResults)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn, "{0:dd/MM/yyyy}")
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.UsersMentioned)
-            </td>
-            <td></td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Text)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn, "{0:dd/MM/yyyy}")
+        </td>
+        <td>
+            @Html.DisplayFor(model => item.UsersMentioned)
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "TweetDelete", "Tweet", new { tweetId = item.TweetId }, new { @class = "btn btn-info" })
+        </td>
+    </tr>
     }
 </table>
