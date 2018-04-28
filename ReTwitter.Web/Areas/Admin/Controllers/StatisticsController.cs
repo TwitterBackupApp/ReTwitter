@@ -11,14 +11,12 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
     {
         private readonly IFolloweeStatisticsService followeeStatisticsService;
         private readonly ITweetStatisticsService tweetStatisticsService;
-        private readonly IUserStatisticsService userStatisticsService;
         private readonly IStatisticsService statisticsService;
 
-        public StatisticsController(IFolloweeStatisticsService followeeStatisticsService, ITweetStatisticsService tweetStatisticsService, IUserStatisticsService userStatisticsService, IStatisticsService statisticsService)
+        public StatisticsController(IFolloweeStatisticsService followeeStatisticsService, ITweetStatisticsService tweetStatisticsService, IStatisticsService statisticsService)
         {
             this.followeeStatisticsService = followeeStatisticsService;
             this.tweetStatisticsService = tweetStatisticsService;
-            this.userStatisticsService = userStatisticsService;
             this.statisticsService = statisticsService;
         }
 

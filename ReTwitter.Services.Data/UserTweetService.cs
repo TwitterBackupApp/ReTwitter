@@ -14,15 +14,13 @@ namespace ReTwitter.Services.Data
         private readonly ITweetService tweetService;
         private readonly IMappingProvider mapper;
         private readonly IDateTimeProvider dateTimeProvider;
-        private readonly ITweetTagService tweetTagService;
 
-        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper, IDateTimeProvider dateTimeProvider, ITweetTagService tweetTagService)
+        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper, IDateTimeProvider dateTimeProvider)
         {
             this.unitOfWork = unitOfWork;
             this.tweetService = tweetService;
             this.mapper = mapper;
             this.dateTimeProvider = dateTimeProvider;
-            this.tweetTagService = tweetTagService;
         }
 
 

@@ -15,46 +15,6 @@ namespace ReTwitter.Services.Data.Statistics
             this.unitOfWork = unitOfWork;
         }
 
-        public int SavedTweetsCountByUserId(string userId)
-        {
-            var savedTweetsCount = this.unitOfWork
-                                            .UserTweets
-                                            .All
-                                            .Count(w => w.UserId == userId);
-
-            return savedTweetsCount;
-        }
-
-        public int SavedTweetsCount()
-        {
-            var savedTweetsCount = this.unitOfWork
-                .UserTweets
-                .All
-                .Count();
-
-            return savedTweetsCount;
-        }
-
-        public int DeletedTweetsCountByUserId(string userId)
-        {
-            var deletedTweetsCount = this.unitOfWork
-                .UserTweets
-                .AllAndDeleted
-                .Count(w => w.UserId == userId && w.IsDeleted);
-
-            return deletedTweetsCount;
-        }
-
-        public int DeletedTweetsCount()
-        {
-            var deletedTweetsCount = this.unitOfWork
-                .Tweets
-                .AllAndDeleted
-                .Count(w => w.IsDeleted);
-
-            return deletedTweetsCount;
-        }
-
         public IEnumerable<SavedTweetsModel> GetSavedTweetsByUserId(string userId)
         {
             var savedTweets = this.unitOfWork.UserTweets.All.Where(u => u.UserId == userId).Select(s =>
@@ -82,6 +42,5 @@ namespace ReTwitter.Services.Data.Statistics
 
             return deletedTweets;
         }
-
     }
 }

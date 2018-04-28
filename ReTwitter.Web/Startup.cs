@@ -57,7 +57,6 @@ namespace ReTwitter.Web
             services.AddTransient<ICascadeDeleteService, CascadeDeleteService>();
             services.AddTransient<IFolloweeService, FolloweeService>();
             services.AddTransient<IFolloweeStatisticsService, FolloweeStatisticsService>();
-            services.AddTransient<IUserStatisticsService, UserStatisticsService>();
             services.AddTransient<ITweetStatisticsService, TweetStatisticsService>();
             services.AddTransient<IStatisticsService, StatisticsService>();
             services.AddTransient<IDateTimeProvider, DateTimeProvider>();

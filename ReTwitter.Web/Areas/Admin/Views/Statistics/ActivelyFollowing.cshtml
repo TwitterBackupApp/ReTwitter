@@ -33,7 +33,7 @@
                     @Html.DisplayFor(modelItem => followeeModel.Bio)
                 </th>
                 <th>
-                    @Html.ActionLink("Delete", "FolloweeAdminDelete", "Followee", new { followeeId = followeeModel.FolloweeId, userId = Model.UserId }, new { @class = "btn btn-info" })
+                    <a asp-area="" asp-controller="Followee" asp-action="FolloweeAdminDelete" asp-route-userId="@Model.UserId" asp-route-followeeId="@followeeModel.FolloweeId">Delete</a>
                 </th>
             </tr>
         }

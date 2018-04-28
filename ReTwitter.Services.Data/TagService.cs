@@ -2,7 +2,6 @@
 using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
-using ReTwitter.DTO;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data.Contracts;
 
@@ -10,13 +9,11 @@ namespace ReTwitter.Services.Data
 {
     public class TagService : ITagService
     {
-        private readonly IMappingProvider mapper;
         private readonly IUnitOfWork unitOfWork;
         private readonly IDateTimeProvider dateTimeProvider;
 
-        public TagService(IMappingProvider mapper, IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider)
+        public TagService(IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider)
         {
-            this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.dateTimeProvider = dateTimeProvider;
         }

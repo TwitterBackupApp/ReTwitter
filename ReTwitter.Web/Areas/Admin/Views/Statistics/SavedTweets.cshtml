@@ -39,7 +39,7 @@
                 @Html.DisplayFor(modelItem => tweetModel.OriginalTweetCreatedOn)
             </th>
             <th>
-                @Html.ActionLink("Delete", "TweetAdminDelete", "Tweet", new { tweetId = tweetModel.TweetId, userId = Model.UserId }, new { @class = "btn btn-info" })
+                <a asp-area="" asp-controller="Tweet" asp-action="TweetAdminDelete" asp-route-userId="@Model.UserId" asp-route-tweetId="@tweetModel.TweetId">Delete</a>
             </th>
         </tr>
     }

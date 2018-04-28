@@ -18,8 +18,6 @@ namespace ReTwitter.Services.Data.Statistics
 
         public Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel> UsersStatistics()
         {
-            var totalStatistics = new TotalStatisticsModel();
-
             var allUsers = this.unitOfWork.Users.AllAndDeleted.Select(s => new
             {
                 Username = s.UserName,
@@ -41,6 +39,7 @@ namespace ReTwitter.Services.Data.Statistics
             }).ToList();
 
             var usesStatisticsModels = new Dictionary<string, UserStatisticsModel>();
+            var totalStatistics = new TotalStatisticsModel();
 
             foreach (var user in allUsers)
             {
