@@ -19,6 +19,11 @@ namespace ReTwitter.Services.Data
 
         public FolloweeService(IUnitOfWork unitOfWork, IMappingProvider mapper, ITwitterApiCallService twitterApiCallService, IDateTimeParser dateTimeParser)
         {
+            if(unitOfWork == null || mapper == null || twitterApiCallService == null || dateTimeParser == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.twitterApiCallService = twitterApiCallService;

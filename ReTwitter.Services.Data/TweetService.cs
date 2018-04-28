@@ -21,6 +21,12 @@ namespace ReTwitter.Services.Data
 
         public TweetService(IMappingProvider mapper, IUnitOfWork unitOfWork, ITwitterApiCallService twitterApiCallService, ITweetTagService tweetTagService, ITagService tagService, IDateTimeParser dateTimeParser)
         {
+            if(mapper == null || unitOfWork == null || twitterApiCallService == null || 
+                tweetTagService == null || tagService == null || dateTimeParser == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.twitterApiCallService = twitterApiCallService;

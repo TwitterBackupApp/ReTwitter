@@ -21,7 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReTwitter.Web", "ReTwitter.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReTwitter.DTO", "ReTwitter.DTO\ReTwitter.DTO.csproj", "{3302859E-AB4C-4A0E-BD44-5B9D432F14E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReTwitter.Services.External", "ReTwitter.Services.External\ReTwitter.Services.External.csproj", "{98D0764B-A725-4697-AAB9-1F73653C059B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReTwitter.Services.External", "ReTwitter.Services.External\ReTwitter.Services.External.csproj", "{98D0764B-A725-4697-AAB9-1F73653C059B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D7AA3860-ED19-4709-BEFF-91ADF53D0731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReTwitter.Tests", "ReTwitter.Tests\ReTwitter.Tests.csproj", "{FEE15CAE-AF5C-4F66-BE9B-026C2B65D50B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{98D0764B-A725-4697-AAB9-1F73653C059B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98D0764B-A725-4697-AAB9-1F73653C059B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98D0764B-A725-4697-AAB9-1F73653C059B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE15CAE-AF5C-4F66-BE9B-026C2B65D50B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE15CAE-AF5C-4F66-BE9B-026C2B65D50B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE15CAE-AF5C-4F66-BE9B-026C2B65D50B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE15CAE-AF5C-4F66-BE9B-026C2B65D50B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +77,7 @@ Global
 		{C5AB33A1-14ED-4900-A4A7-A2C4A3896FA3} = {F7B7C54C-C078-4D05-9B53-EC73DD0108F8}
 		{3302859E-AB4C-4A0E-BD44-5B9D432F14E1} = {A073CB4B-D342-4B6D-9F81-64BB5ECE0AE2}
 		{98D0764B-A725-4697-AAB9-1F73653C059B} = {A073CB4B-D342-4B6D-9F81-64BB5ECE0AE2}
+		{FEE15CAE-AF5C-4F66-BE9B-026C2B65D50B} = {D7AA3860-ED19-4709-BEFF-91ADF53D0731}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2C17C37B-0191-4433-9187-91011E7CAD16}
