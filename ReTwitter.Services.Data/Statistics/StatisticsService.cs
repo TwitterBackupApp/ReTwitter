@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ReTwitter.Data.Contracts;
-using ReTwitter.DTO;
+using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data.Statistics

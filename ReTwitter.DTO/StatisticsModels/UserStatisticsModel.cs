@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ReTwitter.DTO
+namespace ReTwitter.DTO.StatisticsModels
 {
     public class UserStatisticsModel
     {

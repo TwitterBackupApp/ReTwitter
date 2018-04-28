@@ -35,6 +35,7 @@ namespace ReTwitter.Data
             builder.ApplyConfiguration(new TweetTagConfiguration());
             builder.ApplyConfiguration(new UserTweetConfiguration());
             builder.ApplyConfiguration(new UserFolloweeConfiguration());
+            builder.ApplyConfiguration(new UserConfiguration());
             
             base.OnModelCreating(builder);
         }

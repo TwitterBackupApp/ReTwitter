@@ -8,8 +8,8 @@ namespace ReTwitter.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-        //    builder.Property(p => p.IsDeleted)
-        //        .HasDefaultValue(false);
+            builder.Property(p => p.CreatedOn)
+                .HasDefaultValueSql("GETDATE()");
         }
     }
 }

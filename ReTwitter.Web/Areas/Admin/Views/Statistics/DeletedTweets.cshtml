@@ -1,0 +1,48 @@
+﻿@using ReTwitter.Web.Areas.Admin.Models.Users
+@model ReTwitter.Web.Areas.Admin.Models.Statistics.DeletedTweetsViewModel
+
+<br />
+<br />
+<br />
+@{
+    ViewData["Title"] = "Deleted tweets details";
+}
+
+<h1>@ViewData["Title"]</h1>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>
+            Twitten by
+        </th>
+        <th>
+            Text
+        </th>
+        <th>
+            Original Tweet Created On
+        </th>
+        <th>
+            Tweet Deleted on
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var tweetModel in Model.DeletedTweetModels)
+    {
+        <tr>
+            <th>
+                @Html.DisplayFor(modelItem => tweetModel.AuthorScreenName)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => tweetModel.Text)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => tweetModel.OriginalTweetCreatedOn)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => tweetModel.TweetDeletedOn)
+            </th>
+        </tr>
+    }
+    </tbody>
+</table>

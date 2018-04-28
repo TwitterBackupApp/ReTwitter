@@ -22,52 +22,11 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
             this.statisticsService = statisticsService;
         }
 
-        //public IActionResult ShortStatistics(string userId, string userName)
-        //{
-        //    var activelyFollowedAccountsCount = this.followeeStatisticsService.ActiveUserFolloweeCountByUserId(userId);
-        //    var deletedAccountsCount = this.followeeStatisticsService.DeletedUserFolloweeCountByUserId(userId);
-        //    var savedTweetsCount = this.tweetStatisticsService.SavedTweetsCountByUserId(userId);
-        //    var deletedTweetsCount = this.tweetStatisticsService.DeletedTweetsCountByUserId(userId);
-
-        //    var vm = new ShortStatisticsViewModel
-        //    {
-        //        ActivelyFollowedAccountsCount = activelyFollowedAccountsCount,
-        //        DeletedAccountsCount = deletedAccountsCount,
-        //        SavedTweetsCount = savedTweetsCount,
-        //        DeletedTweetsCount = deletedTweetsCount,
-        //        Username = userName
-        //    };
-
-        //    return this.View(vm);
-        //}
-
-        public IActionResult TotalStatistics()
-        {
-            var activelyFollowedAccountsCount = this.followeeStatisticsService.ActiveFolloweeCount();
-            var deletedAccountsCount = this.followeeStatisticsService.DeletedFolloweeCount();
-            var savedTweetsCount = this.tweetStatisticsService.SavedTweetsCount();
-            var deletedTweetsCount = this.tweetStatisticsService.DeletedTweetsCount();
-            var activeUsersCount = this.userStatisticsService.ActiveUsersCount();
-            var deletedUsersCount = this.userStatisticsService.DeletedUsersCount();
-
-            var vm = new StatisticsViewModel
-            {
-                ActivelyFollowedAccountsCount = activelyFollowedAccountsCount,
-                DeletedAccountsCount = deletedAccountsCount,
-                SavedTweetsCount = savedTweetsCount,
-                DeletedTweetsCount = deletedTweetsCount,
-                ActiveUsers = activeUsersCount,
-                DeletedUsers = deletedUsersCount
-            };
-
-            return this.View(vm);
-        }
-
         public IActionResult Index()
         {
             var userStatisticsModels = this.statisticsService.UsersStatistics();
 
-            var vm = new AllUserStatisticsViewModel { UserStatisticsModels = userStatisticsModels.Item1, TotalStatistics = userStatisticsModels.Item2};
+            var vm = new AllUserStatisticsViewModel { UserStatisticsModels = userStatisticsModels.Item1, TotalStatistics = userStatisticsModels.Item2 };
 
             return this.View(vm);
         }
@@ -75,16 +34,55 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
         public IActionResult ActivelyFollowing(string userId)
         {
             var activelyFollowedAccounts = this.followeeStatisticsService.GetActiveFolloweesByUserId(userId);
-            
+
 
             var vm = new ActivelyFollowingViewModel
             {
-               ActivelyFollowingModels = activelyFollowedAccounts,
+                ActivelyFollowingModels = activelyFollowedAccounts,
                 UserId = userId
             };
 
             return this.View(vm);
         }
 
+        public IActionResult DeletedFollowees(string userId)
+        {
+            var deletedFolloweeAccounts = this.followeeStatisticsService.GetDeletedFolloweesByUserId(userId);
+
+
+            var vm = new DeletedFolloweesViewModel
+            {
+                DeletedFolloweesModels = deletedFolloweeAccounts
+            };
+
+            return this.View(vm);
+        }
+
+        public IActionResult SavedTweets(string userId)
+        {
+            var savedTweets = this.tweetStatisticsService.GetSavedTweetsByUserId(userId);
+
+
+            var vm = new SavedTweetsViewModel
+            {
+                SavedTweetModels = savedTweets,
+                UserId = userId
+            };
+
+            return this.View(vm);
+        }
+
+        public IActionResult DeletedTweets(string userId)
+        {
+            var deletedTweets = this.tweetStatisticsService.GetDeletedTweetsyUserId(userId);
+
+
+            var vm = new DeletedTweetsViewModel
+            {
+                DeletedTweetModels = deletedTweets
+            };
+
+            return this.View(vm);
+        }
     }
 }

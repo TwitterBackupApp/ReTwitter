@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ReTwitter.DTO;
+using ReTwitter.DTO.StatisticsModels;
 
 namespace ReTwitter.Services.Data.Contracts
 {
@@ -14,6 +14,8 @@ namespace ReTwitter.Services.Data.Contracts
         int DeletedFolloweeCount();
 
         IEnumerable<ActivelyFollowingModel> GetActiveFolloweesByUserId(string userId);
+
+        IEnumerable<DeletedFolloweesModel> GetDeletedFolloweesByUserId(string userId);
 
         // IEnumerable<FolloweeStatisticsDto> AllAndDeletedFolloweesByUserId(string userId);
     }

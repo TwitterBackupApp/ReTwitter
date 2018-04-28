@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ReTwitter.Data.Contracts;
-using ReTwitter.DTO;
+using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Contracts;
 
 namespace ReTwitter.Services.Data.Statistics
@@ -27,6 +27,19 @@ namespace ReTwitter.Services.Data.Statistics
                 }).ToList();
 
             return activeFollowees;
+        }
+
+        public IEnumerable<DeletedFolloweesModel> GetDeletedFolloweesByUserId(string userId)
+        {
+            var deletedeFollowees = this.unitOfWork.UserFollowees.AllAndDeleted.Where(u => u.UserId == userId && u.IsDeleted).Select(s =>
+                new DeletedFolloweesModel
+                {
+                    ScreenName = s.Followee.ScreenName,
+                    Bio = s.Followee.Bio,
+                    DeletedOn = s.DeletedOn.Value
+                }).ToList();
+
+            return deletedeFollowees;
         }
 
         public int ActiveUserFolloweeCountByUserId(string userId)

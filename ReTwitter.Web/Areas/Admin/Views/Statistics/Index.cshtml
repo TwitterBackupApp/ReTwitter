@@ -52,13 +52,13 @@
                     <a asp-controller="Statistics" asp-action="ActivelyFollowing" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.ActivelyFollowedAccountsCount)</a>
                 </th>
                 <th>
-                    @Html.DisplayFor(modelItem => user.DeletedAccountsCount)
+                    <a asp-controller="Statistics" asp-action="DeletedFollowees" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.DeletedAccountsCount)</a>
                 </th>
                 <th>
-                    @Html.DisplayFor(modelItem => user.SavedTweetsCount)
+                    <a asp-controller="Statistics" asp-action="SavedTweets" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.SavedTweetsCount)</a>
                 </th>
                 <th>
-                    @Html.DisplayFor(modelItem => user.DeletedTweetsCount)
+                    <a asp-controller="Statistics" asp-action="DeletedTweets" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.DeletedTweetsCount)</a>
                 </th>
             </tr>
         }

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ReTwitter.DTO;
+using ReTwitter.DTO.StatisticsModels;
 
 namespace ReTwitter.Web.Areas.Admin.Models.Statistics
 {

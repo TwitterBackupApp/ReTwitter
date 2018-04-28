@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ReTwitter.DTO;
+using ReTwitter.DTO.StatisticsModels;
 
 namespace ReTwitter.Services.Data.Contracts
 {

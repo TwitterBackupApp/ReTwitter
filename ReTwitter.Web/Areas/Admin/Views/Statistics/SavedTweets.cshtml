@@ -1,0 +1,47 @@
+﻿@using ReTwitter.Web.Areas.Admin.Models.Users
+@model ReTwitter.Web.Areas.Admin.Models.Statistics.SavedTweetsViewModel
+
+<br />
+<br />
+<br />
+@{
+    ViewData["Title"] = "Detailed saved tweets";
+}
+
+<h1>@ViewData["Title"]</h1>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>
+            Twitten by
+        </th>
+        <th>
+            Text
+        </th>
+        <th>
+            Originally created on
+        </th>
+        <th>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var tweetModel in Model.SavedTweetModels)
+    {
+        <tr>
+            <th>
+                @Html.DisplayFor(modelItem => tweetModel.AuthorScreenName)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => tweetModel.Text)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => tweetModel.OriginalTweetCreatedOn)
+            </th>
+            <th>
+                @Html.ActionLink("Delete", "TweetAdminDelete", "Tweet", new { tweetId = tweetModel.TweetId, userId = Model.UserId }, new { @class = "btn btn-info" })
+            </th>
+        </tr>
+    }
+    </tbody>
+</table>

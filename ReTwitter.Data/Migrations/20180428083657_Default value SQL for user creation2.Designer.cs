@@ -11,9 +11,10 @@ using System;
 namespace ReTwitter.Data.Migrations
 {
     [DbContext(typeof(ReTwitterDbContext))]
-    partial class ReTwitterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180428083657_Default value SQL for user creation2")]
+    partial class DefaultvalueSQLforusercreation2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

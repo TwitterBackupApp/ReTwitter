@@ -271,8 +271,7 @@ namespace ReTwitter.Data
             var user = new User
             {
                 UserName = username,
-                Email = email,
-                CreatedOn = DateTime.Now
+                Email = email
             };
 
             var userCreateResult = await userManager.CreateAsync(user, password);

@@ -15,13 +15,15 @@ namespace ReTwitter.Web.Controllers
         private readonly ITweetService tweetService;
         private readonly UserManager<User> manager;
         private readonly IUserTweetService userTweetService;
+        private readonly ICascadeDeleteService cascadeDeleteService;
 
-        public TweetController(ITwitterApiCallService twitterApiCallService, ITweetService tweetService, UserManager<User> manager, IUserTweetService userTweetService)
+        public TweetController(ITwitterApiCallService twitterApiCallService, ITweetService tweetService, UserManager<User> manager, IUserTweetService userTweetService, ICascadeDeleteService cascadeDeleteService)
         {
             this.twitterApiCallService = twitterApiCallService;
             this.tweetService = tweetService;
             this.manager = manager;
             this.userTweetService = userTweetService;
+            this.cascadeDeleteService = cascadeDeleteService;
         }
 
         public async Task<IActionResult> TweetDisplay(string followeeId)
@@ -81,6 +83,13 @@ namespace ReTwitter.Web.Controllers
             this.userTweetService.DeleteUserTweet(userId, tweetId);
 
             return View();
+        }
+
+        public IActionResult TweetAdminDelete(string tweetId, string userId)
+        {
+            this.cascadeDeleteService.DeleteUserTweetAndEntities(userId, tweetId);
+
+            return RedirectToAction("ActivelyFollowing", "Statistics", userId);
         }
     }
 }

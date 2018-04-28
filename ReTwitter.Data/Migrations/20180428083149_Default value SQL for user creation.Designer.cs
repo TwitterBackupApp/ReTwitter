@@ -11,9 +11,10 @@ using System;
 namespace ReTwitter.Data.Migrations
 {
     [DbContext(typeof(ReTwitterDbContext))]
-    partial class ReTwitterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180428083149_Default value SQL for user creation")]
+    partial class DefaultvalueSQLforusercreation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,9 +249,7 @@ namespace ReTwitter.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<DateTime?>("CreatedOn")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<DateTime?>("CreatedOn");
 
                     b.Property<DateTime?>("DeletedOn");
 

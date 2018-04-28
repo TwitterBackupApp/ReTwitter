@@ -1,11 +1,11 @@
 ﻿@using ReTwitter.Web.Areas.Admin.Models.Users
-@model ReTwitter.Web.Areas.Admin.Models.Statistics.ActivelyFollowingViewModel
+@model ReTwitter.Web.Areas.Admin.Models.Statistics.DeletedFolloweesViewModel
 
 <br />
 <br />
 <br />
 @{
-    ViewData["Title"] = "Actively Following Details";
+    ViewData["Title"] = "Deleted Followees Details";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -19,11 +19,12 @@
                 Bio
             </th>
             <th>
+                Deleted on
             </th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var followeeModel in Model.ActivelyFollowingModels)
+        @foreach (var followeeModel in Model.DeletedFolloweesModels)
         {
             <tr>
                 <th>
@@ -33,7 +34,7 @@
                     @Html.DisplayFor(modelItem => followeeModel.Bio)
                 </th>
                 <th>
-                    @Html.ActionLink("Delete", "FolloweeAdminDelete", "Followee", new { followeeId = followeeModel.FolloweeId, userId = Model.UserId }, new { @class = "btn btn-info" })
+                    @Html.DisplayFor(modelItem => followeeModel.DeletedOn)
                 </th>
             </tr>
         }
