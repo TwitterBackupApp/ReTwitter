@@ -5,9 +5,8 @@ using ReTwitter.Data.Contracts;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
-using ReTwitter.Services.Data.Statistics;
 
-namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TagServiceTests
+namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetTagServiceTests
 {
     [TestClass]
     public class Constructor_Should
@@ -17,9 +16,10 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TagService
         {
             //Arrange
             var fakeTimeProvider = Mock.Of<IDateTimeProvider>();
+            var fakeTagService = Mock.Of<ITagService>();
 
             //Act && Assert
-            Assert.ThrowsException<ArgumentNullException>(() => new TagService(null, fakeTimeProvider));
+            Assert.ThrowsException<ArgumentNullException>(() => new TweetTagService(null, fakeTagService, fakeTimeProvider));
         }
 
         [TestMethod]
@@ -27,11 +27,22 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TagService
         {
             //Arrange
             var fakeUnitOfWork = Mock.Of<IUnitOfWork>();
+            var fakeTagService = Mock.Of<ITagService>();
 
             //Act && Assert
-            Assert.ThrowsException<ArgumentNullException>(() => new TagService(fakeUnitOfWork, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new TweetTagService(fakeUnitOfWork, fakeTagService, null));
         }
 
+        [TestMethod]
+        public void Throw_Argument_Null_When_TagService_Is_Null()
+        {
+            //Arrange
+            var fakeUnitOfWork = Mock.Of<IUnitOfWork>();
+            var fakeTimeProvider = Mock.Of<IDateTimeProvider>();
+
+            //Act && Assert
+            Assert.ThrowsException<ArgumentNullException>(() => new TweetTagService(fakeUnitOfWork, null, fakeTimeProvider));
+        }
 
         [TestMethod]
         public void Return_Instance_When_Provided_Correct_Parameters()
@@ -39,10 +50,10 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TagService
             //Arrange
             var fakeTimeProvider = Mock.Of<IDateTimeProvider>();
             var fakeUnitOfWork = Mock.Of<IUnitOfWork>();
-
+            var fakeTagService = Mock.Of<ITagService>();
 
             //Act && Assert
-            Assert.IsInstanceOfType(new TagService(fakeUnitOfWork, fakeTimeProvider), typeof(ITagService));
+            Assert.IsInstanceOfType(new TweetTagService(fakeUnitOfWork, fakeTagService, fakeTimeProvider), typeof(ITweetTagService));
         }
 
         [TestMethod]
@@ -51,8 +62,10 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TagService
             //Arrange
             var fakeTimeProvider = Mock.Of<IDateTimeProvider>();
             var fakeUnitOfWork = Mock.Of<IUnitOfWork>();
+            var fakeTagService = Mock.Of<ITagService>();
+
             //Act && Assert
-            Assert.IsNotNull(new TagService(fakeUnitOfWork, fakeTimeProvider));
+            Assert.IsNotNull(new TweetTagService(fakeUnitOfWork, fakeTagService, fakeTimeProvider));
         }
     }
 }

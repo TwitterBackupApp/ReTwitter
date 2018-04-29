@@ -14,13 +14,18 @@ namespace ReTwitter.Services.Data
 
         public TagService(IUnitOfWork unitOfWork, IDateTimeProvider dateTimeProvider)
         {
-            this.unitOfWork = unitOfWork;
-            this.dateTimeProvider = dateTimeProvider;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
         }
 
 
         public Tag FindOrCreate(string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("UserId cannot be null");
+            }
+
             var tagFound = this.unitOfWork.Tags.AllAndDeleted.FirstOrDefault(f => f.Text == name);
 
             if (tagFound == null)

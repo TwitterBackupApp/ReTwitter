@@ -11,7 +11,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSt
     public class Constructor_Should
     {
         [TestMethod]
-        public void Throw_Argument_Null_When_Unit_Of_Work_Is_Null()
+        public void Throw_Argument_Null_When_UnitOfWork_Is_Null()
         {
             //Arrange, Act && Assert
             Assert.ThrowsException<ArgumentNullException>(() => new FolloweeStatisticsService(null));

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Infrastructure.Providers;
@@ -14,9 +15,9 @@ namespace ReTwitter.Services.Data
 
         public TweetTagService(IUnitOfWork unitOfWork, ITagService tagService, IDateTimeProvider dateTimeProvider)
         {
-            this.unitOfWork = unitOfWork;
-            this.tagService = tagService;
-            this.dateTimeProvider = dateTimeProvider;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.tagService = tagService ?? throw new ArgumentNullException(nameof(tagService));
+            this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
         }
 
 
