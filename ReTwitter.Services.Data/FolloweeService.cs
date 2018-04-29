@@ -80,6 +80,11 @@ namespace ReTwitter.Services.Data
 
         public Followee Create(FolloweeFromApiDto followee)
         {
+            if(followee == null)
+            {
+                throw new ArgumentNullException("Followee cannot be null!");
+            }
+
             Followee followeeToAdd = new Followee
             {
                 FolloweeId = followee.FolloweeId,
@@ -101,11 +106,20 @@ namespace ReTwitter.Services.Data
 
         public void Delete(string followeeId)
         {
+            if(followeeId == null)
+            {
+                throw new ArgumentNullException("Followee ID cannot be null!");
+            }
+            if(followeeId == string.Empty)
+            {
+                throw new ArgumentException("Followee ID cannot be empty!");
+            }
+
             var followeeFound = this.unitOfWork.Followees.All.FirstOrDefault(x => x.FolloweeId == followeeId);
 
             if (followeeFound == null)
             {
-                throw new ArgumentException("Followee with such ID is not found!");
+                throw new ArgumentNullException("Followee with such ID is not found!");
             }
 
             this.unitOfWork.Followees.Delete(followeeFound);
@@ -114,11 +128,20 @@ namespace ReTwitter.Services.Data
 
         public void Update(string followeeId)
         {
+            if (followeeId == null)
+            {
+                throw new ArgumentNullException("Followee ID cannot be null!");
+            }
+            if (followeeId == string.Empty)
+            {
+                throw new ArgumentException("Followee ID cannot be empty!");
+            }
+
             var followeeToUpdate = this.unitOfWork.Followees.All.FirstOrDefault(fd => fd.FolloweeId == followeeId);
 
             if (followeeToUpdate == null)
             {
-                throw new ArgumentException("Followee with such ID is not found!");
+                throw new ArgumentNullException("Followee with such ID is not found!");
             }
 
             var updatedFollowee = this.twitterApiCallService.GetTwitterUserDetailsById(followeeId);

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
@@ -11,7 +10,6 @@ using ReTwitter.Services.Data.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeServiceTests
 {
@@ -62,12 +60,48 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
                 Name = testUserFollowee2.Followee.Name
             };
 
+            //Act
             var expectedResult = new List<FolloweeDisplayListDto> { savedFollowee1, savedFollowee2 };
 
             var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
                   twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
 
+            //Assert
             Assert.AreEqual(2, expectedResult.Count);
+        }
+
+        [TestMethod]
+        public void Throw_Argument_Null_Exception_When_UserId_Is_Null()
+        {
+            //Arrange
+            var mapperMock = new Mock<IMappingProvider>();
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            var repoMock = new Mock<IGenericRepository<UserFollowee>>();
+            var twitterApiCallServiceMock = new Mock<ITwitterApiCallService>();
+            var dateTimeParserMock = new Mock<IDateTimeParser>();
+
+            var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
+                  twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentNullException>(() => sut.GetAllFolloweesByUserId(null));
+        }
+
+        [TestMethod]
+        public void Throw_Argument_Exception_When_UserId_Is_Empty()
+        {
+            //Arrange
+            var mapperMock = new Mock<IMappingProvider>();
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            var repoMock = new Mock<IGenericRepository<UserFollowee>>();
+            var twitterApiCallServiceMock = new Mock<ITwitterApiCallService>();
+            var dateTimeParserMock = new Mock<IDateTimeParser>();
+
+            var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
+                  twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
+
+            //Act & Assert
+            Assert.ThrowsException<ArgumentException>(() => sut.GetAllFolloweesByUserId(""));
         }
     }
 }
