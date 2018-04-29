@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.DTO.StatisticsModels;
@@ -12,11 +13,16 @@ namespace ReTwitter.Services.Data.Statistics
 
         public TweetStatisticsService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public IEnumerable<SavedTweetsModel> GetSavedTweetsByUserId(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("UserId cannot be null");
+            }
+
             var savedTweets = this.unitOfWork.UserTweets.All.Where(u => u.UserId == userId).Select(s =>
                 new SavedTweetsModel
                 {
@@ -31,6 +37,11 @@ namespace ReTwitter.Services.Data.Statistics
 
         public IEnumerable<DeletedTweetsModel> GetDeletedTweetsyUserId(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("UserId cannot be null");
+            }
+
             var deletedTweets = this.unitOfWork.UserTweets.AllAndDeleted.Where(u => u.UserId == userId && u.IsDeleted).Select(s =>
                 new DeletedTweetsModel
                 {

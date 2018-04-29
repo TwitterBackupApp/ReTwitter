@@ -31,25 +31,18 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
                     FolloweeId = "1",
                     ScreenName = "justinT" ,
                     Name = "Justin Trudeau"
-                },
-                new Followee
-                {
-                    FolloweeId = "2",
-                    ScreenName = "donaldT" ,
-                    Name = "Donald Trump"
-                },
+                }
             };
 
             mapperMock.Setup(x =>
-                    x.MapTo<List<FolloweeDto>>(It.IsAny<List<Followee>>()))
-                .Returns(new List<FolloweeDto>());
+                     x.MapTo<FolloweeDto>(followees[0]))
+                 .Returns(new FolloweeDto { FolloweeId = followees[0].FolloweeId });
 
             repoMock.Setup(r => r.All).Returns(followees.AsQueryable());
             unitOfWorkMock.Setup(u => u.Followees).Returns(repoMock.Object);
 
             var followeeService = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
-                twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
-
+                  twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
 
             var cut = followeeService.GetFolloweeById("1");
 

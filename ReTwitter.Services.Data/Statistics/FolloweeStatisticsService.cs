@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.DTO.StatisticsModels;
@@ -12,11 +13,16 @@ namespace ReTwitter.Services.Data.Statistics
 
         public FolloweeStatisticsService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public IEnumerable<ActivelyFollowingModel> GetActiveFolloweesByUserId(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("UserId cannot be null");
+            }
+
             var activeFollowees = this.unitOfWork.UserFollowees.All.Where(u => u.UserId == userId).Select(s =>
                 new ActivelyFollowingModel
                 {
@@ -30,6 +36,10 @@ namespace ReTwitter.Services.Data.Statistics
 
         public IEnumerable<DeletedFolloweesModel> GetDeletedFolloweesByUserId(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentException("UserId cannot be null");
+            }
             var deletedeFollowees = this.unitOfWork.UserFollowees.AllAndDeleted.Where(u => u.UserId == userId && u.IsDeleted).Select(s =>
                 new DeletedFolloweesModel
                 {

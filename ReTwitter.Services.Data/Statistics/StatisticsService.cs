@@ -13,7 +13,7 @@ namespace ReTwitter.Services.Data.Statistics
 
         public StatisticsService(IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
         public Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel> UsersStatistics()

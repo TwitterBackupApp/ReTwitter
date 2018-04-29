@@ -11,5 +11,21 @@ namespace ReTwitter.DTO.StatisticsModels
         public DateTime OriginalTweetCreatedOn { get; set; }
 
         public DateTime TweetDeletedOn { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as DeletedTweetsModel;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return this.TweetDeletedOn.Equals(item.TweetDeletedOn)
+                   && this.AuthorScreenName.Equals(item.AuthorScreenName)
+                   && this.Text.Equals(item.Text)
+                   && this.OriginalTweetCreatedOn.Equals(item.OriginalTweetCreatedOn);
+        }
+
     }
 }
