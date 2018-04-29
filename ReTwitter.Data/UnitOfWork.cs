@@ -1,7 +1,6 @@
 ﻿using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
-using ReTwitter.Infrastructure.Providers;
 
 namespace ReTwitter.Data
 {

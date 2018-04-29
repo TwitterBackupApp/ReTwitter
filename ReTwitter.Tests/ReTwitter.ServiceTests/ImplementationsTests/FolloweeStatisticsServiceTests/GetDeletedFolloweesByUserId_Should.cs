@@ -10,7 +10,7 @@ using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Statistics;
 using ReTwitter.Tests.Providers;
 
-namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeStatisticsServiceTess
+namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeStatisticsServiceTests
 {
     [TestClass]
     public class GetDeletedFolloweesByUserId_Should

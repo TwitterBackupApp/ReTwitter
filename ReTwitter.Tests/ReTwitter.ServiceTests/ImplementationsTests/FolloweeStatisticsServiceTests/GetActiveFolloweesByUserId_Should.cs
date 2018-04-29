@@ -9,7 +9,7 @@ using ReTwitter.Data.Repository;
 using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Statistics;
 
-namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeStatisticsServiceTess
+namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeStatisticsServiceTests
 {
     [TestClass]
     public class GetActiveFolloweesByUserId_Should

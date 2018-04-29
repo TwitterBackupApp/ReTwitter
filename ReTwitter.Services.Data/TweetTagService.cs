@@ -23,6 +23,11 @@ namespace ReTwitter.Services.Data
 
         public bool TweetTagExists(int tagId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException("Tweet Id cannot be null or empty!");
+            }
+
             return this.unitOfWork.TweetTags
                 .All
                 .Any(a => a.TweetId == tweetId && a.TagId == tagId);
@@ -30,6 +35,11 @@ namespace ReTwitter.Services.Data
 
         public bool TweetTagExistsInDeleted(int tagId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException("Tweet Id cannot be null or empty!");
+            }
+
             return this.unitOfWork.TweetTags
                 .AllAndDeleted
                 .Any(a => a.TweetId == tweetId && a.TagId == tagId);
@@ -37,6 +47,11 @@ namespace ReTwitter.Services.Data
 
         public void AddTweetTagByTweetIdTagId(int tagId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException("Tweet Id cannot be null or empty!");
+            }
+
             var tweetTagToAdd = this.unitOfWork.TweetTags.AllAndDeleted.FirstOrDefault(w => w.TweetId == tweetId && w.TagId == tagId);
 
             if (tweetTagToAdd == null)
@@ -60,6 +75,11 @@ namespace ReTwitter.Services.Data
 
         public void DeleteTweetTag(int tagId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException("Tweet Id cannot be null or empty!");
+            }
+
             var tweetTagFound = this.unitOfWork.TweetTags.All.FirstOrDefault(w => w.TagId == tagId && w.TweetId == tweetId);
 
             if (tweetTagFound != null)
