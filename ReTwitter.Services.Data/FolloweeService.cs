@@ -33,22 +33,43 @@ namespace ReTwitter.Services.Data
 
         public List<FolloweeDisplayListDto> GetAllFolloweesByUserId(string userId)
         {
-            var storedFollowees = this.unitOfWork.UserFollowees.All
-                                                 .Where(w => w.UserId == userId)
-                                                 .Select(s => new FolloweeDisplayListDto
-                                                 {
-                                                     FolloweeId = s.Followee.FolloweeId,
-                                                     Bio = s.Followee.Bio.Substring(0, 25) + "...",
-                                                     FolloweeOriginallyCreatedOn = s.Followee.FolloweeOriginallyCreatedOn,
-                                                     ScreenName = s.Followee.ScreenName,
-                                                     Name = s.Followee.Name,
-                                                 })
-                                                 .ToList();
+            if(userId == null)
+            {
+                throw new ArgumentNullException("UserId cannot be null!");
+            }
+            if (userId == "")
+            {
+                throw new ArgumentException("UserId cannot be empty!");
+            }
+
+            var storedFollowees = this.unitOfWork
+                .UserFollowees
+                .All
+                .Where(w => w.UserId == userId)
+                .Select(s => new FolloweeDisplayListDto
+                {
+                    FolloweeId = s.Followee.FolloweeId,
+                    Bio = s.Followee.Bio.Substring(0, 25) + "...",
+                    FolloweeOriginallyCreatedOn = s.Followee.FolloweeOriginallyCreatedOn,
+                    ScreenName = s.Followee.ScreenName,
+                    Name = s.Followee.Name,
+                })
+                .ToList();
+
             return storedFollowees;
         }
 
         public FolloweeDto GetFolloweeById(string followeeId)
         {
+            if(followeeId == null)
+            {
+                throw new ArgumentNullException("FolloweeId cannot be null!");
+            }
+            if(followeeId == "")
+            {
+                throw new ArgumentException("FolloweeId cannot be empty!");
+            }
+
             var followee = this.unitOfWork
                 .Followees
                 .All
