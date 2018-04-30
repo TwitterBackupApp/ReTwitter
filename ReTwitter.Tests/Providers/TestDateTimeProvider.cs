@@ -9,5 +9,6 @@ namespace ReTwitter.Tests.Providers
         public DateTime DeletedOn => new DateTime(2018, 01, 01, 01, 01, 01);
         public DateTime CreatedOn => new DateTime(2016, 01, 01, 01, 01, 01);
         public DateTime ModifiedOn => new DateTime(2017, 01, 01, 01, 01, 01);
+        public DateTime OriginallyCreatedOn => new DateTime(2011, 01, 01, 01, 01, 01);
     }
 }

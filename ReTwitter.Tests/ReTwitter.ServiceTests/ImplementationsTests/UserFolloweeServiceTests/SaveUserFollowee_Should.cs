@@ -72,7 +72,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
         }
 
         [TestMethod]
-        public void Invoke_Add_In_UnitOfWork_When_Followee_Is_New()
+        public void Invoke_Add_In_UserFolloweeRepo_When_Followee_Is_New()
         {
             //Arrange
             var fakeUnit = new Mock<IUnitOfWork>();

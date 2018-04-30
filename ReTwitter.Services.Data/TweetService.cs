@@ -118,7 +118,7 @@ namespace ReTwitter.Services.Data
             {
                 TweetId = s.TweetId,
                 OriginalTweetCreatedOn = s.OriginalTweetCreatedOn,
-                UsersMentioned = s.UsersMentioned.ToString(),
+                UsersMentioned = s.UsersMentioned,
                 Text = s.Text
             });
 

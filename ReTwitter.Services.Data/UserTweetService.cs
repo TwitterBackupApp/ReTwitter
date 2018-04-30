@@ -13,29 +13,53 @@ namespace ReTwitter.Services.Data
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly ITweetService tweetService;
-        private readonly IMappingProvider mapper;
         private readonly IDateTimeProvider dateTimeProvider;
 
-        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper, IDateTimeProvider dateTimeProvider)
+        public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IDateTimeProvider dateTimeProvider)
         {
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
         }
 
-
         public IEnumerable<TweetDto> GetTweetsByUserIdAndFolloweeId(string userId, string followeeId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (string.IsNullOrWhiteSpace(followeeId))
+            {
+                throw new ArgumentNullException(nameof(followeeId));
+            }
+
             var tweets = this.unitOfWork.UserTweets.All
                 .Where(x => x.UserId == userId && x.Tweet.FolloweeId == followeeId)
                 .Select(s => s.Tweet).ToList();
 
-            return this.mapper.ProjectTo<TweetDto>(tweets);
+            var tweetDtos = tweets.Select(s => new TweetDto
+            {
+                OriginalTweetCreatedOn = s.OriginalTweetCreatedOn,
+                TweetId = s.TweetId,
+                Text = s.Text,
+                UsersMentioned = s.UsersMentioned
+            }).ToList();
+
+            return tweetDtos;
         }
 
         public bool UserTweetExists(string userId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException(nameof(tweetId));
+            }
             return this.unitOfWork.UserTweets
                 .All
                 .Any(a => a.UserId == userId && a.TweetId == tweetId);
@@ -43,6 +67,16 @@ namespace ReTwitter.Services.Data
 
         public bool UserTweetExistsInDeleted(string userId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException(nameof(tweetId));
+            }
+
             return this.unitOfWork.UserTweets
                 .AllAndDeleted
                 .Any(a => a.UserId == userId && a.TweetId == tweetId);
@@ -50,6 +84,16 @@ namespace ReTwitter.Services.Data
 
         public void SaveSingleTweetToUserByTweetId(string userId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException(nameof(tweetId));
+            }
+
             var tweetToSaveToUser = this.unitOfWork.Tweets.AllAndDeleted.FirstOrDefault(w => w.TweetId == tweetId);
 
             if (tweetToSaveToUser == null) // if it's a new Tweet, it's a new UserTweet
@@ -117,6 +161,16 @@ namespace ReTwitter.Services.Data
 
         public void DeleteUserTweet(string userId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException(nameof(tweetId));
+            }
+
             var userTweetFound = this.unitOfWork.UserTweets.All.FirstOrDefault(w => w.UserId == userId && w.TweetId == tweetId);
 
             if (userTweetFound != null)
@@ -126,6 +180,10 @@ namespace ReTwitter.Services.Data
             }
         }
 
-        public bool AnyUserSavedThisTweetById(string tweetId) => this.unitOfWork.UserTweets.All.Any(a => a.TweetId == tweetId);
+        public bool AnyUserSavedThisTweetById(string tweetId)
+            => string.IsNullOrWhiteSpace(tweetId)
+                ? throw new ArgumentNullException(nameof(tweetId))
+                : this.unitOfWork.UserTweets.All.Any(a => a.TweetId == tweetId);
+
     }
 }
