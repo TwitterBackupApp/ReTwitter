@@ -84,7 +84,7 @@ namespace ReTwitter.Services.Data
 
             if (tweetTagFound != null)
             {
-                this.unitOfWork.юTweetTags.Delete(tweetTagFound);
+                this.unitOfWork.TweetTags.Delete(tweetTagFound);
                 this.unitOfWork.SaveChanges();
                 if (!this.AnyTweetSavedThisTagById(tagId))
                 {

@@ -38,12 +38,21 @@ namespace ReTwitter.Services.Data
 
         public TweetDto GetTweetByTweetId(string tweetId)
         {
+            if(tweetId == null)
+            {
+                throw new ArgumentNullException("Tweet ID cannot be null!");
+            }
+            if(tweetId == string.Empty)
+            {
+                throw new ArgumentException("Tweet ID cannot be empty!");
+            }
+
             var tweet = this.unitOfWork.Tweets.All
                 .FirstOrDefault(x => x.TweetId == tweetId);
 
             if (tweet == null)
             {
-                throw new ArgumentException("Tweet with such ID is not found!");
+                throw new ArgumentNullException("Tweet with such ID is not found!");
             }
 
             return this.mapper.MapTo<TweetDto>(tweet);
@@ -51,6 +60,11 @@ namespace ReTwitter.Services.Data
 
         public void Save(TweetDto dto)
         {
+            if(dto == null)
+            {
+                throw new ArgumentNullException("Tweet cannot be null!");
+            }
+
             var model = this.mapper.MapTo<Tweet>(dto);
             this.unitOfWork.Tweets.Add(model);
             this.unitOfWork.SaveChanges();
@@ -58,11 +72,20 @@ namespace ReTwitter.Services.Data
 
         public void Delete(string tweetId)
         {
+            if (tweetId == null)
+            {
+                throw new ArgumentNullException("Tweet ID cannot be null!");
+            }
+            if (tweetId == string.Empty)
+            {
+                throw new ArgumentException("Tweet ID cannot be empty!");
+            }
+
             var tweet = this.unitOfWork.Tweets.All.FirstOrDefault(x => x.TweetId == tweetId);
 
             if (tweet == null)
             {
-                throw new ArgumentException("Tweet with such ID is not found!");
+                throw new ArgumentNullException("Tweet with such ID is not found!");
             }
 
             this.unitOfWork.Tweets.Delete(tweet);
@@ -71,6 +94,11 @@ namespace ReTwitter.Services.Data
 
         public Tweet CreateFromApiDto(TweetFromApiDto tweet)
         {
+            if (tweet == null)
+            {
+                throw new ArgumentNullException("Tweet cannot be null!");
+            }
+
             var tweetToAdd = mapper.MapTo<Tweet>(tweet);
             this.unitOfWork.Tweets.Add(tweetToAdd);
             this.unitOfWork.SaveChanges();
@@ -79,6 +107,15 @@ namespace ReTwitter.Services.Data
 
         public Tweet CreateFromApiById(string tweetId)
         {
+            if (tweetId == null)
+            {
+                throw new ArgumentNullException("Tweet ID cannot be null!");
+            }
+            if (tweetId == string.Empty)
+            {
+                throw new ArgumentException("Tweet ID cannot be empty!");
+            }
+
             var tweet = this.twitterApiCallService.GetTweetByTweetId(tweetId);
             var tags = tweet.Entities.Hashtags;
 

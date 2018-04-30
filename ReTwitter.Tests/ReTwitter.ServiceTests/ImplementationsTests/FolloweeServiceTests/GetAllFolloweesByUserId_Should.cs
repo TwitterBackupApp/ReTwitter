@@ -60,14 +60,18 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
                 Name = testUserFollowee2.Followee.Name
             };
 
-            //Act
+            
             var expectedResult = new List<FolloweeDisplayListDto> { savedFollowee1, savedFollowee2 };
 
             var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
                   twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
 
+            //Act
+            var actualResult = sut.GetAllFolloweesByUserId("TestId1");
+
             //Assert
-            Assert.AreEqual(2, expectedResult.Count);
+            //     Assert.IsInstanceOfType(actualResult, typeof(List<FolloweeDisplayListDto>));
+            Assert.AreEqual(2, actualResult.Count);
         }
 
         [TestMethod]
