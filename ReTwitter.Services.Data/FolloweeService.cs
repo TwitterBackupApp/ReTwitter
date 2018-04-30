@@ -160,6 +160,15 @@ namespace ReTwitter.Services.Data
 
         public bool FolloweeExistsInDatabase(string followeeId)
         {
+            if (followeeId == null)
+            {
+                throw new ArgumentNullException("Followee ID cannot be null!");
+            }
+            if (followeeId == string.Empty)
+            {
+                throw new ArgumentException("Followee ID cannot be empty!");
+            }
+
             var exists = this.unitOfWork.Followees.AllAndDeleted.Any(a => a.FolloweeId == followeeId);
 
             return exists;

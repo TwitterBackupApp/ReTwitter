@@ -3,13 +3,13 @@ using Moq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
+using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeServiceTests
 {
@@ -72,6 +72,64 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
 
             //Act & Assert
             Assert.ThrowsException<ArgumentNullException>(() => sut.Update("1"));
+        }
+
+        [TestMethod]
+        public void Invoke_GetTwitterUserDetailsById_When_Followee_Found()
+        {
+            //Arrange
+            var mapperMock = new Mock<IMappingProvider>();
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            var repoMock = new Mock<IGenericRepository<Followee>>();
+            var twitterApiCallServiceMock = new Mock<ITwitterApiCallService>();
+            var dateTimeParserMock = new Mock<IDateTimeParser>();
+
+            var followee = new Followee { ScreenName = "TestScreenName1", Bio = "TestBio1TestBio1TestBio1TestBio1TestBio1", FolloweeId = "TestFolloweeId1", Name = "TestFolloweeName1" };
+            var followeeCollection = new List<Followee> { followee };
+            
+            repoMock.Setup(r => r.All).Returns(followeeCollection.AsQueryable());
+            twitterApiCallServiceMock.Setup(x => x.GetTwitterUserDetailsById(It.IsAny<string>())).Returns(new FolloweeFromApiDto());
+            repoMock.Setup(s => s.Update(It.IsAny<Followee>())).Verifiable();
+            unitOfWorkMock.Setup(u => u.Followees).Returns(repoMock.Object);
+
+
+            var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
+                  twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
+
+            //Act
+            sut.Update(followee.FolloweeId);
+
+            //Assert
+            twitterApiCallServiceMock.Verify(v => v.GetTwitterUserDetailsById(It.IsAny<string>()), Times.Once);
+        }
+
+        [TestMethod]
+        public void Invoke_SaveChanges_When_Followee_Is_Updated()
+        {
+            //Arrange
+            var mapperMock = new Mock<IMappingProvider>();
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            var repoMock = new Mock<IGenericRepository<Followee>>();
+            var twitterApiCallServiceMock = new Mock<ITwitterApiCallService>();
+            var dateTimeParserMock = new Mock<IDateTimeParser>();
+
+            var followee = new Followee { ScreenName = "TestScreenName1", Bio = "TestBio1TestBio1TestBio1TestBio1TestBio1", FolloweeId = "TestFolloweeId1", Name = "TestFolloweeName1" };
+            var followeeCollection = new List<Followee> { followee };
+
+            repoMock.Setup(r => r.All).Returns(followeeCollection.AsQueryable());
+            twitterApiCallServiceMock.Setup(x => x.GetTwitterUserDetailsById(It.IsAny<string>())).Returns(new FolloweeFromApiDto());
+            repoMock.Setup(s => s.Update(It.IsAny<Followee>())).Verifiable();
+            unitOfWorkMock.Setup(u => u.Followees).Returns(repoMock.Object);
+
+
+            var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
+                  twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
+
+            //Act
+            sut.Update(followee.FolloweeId);
+
+            //Assert
+            unitOfWorkMock.Verify(v => v.SaveChanges(), Times.Once);
         }
     }
 }

@@ -87,8 +87,9 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
             var followeeCollection = new List<Followee> { followee };
 
             repoMock.Setup(r => r.All).Returns(followeeCollection.AsQueryable());
+            repoMock.Setup(s => s.Delete(It.IsAny<Followee>())).Verifiable();
             unitOfWorkMock.Setup(u => u.Followees).Returns(repoMock.Object);
-            unitOfWorkMock.Setup(s => s.Followees.Delete(It.IsAny<Followee>())).Verifiable();
+          
 
             var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
                   twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
@@ -97,7 +98,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
             sut.Delete(followee.FolloweeId);
 
             //Assert
-            unitOfWorkMock.Verify(v => v.Followees.Delete(It.IsAny<Followee>()), Times.Once);
+            repoMock.Verify(v => v.Delete(It.IsAny<Followee>()), Times.Once);
         }
 
         [TestMethod]
