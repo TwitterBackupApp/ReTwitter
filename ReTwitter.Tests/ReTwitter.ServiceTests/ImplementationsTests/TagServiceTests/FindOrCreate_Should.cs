@@ -170,7 +170,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TagService
         }
 
         [TestMethod]
-        public void Invoke_SaveChanges_When_Tag_Exist_But_Deleted()
+        public void Invoke_SaveChanges_When_Tag_Exists_But_Deleted()
         {
             //Arrange
             var fakeUnit = new Mock<IUnitOfWork>();
