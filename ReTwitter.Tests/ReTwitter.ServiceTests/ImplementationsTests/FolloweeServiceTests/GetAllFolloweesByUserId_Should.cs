@@ -70,7 +70,6 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
             var actualResult = sut.GetAllFolloweesByUserId("TestId1");
 
             //Assert
-            //     Assert.IsInstanceOfType(actualResult, typeof(List<FolloweeDisplayListDto>));
             Assert.AreEqual(2, actualResult.Count);
         }
 
