@@ -41,6 +41,16 @@ namespace ReTwitter.Services.Data
 
         public bool UserFolloweeExistsInDeleted(string userId, string followeeId)
         {
+            if (string.IsNullOrWhiteSpace(followeeId))
+            {
+                throw new ArgumentNullException(nameof(followeeId));
+            }
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
             return this.unitOfWork.UserFollowees
                 .AllAndDeleted
                 .Any(a => a.FolloweeId == followeeId && a.UserId == userId);
@@ -48,6 +58,16 @@ namespace ReTwitter.Services.Data
 
         public void SaveUserFollowee(string userId, FolloweeFromApiDto followee)
         {
+            if (followee == null)
+            {
+                throw new ArgumentNullException(nameof(followee));
+            }
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
             var followeeToSaveToUser = this.unitOfWork.Followees.AllAndDeleted.FirstOrDefault(w => w.FolloweeId == followee.FolloweeId);
 
             if (followeeToSaveToUser == null) // if it's a new Followee, it's a new UserFollowee
@@ -94,6 +114,16 @@ namespace ReTwitter.Services.Data
 
         public void DeleteUserFollowee(string userId, string followeeId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
+            if (string.IsNullOrWhiteSpace(followeeId))
+            {
+                throw new ArgumentNullException(nameof(followeeId));
+            }
+
             var userFolloweeFound =
                 this.unitOfWork.UserFollowees.All.FirstOrDefault(w => w.FolloweeId == followeeId && w.UserId == userId);
 
@@ -104,6 +134,9 @@ namespace ReTwitter.Services.Data
             }
         }
 
-        public bool AnyUserSavedThisFolloweeById(string followeeId) => this.unitOfWork.UserFollowees.All.Any(a => a.FolloweeId == followeeId);
+        public bool AnyUserSavedThisFolloweeById(string followeeId)
+            => string.IsNullOrWhiteSpace(followeeId) 
+                ? throw new ArgumentNullException(nameof(followeeId))
+                : this.unitOfWork.UserFollowees.All.Any(a => a.FolloweeId == followeeId);
     }
 }

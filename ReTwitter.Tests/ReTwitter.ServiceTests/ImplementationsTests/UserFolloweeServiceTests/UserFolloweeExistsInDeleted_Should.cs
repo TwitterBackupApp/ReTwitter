@@ -13,7 +13,7 @@ using ReTwitter.Services.Data.Contracts;
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFolloweeServiceTests
 {
     [TestClass]
-    public class UserFolloweeExists_Should
+    public class UserFolloweeExistsInDeleted_Should
     {
         [TestMethod]
         public void Throw_Argument_Null_Exception_When_UserId_Is_Null()
@@ -26,7 +26,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
             var sut = new UserFolloweeService(fakeUnit, fakeFolloweeService, fakeDateTimeProvider);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentNullException>(() => sut.UserFolloweeExists(null, "pesho"));
+            Assert.ThrowsException<ArgumentNullException>(() => sut.UserFolloweeExistsInDeleted(null, "pesho"));
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
             var sut = new UserFolloweeService(fakeUnit, fakeFolloweeService, fakeDateTimeProvider);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentNullException>(() => sut.UserFolloweeExists("Petka", null));
+            Assert.ThrowsException<ArgumentNullException>(() => sut.UserFolloweeExistsInDeleted("Petka", null));
         }
 
         [TestMethod]
@@ -58,11 +58,11 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
 
             var userFolloweeCollection = new List<UserFollowee> { userFollowee };
 
-            fakeUserFolloweeRepo.Setup(r => r.All).Returns(userFolloweeCollection.AsQueryable());
+            fakeUserFolloweeRepo.Setup(r => r.AllAndDeleted).Returns(userFolloweeCollection.AsQueryable());
             fakeUnit.Setup(u => u.UserFollowees).Returns(fakeUserFolloweeRepo.Object);
 
             //Act
-            var exists = sut.UserFolloweeExists(userFollowee.UserId, userFollowee.FolloweeId);
+            var exists = sut.UserFolloweeExistsInDeleted(userFollowee.UserId, userFollowee.FolloweeId);
 
             //Assert
             Assert.IsTrue(exists);
@@ -83,11 +83,11 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
 
             var userFolloweeCollection = new List<UserFollowee> { userFollowee };
 
-            fakeUserFolloweeRepo.Setup(r => r.All).Returns(userFolloweeCollection.AsQueryable());
+            fakeUserFolloweeRepo.Setup(r => r.AllAndDeleted).Returns(userFolloweeCollection.AsQueryable());
             fakeUnit.Setup(u => u.UserFollowees).Returns(fakeUserFolloweeRepo.Object);
 
             //Act
-            var exists = sut.UserFolloweeExists(userFollowee.UserId, "789");
+            var exists = sut.UserFolloweeExistsInDeleted(userFollowee.UserId, "789");
 
             //Assert
             Assert.IsFalse(exists);
