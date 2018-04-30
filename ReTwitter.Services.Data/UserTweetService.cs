@@ -1,4 +1,5 @@
-﻿using ReTwitter.Data.Contracts;
+﻿using System;
+using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.DTO;
 using ReTwitter.Infrastructure.Providers;
@@ -17,10 +18,10 @@ namespace ReTwitter.Services.Data
 
         public UserTweetService(IUnitOfWork unitOfWork, ITweetService tweetService, IMappingProvider mapper, IDateTimeProvider dateTimeProvider)
         {
-            this.unitOfWork = unitOfWork;
-            this.tweetService = tweetService;
-            this.mapper = mapper;
-            this.dateTimeProvider = dateTimeProvider;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
         }
 
 

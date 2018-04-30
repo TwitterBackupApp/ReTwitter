@@ -48,14 +48,14 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TagService
             var tagsCollection = new List<Tag> { tag };
 
             fakeTagRepo.Setup(r => r.All).Returns(tagsCollection.AsQueryable());
+            fakeTagRepo.Setup(r => r.Delete(It.IsAny<Tag>())).Verifiable();
             fakeUnit.Setup(u => u.Tags).Returns(fakeTagRepo.Object);
-            fakeUnit.Setup(s => s.Tags.Delete(It.IsAny<Tag>())).Verifiable();
-
+            
             //Act
             sut.Delete(13);
 
             //Assert
-            fakeUnit.Verify(v => v.Tags.Delete(It.IsAny<Tag>()), Times.Once);
+            fakeTagRepo.Verify(v => v.Delete(It.IsAny<Tag>()), Times.Once);
         }
 
         [TestMethod]

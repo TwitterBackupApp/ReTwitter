@@ -1,4 +1,5 @@
-﻿using ReTwitter.Data.Contracts;
+﻿using System;
+using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Services.Data.Contracts;
@@ -15,14 +16,24 @@ namespace ReTwitter.Services.Data
 
         public UserFolloweeService(IUnitOfWork unitOfWork, IFolloweeService followeeService, IDateTimeProvider dateTimeProvider)
         {
-            this.unitOfWork = unitOfWork;
-            this.followeeService = followeeService;
-            this.dateTimeProvider = dateTimeProvider;
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.followeeService = followeeService ?? throw new ArgumentNullException(nameof(followeeService));
+            this.dateTimeProvider = dateTimeProvider ?? throw new ArgumentNullException(nameof(dateTimeProvider));
         }
 
 
         public bool UserFolloweeExists(string userId, string followeeId)
         {
+            if (string.IsNullOrWhiteSpace(followeeId))
+            {
+                throw new ArgumentNullException(nameof(followeeId));
+            }
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
             return this.unitOfWork.UserFollowees
                 .All
                 .Any(a => a.FolloweeId == followeeId && a.UserId == userId);

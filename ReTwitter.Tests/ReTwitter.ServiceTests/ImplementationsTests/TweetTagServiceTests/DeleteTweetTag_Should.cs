@@ -40,18 +40,19 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetTagSe
             var sut = new TweetTagService(fakeUnit.Object, fakeTagService, fakeDateTimeProvider);
 
             var fakeTweetTagRepo = new Mock<IGenericRepository<TweetTag>>();
-            var tweetTag = new TweetTag { TweetId = "TestTweetId1", TagId = 1};
+            var tweetTag = new TweetTag { TweetId = "TestTweetId1", TagId = 1 };
             var tweetTagsCollection = new List<TweetTag> { tweetTag };
 
+            fakeTweetTagRepo.Setup(r => r.Delete(It.IsAny<TweetTag>())).Verifiable();
             fakeTweetTagRepo.Setup(r => r.All).Returns(tweetTagsCollection.AsQueryable());
             fakeUnit.Setup(u => u.TweetTags).Returns(fakeTweetTagRepo.Object);
-            fakeUnit.Setup(s => s.TweetTags.Delete(It.IsAny<TweetTag>())).Verifiable();
+
 
             //Act
             sut.DeleteTweetTag(tweetTag.TagId, tweetTag.TweetId);
 
             //Assert
-            fakeUnit.Verify(v => v.TweetTags.Delete(It.IsAny<TweetTag>()), Times.Once);
+            fakeTweetTagRepo.Verify(v => v.Delete(It.IsAny<TweetTag>()), Times.Once);
         }
 
         [TestMethod]
