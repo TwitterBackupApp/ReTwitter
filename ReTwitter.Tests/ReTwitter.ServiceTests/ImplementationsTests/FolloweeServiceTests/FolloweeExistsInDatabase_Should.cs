@@ -62,15 +62,43 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSe
             var followee = new Followee { ScreenName = "TestScreenName1", Bio = "TestBio1TestBio1TestBio1TestBio1TestBio1", FolloweeId = "TestFolloweeId1", Name = "TestFolloweeName1" };
             var followeeCollection = new List<Followee> { followee };
 
+            repoMock.Setup(r => r.AllAndDeleted).Returns(followeeCollection.AsQueryable());
+            unitOfWorkMock.Setup(u => u.Followees).Returns(repoMock.Object);
+
+
+            var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
+                  twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
+
+            //Act
+            var exists = sut.FolloweeExistsInDatabase(followee.FolloweeId);
+
+            //Assert
+            Assert.IsTrue(exists);
+        }
+
+        [TestMethod]
+        public void Returns_False_If_Followee_Doesnt_Exist_In_Db()
+        {
+            //Arrange
+            var mapperMock = new Mock<IMappingProvider>();
+            var unitOfWorkMock = new Mock<IUnitOfWork>();
+            var repoMock = new Mock<IGenericRepository<Followee>>();
+            var twitterApiCallServiceMock = new Mock<ITwitterApiCallService>();
+            var dateTimeParserMock = new Mock<IDateTimeParser>();
+
+            var followee = new Followee { ScreenName = "TestScreenName1", Bio = "TestBio1TestBio1TestBio1TestBio1TestBio1", FolloweeId = "TestFolloweeId1", Name = "TestFolloweeName1" };
+            var followeeCollection = new List<Followee> { followee };
+
             repoMock.Setup(r => r.AllAndDeleted).Returns(followeeCollection.AsQueryable()).Verifiable();
             unitOfWorkMock.Setup(u => u.Followees.AllAndDeleted).Returns(repoMock.Object.AllAndDeleted);
 
 
             var sut = new FolloweeService(unitOfWorkMock.Object, mapperMock.Object,
                   twitterApiCallServiceMock.Object, dateTimeParserMock.Object);
+            var exists = unitOfWorkMock.Object.Followees.AllAndDeleted.Any(x => x.FolloweeId == "1");
 
             //Act & Assert
-            Assert.AreEqual(1, repoMock.Object.AllAndDeleted.Count());
+            Assert.IsFalse(exists);
         }
     }
 }
