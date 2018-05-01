@@ -21,14 +21,24 @@ namespace ReTwitter.Services.External
 
         public TwitterApiCaller(ITwitterCredentialsProvider credentials)
         {
-            this.consumerKey = credentials.ConsumerKey;
-            this.consumerSecret = credentials.ConsumerSecret;
-            this.accessToken = credentials.AccessToken;
-            this.accessSecret = credentials.AccessTokenSecret;
+            if (credentials == null)
+            {
+                throw new ArgumentNullException(nameof(credentials));
+            }
+
+            this.consumerSecret = string.IsNullOrWhiteSpace(credentials.ConsumerSecret) ? throw new ArgumentNullException(nameof(consumerSecret)) : credentials.ConsumerSecret;
+            this.consumerKey = string.IsNullOrWhiteSpace(credentials.ConsumerKey) ? throw new ArgumentNullException(nameof(consumerKey)) : credentials.ConsumerKey;
+            this.accessToken = string.IsNullOrWhiteSpace(credentials.AccessToken) ? throw new ArgumentNullException(nameof(accessToken)) : credentials.AccessToken;
+            this.accessSecret = string.IsNullOrWhiteSpace(credentials.AccessTokenSecret) ? throw new ArgumentNullException(nameof(accessSecret)) : credentials.AccessTokenSecret;
         }
 
         public string GetTwitterData(string resourceurl)
         {
+            if (string.IsNullOrWhiteSpace(resourceurl))
+            {
+                throw new ArgumentNullException();
+            }
+
             List<string> parameterlist;
             if (resourceurl.Contains("?"))
             {
