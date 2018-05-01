@@ -17,6 +17,11 @@ namespace ReTwitter.Services.Data
 
         public AdminUserService(IUnitOfWork unitOfWork)
         {
+            if(unitOfWork == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             this.unitOfWork = unitOfWork;
         }
 
@@ -41,11 +46,20 @@ namespace ReTwitter.Services.Data
 
         public void DeleteByUserId(string userId)
         {
+            if(userId == null)
+            {
+                throw new ArgumentNullException("User ID cannot be null!");
+            }
+            if(userId == string.Empty)
+            {
+                throw new ArgumentException("User ID cannot be empty!");
+            }
+
             var user = this.unitOfWork.Users.All.FirstOrDefault(fd => fd.Id == userId);
 
             if (user == null)
             {
-                throw new ArgumentException("User not found!");
+                throw new ArgumentNullException("User not found!");
             }
 
             this.unitOfWork.Users.Delete(user);
