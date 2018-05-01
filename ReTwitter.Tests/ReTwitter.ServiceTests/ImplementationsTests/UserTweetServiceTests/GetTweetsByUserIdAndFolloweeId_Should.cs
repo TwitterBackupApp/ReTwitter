@@ -6,10 +6,10 @@ using Moq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
-using ReTwitter.DTO;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
+using ReTwitter.Tests.Fakes.Models;
 using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetServiceTests
@@ -64,7 +64,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
             var userTweetCollection = new List<UserTweet> { testUserTweet1, testUserTweet2, testUserTweet3 };
             fakeUserTweetRepo.Setup(r => r.All).Returns(userTweetCollection.AsQueryable());
             fakeUnit.Setup(u => u.UserTweets).Returns(fakeUserTweetRepo.Object);
-            var expectedTweet1 = new TweetDto
+            var expectedTweet1 = new FakeTweetDto
             {
                 TweetId = testTweet1.TweetId,
                 OriginalTweetCreatedOn = testTweet1.OriginalTweetCreatedOn,
@@ -72,14 +72,14 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
                 UsersMentioned = testTweet1.UsersMentioned
             };
 
-            var expectedTweet2 = new TweetDto
+            var expectedTweet2 = new FakeTweetDto
             {
                 TweetId = testTweet2.TweetId,
                 OriginalTweetCreatedOn = testTweet2.OriginalTweetCreatedOn,
                 Text = testTweet2.Text,
                 UsersMentioned = testTweet2.UsersMentioned
             };
-            var expectedTweetDtos = new List<TweetDto> { expectedTweet1, expectedTweet2 };
+            var expectedTweetDtos = new List<FakeTweetDto> { expectedTweet1, expectedTweet2 };
 
             //Act
             var actualTweetDtos = sut.GetTweetsByUserIdAndFolloweeId("100", "666");

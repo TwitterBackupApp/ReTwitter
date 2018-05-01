@@ -8,6 +8,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
 using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Statistics;
+using ReTwitter.Tests.Fakes.Models;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeStatisticsServiceTests
 {
@@ -50,20 +51,20 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSt
             fakeUserFolloweeRepo.Setup(r => r.All).Returns(fakeUserFolloweeCollection.AsQueryable());
             fakeUnitOfWork.Setup(u => u.UserFollowees).Returns(fakeUserFolloweeRepo.Object);
 
-            var savedModel1 = new ActivelyFollowingModel
+            var savedModel1 = new FakeActivelyFollowingModel
             {
                 FolloweeId = testUserFollowee1.FolloweeId,
                 ScreenName = testUserFollowee1.Followee.ScreenName,
                 Bio = testUserFollowee1.Followee.Bio
             };
-            var savedModel2 = new ActivelyFollowingModel
+            var savedModel2 = new FakeActivelyFollowingModel
             {
                 FolloweeId = testUserFollowee2.FolloweeId,
                 ScreenName = testUserFollowee2.Followee.ScreenName,
                 Bio = testUserFollowee2.Followee.Bio
             };
 
-            var expectedResult = new List<ActivelyFollowingModel> { savedModel1, savedModel2 };
+            var expectedResult = new List<FakeActivelyFollowingModel> { savedModel1, savedModel2 };
             var sut = new FolloweeStatisticsService(fakeUnitOfWork.Object);
 
             //Act

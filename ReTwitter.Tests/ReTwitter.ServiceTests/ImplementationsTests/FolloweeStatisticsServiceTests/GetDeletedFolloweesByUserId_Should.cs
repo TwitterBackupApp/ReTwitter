@@ -8,6 +8,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
 using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Statistics;
+using ReTwitter.Tests.Fakes.Models;
 using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeStatisticsServiceTests
@@ -52,7 +53,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSt
             fakeUserFolloweeRepo.Setup(r => r.AllAndDeleted).Returns(fakeUserFolloweeCollection.AsQueryable());
             fakeUnitOfWork.Setup(u => u.UserFollowees).Returns(fakeUserFolloweeRepo.Object);
 
-            var deletedModel = new DeletedFolloweesModel
+            var deletedModel = new FakeDeletedFolloweesModel
             {
                 DeletedOn = testUserFollowee1.DeletedOn.Value,
                 ScreenName = testUserFollowee1.Followee.ScreenName,
@@ -60,7 +61,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.FolloweeSt
             };
 
 
-            var expectedResult = new List<DeletedFolloweesModel> { deletedModel };
+            var expectedResult = new List<FakeDeletedFolloweesModel> { deletedModel };
             var sut = new FolloweeStatisticsService(fakeUnitOfWork.Object);
 
             //Act

@@ -6,8 +6,8 @@ using Moq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
-using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Statistics;
+using ReTwitter.Tests.Fakes.Models;
 using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetStatisticsServiceTests
@@ -53,7 +53,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetStati
             fakeUserTweetRepo.Setup(r => r.AllAndDeleted).Returns(fakeUserTweetCollection.AsQueryable());
             fakeUnitOfWork.Setup(u => u.UserTweets).Returns(fakeUserTweetRepo.Object);
 
-            var deletedModel = new DeletedTweetsModel
+            var deletedModel = new FakeDeletedTweetsModel
             {
                 TweetDeletedOn = testUserTweet1.DeletedOn.Value,
                 Text = testUserTweet1.Tweet.Text,
@@ -61,7 +61,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetStati
                 AuthorScreenName = testUserTweet1.Tweet.Followee.ScreenName
             };
            
-            var expectedResult = new List<DeletedTweetsModel> { deletedModel };
+            var expectedResult = new List<FakeDeletedTweetsModel> { deletedModel };
             var sut = new TweetStatisticsService(fakeUnitOfWork.Object);
 
             //Act

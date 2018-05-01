@@ -8,6 +8,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
 using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Statistics;
+using ReTwitter.Tests.Fakes.Models;
 using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetStatisticsServiceTests
@@ -53,14 +54,14 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetStati
             fakeUserTweetRepo.Setup(r => r.All).Returns(fakeUserTweetCollection.AsQueryable());
             fakeUnitOfWork.Setup(u => u.UserTweets).Returns(fakeUserTweetRepo.Object);
 
-            var savedModel1 = new SavedTweetsModel
+            var savedModel1 = new FakeSavedTweetsModel
             {
                 TweetId = testUserTweet1.TweetId,
                 Text = testUserTweet1.Tweet.Text,
                 OriginalTweetCreatedOn = testUserTweet1.Tweet.OriginalTweetCreatedOn,
                 AuthorScreenName = testUserTweet1.Tweet.Followee.ScreenName
             };
-            var savedModel2 = new SavedTweetsModel
+            var savedModel2 = new FakeSavedTweetsModel
             {
                 TweetId = testUserTweet2.TweetId,
                 Text = testUserTweet2.Tweet.Text,
@@ -68,7 +69,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetStati
                 AuthorScreenName = testUserTweet2.Tweet.Followee.ScreenName
             };
 
-            var expectedResult = new List<SavedTweetsModel> {savedModel1, savedModel2};
+            var expectedResult = new List<FakeSavedTweetsModel> {savedModel1, savedModel2};
             var sut = new TweetStatisticsService(fakeUnitOfWork.Object);
 
             //Act

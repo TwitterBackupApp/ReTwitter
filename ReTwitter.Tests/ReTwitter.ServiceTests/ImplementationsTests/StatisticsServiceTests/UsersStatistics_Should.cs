@@ -8,6 +8,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
 using ReTwitter.DTO.StatisticsModels;
 using ReTwitter.Services.Data.Statistics;
+using ReTwitter.Tests.Fakes.Models;
 using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.StatisticsServiceTests
@@ -45,7 +46,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.Statistics
             fakeUnitOfWork.Setup(u => u.UserFollowees).Returns(fakeUserFolloweeRepo.Object);
 
             var sut = new StatisticsService(fakeUnitOfWork.Object);
-            var statisticsModel1 = new UserStatisticsModel
+            var statisticsModel1 = new FakeUserStatisticsModel
             {
                 ActivelyFollowedAccountsCount = 0,
                 DeletedAccountsCount = 1,
@@ -56,7 +57,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.Statistics
                 DeletedTweetsCount = 1,
                 UserNameCreatedOn = fakeTimeProvider.CreatedOn
             };
-            var statisticsModel2 = new UserStatisticsModel
+            var statisticsModel2 = new FakeUserStatisticsModel
             {
                 ActivelyFollowedAccountsCount = 1,
                 DeletedAccountsCount = 1,
@@ -67,7 +68,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.Statistics
                 DeletedTweetsCount = 1,
                 UserNameCreatedOn = fakeTimeProvider.CreatedOn
             };
-            var totalStatisticsModel = new TotalStatisticsModel
+            var totalStatisticsModel = new FakeTotalStatisticsModel
             {
                 TotalDeletedAccountsCount = 2,
                 TotalSavedTweetsCount = 1,
