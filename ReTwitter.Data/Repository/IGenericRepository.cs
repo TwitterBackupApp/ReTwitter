@@ -12,7 +12,7 @@ namespace ReTwitter.Data.Repository
 
         void Add(T entity);
 
-        void AddRange(IEnumerable<T> entities);
+        //void AddRange(IEnumerable<T> entities);
 
         void Delete(T entity);
 
