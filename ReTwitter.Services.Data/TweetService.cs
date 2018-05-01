@@ -145,10 +145,20 @@ namespace ReTwitter.Services.Data
 
         public IEnumerable<TweetDto> GetTweetsByFolloweeIdAndUserId(string followeeId, string userId)
         {
+            if(followeeId == null || userId == null)
+            {
+                throw new ArgumentNullException("Followee ID and User ID cannot be null!");
+            }
+            if(followeeId == "" || userId == "")
+            {
+                throw new ArgumentException("Followee ID and User ID cannot be empty!");
+            }
+
             var tweets = this.unitOfWork
                 .UserTweets
                 .All
-                .Where(w => w.UserId == userId && w.Tweet.FolloweeId == followeeId).Select(se => se.Tweet)
+                .Where(w => w.UserId == userId && w.Tweet.FolloweeId == followeeId)
+                .Select(se => se.Tweet)
                 .ToList();
 
             var tweetDtos = tweets.Select(s => new TweetDto
