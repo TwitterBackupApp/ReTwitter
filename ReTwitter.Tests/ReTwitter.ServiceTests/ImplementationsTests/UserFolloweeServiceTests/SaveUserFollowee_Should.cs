@@ -10,6 +10,7 @@ using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
+using ReTwitter.Tests.Fakes;
 using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFolloweeServiceTests
@@ -275,7 +276,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
             var followee = new Followee { FolloweeId = "789", IsDeleted = false };
             var userFolloweeToAdd = new FolloweeFromApiDto { FolloweeId = "789" };
             var followeeCollection = new List<Followee> { followee };
-            var userFollowee = new UserFollowee { UserId = "456", FolloweeId = userFolloweeToAdd.FolloweeId, IsDeleted = true, DeletedOn = dateTimeProvider.DeletedOn};
+            var userFollowee = new UserFollowee { UserId = "456", FolloweeId = userFolloweeToAdd.FolloweeId, IsDeleted = true, DeletedOn = dateTimeProvider.DeletedOn };
             var userFolloweeCollection = new List<UserFollowee> { userFollowee };
 
             fakeUserFolloweeRepo.Setup(r => r.AllAndDeleted).Returns(userFolloweeCollection.AsQueryable());
@@ -347,6 +348,27 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
 
             //Assert
             fakeUnit.Verify(v => v.SaveChanges(), Times.Once);
+        }
+
+        [TestMethod]
+        public void Invoke_UserFolloweeExistsInDeleted_In_Same_Method_When_Followee_Exists()
+        {
+            //Arrange
+            var fakeUnit = new Mock<IUnitOfWork>();
+            var dateTimeProvider = new TestDateTimeProvider();
+            var fakeFolloweeService = new Mock<IFolloweeService>();
+            var fakeFolloweeRepo = new Mock<IGenericRepository<Followee>>();
+            var sut = new FakeUserFolloweeService(fakeUnit.Object, fakeFolloweeService.Object, dateTimeProvider);
+
+            var followee = new Followee { FolloweeId = "789", IsDeleted = false };
+            var userFolloweeToAdd = new FolloweeFromApiDto { FolloweeId = "789" };
+            var followeeCollection = new List<Followee> { followee };
+            
+            fakeFolloweeRepo.Setup(r => r.AllAndDeleted).Returns(followeeCollection.AsQueryable());
+            fakeUnit.Setup(u => u.Followees).Returns(fakeFolloweeRepo.Object);
+            
+            //Act && Assert
+            Assert.ThrowsException<FakeTestException>(() => sut.SaveUserFollowee("456", userFolloweeToAdd));
         }
     }
 }

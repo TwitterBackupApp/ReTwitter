@@ -65,7 +65,7 @@ namespace ReTwitter.Services.Data
                 .Any(a => a.UserId == userId && a.TweetId == tweetId);
         }
 
-        public bool UserTweetExistsInDeleted(string userId, string tweetId)
+        public virtual bool UserTweetExistsInDeleted(string userId, string tweetId)
         {
             if (string.IsNullOrWhiteSpace(userId))
             {

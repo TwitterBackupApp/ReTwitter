@@ -9,6 +9,7 @@ using ReTwitter.Data.Repository;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
+using ReTwitter.Tests.Fakes;
 using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetServiceTests
@@ -385,7 +386,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
 
             var fakeUserTweetRepo = new Mock<IGenericRepository<UserTweet>>();
             var fakeTweetRepo = new Mock<IGenericRepository<Tweet>>();
-            
+
             var tweet = new Tweet { TweetId = "456" };
             var tweetCollection = new List<Tweet> { tweet };
             fakeUnit.Setup(u => u.UserTweets).Returns(fakeUserTweetRepo.Object);
@@ -411,7 +412,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
 
             var fakeUserTweetRepo = new Mock<IGenericRepository<UserTweet>>();
             var fakeTweetRepo = new Mock<IGenericRepository<Tweet>>();
-            
+
             var tweet = new Tweet { TweetId = "456" };
             var tweetCollection = new List<Tweet> { tweet };
 
@@ -442,7 +443,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
 
             var fakeUserTweetRepo = new Mock<IGenericRepository<UserTweet>>();
             var fakeTweetRepo = new Mock<IGenericRepository<Tweet>>();
-            
+
             var tweet = new Tweet { TweetId = "456" };
             var tweetCollection = new List<Tweet> { tweet };
 
@@ -472,7 +473,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
 
             var fakeUserTweetRepo = new Mock<IGenericRepository<UserTweet>>();
             var fakeTweetRepo = new Mock<IGenericRepository<Tweet>>();
-            
+
             var tweet = new Tweet { TweetId = "456" };
             var tweetCollection = new List<Tweet> { tweet };
 
@@ -490,6 +491,26 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
 
             //Assert
             fakeUnit.Verify(v => v.SaveChanges(), Times.Once);
+        }
+
+        [TestMethod]
+        public void Invoke_UserTweetExistsInDeleted_In_Same_Method_When_Provided_Correct_Params_Tweet_Exists_Not_Deleted()
+        {
+            //Arrange
+            var fakeUnit = new Mock<IUnitOfWork>();
+            var dateTimeProvider = new TestDateTimeProvider();
+            var fakeTweetService = new Mock<ITweetService>();
+            var sut = new FakeUserTweetService(fakeUnit.Object, fakeTweetService.Object, dateTimeProvider);
+
+            var fakeTweetRepo = new Mock<IGenericRepository<Tweet>>();
+            var tweet = new Tweet { TweetId = "456" };
+            var tweetCollection = new List<Tweet> { tweet };
+            
+            fakeTweetRepo.Setup(r => r.AllAndDeleted).Returns(tweetCollection.AsQueryable());
+            fakeUnit.Setup(u => u.Tweets).Returns(fakeTweetRepo.Object);
+            
+            //Act && Assert
+            Assert.ThrowsException<FakeTestException>(() => sut.SaveSingleTweetToUserByTweetId("123", "456"));
         }
     }
 }

@@ -9,6 +9,8 @@ using ReTwitter.Data.Repository;
 using ReTwitter.Infrastructure.Providers;
 using ReTwitter.Services.Data;
 using ReTwitter.Services.Data.Contracts;
+using ReTwitter.Tests.Fakes;
+using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetTagServiceTests
 {
@@ -78,6 +80,28 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.TweetTagSe
 
             //Assert
             fakeUnit.Verify(v => v.SaveChanges(), Times.Once);
+        }
+
+        [TestMethod]
+        public void Invoke_AnyTweetSavedThisTagById_In_Same_Method_When_TweetTag_Found()
+        {
+            //Arrange
+            var fakeUnit = new Mock<IUnitOfWork>();
+            var fakeDateTimeProvider = Mock.Of<IDateTimeProvider>();
+            var fakeTagService = Mock.Of<ITagService>();
+
+            var sut = new FakeTweetTagService(fakeUnit.Object, fakeTagService, fakeDateTimeProvider);
+
+            var fakeTweetTagRepo = new Mock<IGenericRepository<TweetTag>>();
+            var tweetTag = new TweetTag { TweetId = "TestTweetId1", TagId = 1 };
+            var tweetTagsCollection = new List<TweetTag> { tweetTag };
+
+            fakeTweetTagRepo.Setup(r => r.All).Returns(tweetTagsCollection.AsQueryable());
+            fakeUnit.Setup(u => u.TweetTags).Returns(fakeTweetTagRepo.Object);
+            fakeUnit.Setup(s => s.SaveChanges()).Verifiable();
+
+            //Act && Assert
+            Assert.ThrowsException<FakeTestException>(() => sut.DeleteTweetTag(tweetTag.TagId, tweetTag.TweetId));
         }
     }
 }

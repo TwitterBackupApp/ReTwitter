@@ -93,6 +93,6 @@ namespace ReTwitter.Services.Data
             }
         }
 
-        public bool AnyTweetSavedThisTagById(int tagId) => this.unitOfWork.TweetTags.All.Any(a => a.TagId == tagId);
+        public virtual bool AnyTweetSavedThisTagById(int tagId) => this.unitOfWork.TweetTags.All.Any(a => a.TagId == tagId);
     }
 }

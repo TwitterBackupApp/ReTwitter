@@ -5,7 +5,7 @@ using ReTwitter.Tests.Providers;
 
 namespace ReTwitter.Tests.Fakes
 {
-    public class FakeCascadeDeleteService : CascadeDeleteService
+    internal class FakeCascadeDeleteService : CascadeDeleteService
     {
         public FakeCascadeDeleteService(IUserTweetService userTweetService, IUserFolloweeService userFolloweeService, IUnitOfWork unitOfWork, IFolloweeService followeeService, ITweetService tweetService, ITweetTagService tweetTagService, IAdminUserService userService) : base(userTweetService, userFolloweeService, unitOfWork, followeeService, tweetService, tweetTagService, userService)
         {
