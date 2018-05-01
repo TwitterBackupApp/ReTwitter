@@ -1,4 +1,5 @@
-﻿using ReTwitter.Data.Contracts;
+﻿using System;
+using ReTwitter.Data.Contracts;
 using ReTwitter.Data.Models;
 using ReTwitter.Data.Repository;
 
@@ -23,14 +24,14 @@ namespace ReTwitter.Data
             IGenericRepository<UserTweet> userTweets,
             IGenericRepository<TweetTag> tweetTags)
         {
-            this.context = context;
-            this.users = users;
-            this.followees = followees;
-            this.tags = tags;
-            this.tweets = tweets;
-            this.userFollowees = userFollowees;
-            this.userTweets = userTweets;
-            this.tweetTags = tweetTags;
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.users = users ?? throw new ArgumentNullException(nameof(users));
+            this.followees = followees ?? throw new ArgumentNullException(nameof(followees));
+            this.tags = tags ?? throw new ArgumentNullException(nameof(tags));
+            this.tweets = tweets ?? throw new ArgumentNullException(nameof(tweets));
+            this.userFollowees = userFollowees ?? throw new ArgumentNullException(nameof(userFollowees));
+            this.userTweets = userTweets ?? throw new ArgumentNullException(nameof(userTweets));
+            this.tweetTags = tweetTags ?? throw new ArgumentNullException(nameof(tweetTags));
         }
 
         public IGenericRepository<User> Users
