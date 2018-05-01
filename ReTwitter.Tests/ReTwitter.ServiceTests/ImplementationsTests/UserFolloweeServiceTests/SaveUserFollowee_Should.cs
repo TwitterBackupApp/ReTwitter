@@ -42,7 +42,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserFollow
             var sut = new UserFolloweeService(fakeUnit, fakeFolloweeService, fakeDateTimeProvider);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentNullException>(() => sut.UserFolloweeExistsInDeleted("123", null));
+            Assert.ThrowsException<ArgumentNullException>(() => sut.SaveUserFollowee("123", null));
         }
 
         [TestMethod]

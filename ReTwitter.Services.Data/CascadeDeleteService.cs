@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using ReTwitter.Data.Contracts;
 using ReTwitter.Services.Data.Contracts;
 
@@ -24,18 +25,22 @@ namespace ReTwitter.Services.Data
                             IAdminUserService userService
                             )
         {
-            this.userTweetService = userTweetService;
-            this.userFolloweeService = userFolloweeService;
-            this.unitOfWork = unitOfWork;
-            this.followeeService = followeeService;
-            this.tweetService = tweetService;
-            this.tweetTagService = tweetTagService;
-            this.userService = userService;
+            this.userTweetService = userTweetService ?? throw new ArgumentNullException(nameof(userTweetService));
+            this.userFolloweeService = userFolloweeService ?? throw new ArgumentNullException(nameof(userFolloweeService));
+            this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
+            this.followeeService = followeeService ?? throw new ArgumentNullException(nameof(followeeService));
+            this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
+            this.tweetTagService = tweetTagService ?? throw new ArgumentNullException(nameof(tweetTagService));
+            this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
 
         public void DeleteUserAndHisEntities(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
             var followeeIds = this.unitOfWork.UserFollowees.All
                                             .Where(w => w.UserId == userId)
                                             .Select(s => s.FolloweeId)
@@ -51,8 +56,18 @@ namespace ReTwitter.Services.Data
             }
         }
 
-        public void DeleteUserFolloweeAndEntries(string followeeId, string userId)
+        public virtual void DeleteUserFolloweeAndEntries(string followeeId, string userId)
         {
+            if (string.IsNullOrWhiteSpace(followeeId))
+            {
+                throw new ArgumentNullException(nameof(followeeId));
+            }
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
             this.userFolloweeService.DeleteUserFollowee(userId, followeeId);
 
             if (!this.userFolloweeService.AnyUserSavedThisFolloweeById(followeeId))
@@ -75,8 +90,18 @@ namespace ReTwitter.Services.Data
             }
         }
 
-        public void DeleteUserTweetAndEntities(string userId, string tweetId)
+        public virtual void DeleteUserTweetAndEntities(string userId, string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException(nameof(tweetId));
+            }
+
+            if (string.IsNullOrWhiteSpace(userId))
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+
             this.userTweetService.DeleteUserTweet(userId, tweetId);
 
             if (!this.userTweetService.AnyUserSavedThisTweetById(tweetId))
@@ -86,8 +111,13 @@ namespace ReTwitter.Services.Data
             }
         }
 
-        public void DeleteEntitiesOfTweet(string tweetId)
+        public virtual void DeleteEntitiesOfTweet(string tweetId)
         {
+            if (string.IsNullOrWhiteSpace(tweetId))
+            {
+                throw new ArgumentNullException(nameof(tweetId));
+            }
+
             var tagIds = this.unitOfWork.TweetTags
                 .All
                 .Where(w => w.TweetId == tweetId)

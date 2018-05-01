@@ -26,7 +26,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
             var sut = new UserTweetService(fakeUnit, fakeTweetService, fakeTimeProvider);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentNullException>(() => sut.UserTweetExistsInDeleted(null, "123"));
+            Assert.ThrowsException<ArgumentNullException>(() => sut.SaveSingleTweetToUserByTweetId(null, "123"));
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.UserTweetS
             var sut = new UserTweetService(fakeUnit, fakeTweetService, fakeTimeProvider);
 
             //Act & Assert
-            Assert.ThrowsException<ArgumentNullException>(() => sut.UserTweetExistsInDeleted("123", null));
+            Assert.ThrowsException<ArgumentNullException>(() => sut.SaveSingleTweetToUserByTweetId("123", null));
         }
 
         [TestMethod]
