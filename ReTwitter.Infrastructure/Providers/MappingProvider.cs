@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -11,7 +12,7 @@ namespace ReTwitter.Infrastructure.Providers
 
         public MappingProvider(IMapper mapper)
         {
-            this.mapper = mapper;
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public TDestination MapTo<TDestination>(object source)
