@@ -113,18 +113,5 @@
     bottom: 20%
 }
 
-.letters span{
-  color:#333;
-  letter-spacing:.3em;
-  transition:.8s;
-}
 
-.letters span.focus, .letters span.focus + span + span, .letters.minusTwo > span:first-child,.letters.minusOne > span:nth-child(2){
-  color:yellow;
-}
-  text-shadow:0 0 16px yellow;
-
-.letters span.focus + span, .letters.minusOne > span:first-child{
-  color:darkOrange;
-  text-shadow:0 0 16px darkOrange;
-}
+             
