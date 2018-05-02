@@ -68,6 +68,14 @@ namespace ReTwitter.Web.Controllers
 
                 if (result.Succeeded)
                 {
+
+                    var user = await this._userManager.FindByNameAsync(model.UserName);
+                    if (user.IsDeleted)
+                    {
+                        ModelState.AddModelError(string.Empty, "User is deleted from the system!");
+                        return View(model);
+                    }
+
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }

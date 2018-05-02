@@ -19,6 +19,7 @@
                 Original Tweet Created On
             </th>
             <th></th>
+            <th></th>
         </tr>
 
         @foreach (var item in Model.TweetSearchResults)
@@ -33,6 +34,7 @@
                 <td>
                     @Html.ActionLink("Save", "TweetAdd", "Tweet", new {tweetId = item.TweetId}, new { @class = "btn btn-info" })
                 </td>
+                <td><a class = "btn btn-info" href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a></td>
             </tr>
         }
     </table>

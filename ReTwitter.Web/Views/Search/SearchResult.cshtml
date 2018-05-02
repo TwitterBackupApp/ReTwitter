@@ -4,18 +4,18 @@
     ViewData["Title"] = "Search result";
 }
 
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 
 @if (@Model.SearchResults.Count() != 0)
 {
-    <br/> 
+    <br />
     foreach (var result in Model.SearchResults)
     {
         <div class="media">
             <div class="media-left">
-                <img src="@string.Concat("https://twitter.com/", @result.ScreenName, "/profile_image?size=original")" class="photo media-object"  style="width: 45px" aria-controlsalt="" />
+                <img src="@string.Concat("https://twitter.com/", @result.ScreenName, "/profile_image?size=original")" class="photo media-object" style="width: 45px" aria-controlsalt="" />
             </div>
             <div class="media-body">
                 <h4 class="media-heading">@result.Name<small><i> User created on: @result.FolloweeOriginallyCreatedOn.Substring(0, 10)</i></small></h4>

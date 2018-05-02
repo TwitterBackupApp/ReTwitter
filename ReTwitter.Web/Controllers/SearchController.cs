@@ -33,7 +33,9 @@ namespace ReTwitter.Web.Controllers
 
                 return View(vm);
             }
-            
+
+            TempData["Error-Message"] = "Please enter at least one character in order to use the search!";
+
             return View();
         }
     }

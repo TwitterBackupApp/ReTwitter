@@ -20,6 +20,7 @@
         <th>
             Users Mentioned
         </th>
+        <th></th>
     </tr>
 
     @foreach (var item in Model.TweetResults)
@@ -36,6 +37,11 @@
             </td>
             <td>
                 @Html.ActionLink("Delete", "TweetDelete", "Tweet", new { tweetId = item.TweetId }, new { @class = "btn btn-info" })
+            </td>
+            <td>
+                @*<a class = "btn btn-info" href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>*@
+                <a href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>
+                @*<a class = "btn btn-info" type="button" href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>*@
             </td>
         </tr>
     }
