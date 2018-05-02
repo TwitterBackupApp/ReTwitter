@@ -3,20 +3,51 @@
 @{
     ViewData["Title"] = "FolloweeDetails";
 }
-<br/>
-<br/>
-<br/>
-<h2>@Html.DisplayFor(model => model.Name)'s Details</h2>
 
-<div>
-    <img src="@string.Concat("https://twitter.com/", Model.ScreenName, "/profile_image?size=original")" class="photo" aria-controlsalt="" />
-    <h4><strong>Screen name:</strong> @Html.DisplayFor(model => model.ScreenName)</h4>
-    <p><strong>Bio: </strong>@Html.DisplayFor(model => model.Bio)</p>
-    <p><strong>Followers count : </strong>@Html.DisplayFor(model => model.FollowersCount)</p>
-    <p><strong>Friends count : </strong>@Html.DisplayFor(model => model.FriendsCount)</p>
-    <p><strong>Favorites count : </strong>@Html.DisplayFor(model => model.FavoritesCount)</p>
+<link rel="stylesheet" href="~/css/display-followee-from-api.css" />
+
+<br/>
+<br/>
+<br/>
+
+<div class="container">
+    <div class="col-md-12">
+        <div class="profile-container">
+            <div class="profile-header row">
+                <div class="col-md-12 col-sm-12 text-center">
+                    <img src="@string.Concat("https://twitter.com/", Model.ScreenName, "/profile_image?size=original")" alt="" class="header-avatar">
+                </div>
+                <div class="col-md-12 col-sm-12 profile-info">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="header-fullname">@Html.DisplayFor(model => model.Name)</div>
+                        </div>
+                        <div class="col-md-4">
+                            @Html.ActionLink("Follow User", "FolloweeAdded", "Followee", Model, new { @class = "btn btn-palegreen btn-sm pull-right" })                      
+                        </div>
+                    </div>
+                    <div class="header-information">
+                        @Html.DisplayFor(model => model.Bio)
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 col-xs-12 profile-stats">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-4 col-xs-12 stats-col">
+                            <div class="stats-value pink">@Html.DisplayFor(model => model.FollowersCount)</div>
+                            <div class="stats-title">FOLLOWING</div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 stats-col">
+                            <div class="stats-value pink">@Html.DisplayFor(model => model.FollowersCount)</div>
+                            <div class="stats-title">FOLLOWERS</div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12 stats-col">
+                            <div class="stats-value pink">@Html.DisplayFor(model => model.StatusesCount)</div>
+                            <div class="stats-title">POSTS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-@Html.ActionLink("Follow", "FolloweeAdded", "Followee", Model, new { @class = "btn btn-info" })
-@Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })
-@Html.ActionLink("Search for latest 100 Tweets", "TweetSearchResult", "Tweet", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })
