@@ -41,6 +41,11 @@ namespace ReTwitter.Data.Repository
 
         public void Add(T entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("Entity cannot be null");
+            }
+
             EntityEntry entry = this.context.Entry(entity);
 
             if (entry.State != EntityState.Detached)
@@ -52,25 +57,6 @@ namespace ReTwitter.Data.Repository
                 this.dbSet.Add(entity);
             }
         }
-
-        //public void AddRange(IEnumerable<T> entities)
-        //{
-        //    var entitiesToAdd = new List<T>();
-        //    foreach (var entity in entities)
-        //    {
-        //        EntityEntry entry = this.context.Entry(entity);
-
-        //        if (entry.State != EntityState.Detached)
-        //        {
-        //            entry.State = EntityState.Added;
-        //        }
-        //        else
-        //        {
-        //            entitiesToAdd.Add(entity);
-        //        }
-        //    }
-        //    this.dbSet.AddRange(entitiesToAdd);
-        //}
 
         public void Delete(T entity)
         {
@@ -92,6 +78,11 @@ namespace ReTwitter.Data.Repository
 
         public void Update(T entity)
         {
+            if (entity == null)
+            {
+                throw new ArgumentNullException("Entity cannot be null");
+            }
+
             var entry = this.context.Entry(entity);
 
             if (entry.State == EntityState.Detached)
