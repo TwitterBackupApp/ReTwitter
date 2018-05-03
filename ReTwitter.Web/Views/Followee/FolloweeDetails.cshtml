@@ -2,20 +2,22 @@
 
 @{
     ViewData["Title"] = "FolloweeDetails";
+    string id = Model.FolloweeId;
+    string address = "/Followee/FolloweeAdded/" + id;
 }
 
 <link rel="stylesheet" href="~/css/display-followee-from-api.css" />
 
-<br/>
-<br/>
-<br/>
+<br />
+<br />
+<br />
 
 <div class="container">
     <div class="col-md-12">
         <div class="profile-container">
             <div class="profile-header row">
                 <div class="col-md-12 col-sm-12 text-center">
-                    <img src="@string.Concat("https://twitter.com/", Model.ScreenName, "/profile_image?size=original")" alt="" class="header-avatar">
+                    <img src="@string.Concat(" https://twitter.com/", Model.ScreenName, "/profile_image?size=original")" alt="" class="header-avatar">
                 </div>
                 <div class="col-md-12 col-sm-12 profile-info">
                     <div class="row">
@@ -23,7 +25,8 @@
                             <div class="header-fullname">@Html.DisplayFor(model => model.Name)</div>
                         </div>
                         <div class="col-md-4">
-                            @Html.ActionLink("Follow User", "FolloweeAdded", "Followee", Model, new { @class = "btn btn-palegreen btn-sm pull-right" })                      
+                            @*@Html.ActionLink("Follow User", "FolloweeAdded", "Followee", Model, new { @class = "btn btn-palegreen btn-sm pull-right" })*@
+                            <button id="follow-user-btn" class="btn btn-palegreen btn-sm pull-right">Follow User</button>
                         </div>
                     </div>
                     <div class="header-information">
@@ -34,7 +37,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12 profile-stats">
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-12 stats-col">
-                            <div class="stats-value pink">@Html.DisplayFor(model => model.FollowersCount)</div>
+                            <div class="stats-value pink">@Html.DisplayFor(model => model.FavoritesCount)</div>
                             <div class="stats-title">FOLLOWING</div>
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12 stats-col">
@@ -51,3 +54,36 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+    $(function () {
+        $("#follow-user-btn").on("click", () => {
+            $.ajax({
+                url: "/Followee/FolloweeAdded/" + @id,
+                type: "POST",
+                success: (response) => {
+                    if (response) {
+                        swal(
+                            'Oops...',
+                            'You already follow this user!',
+                            'error'
+                        )
+                    } else {
+                        swal(
+                            'Congrats!',
+                            'You successfully followed the user!',
+                            'success'
+                        )
+                    }
+                    
+                },
+                error: (response) => {
+                    console.log(response);
+                }
+            });
+        });
+    });
+    </script>
+}

@@ -67,8 +67,10 @@ namespace ReTwitter.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> FolloweeAdded(FolloweeFromApiDto followee)
+        public async Task<IActionResult> FolloweeAdded(string id)
         {
+            var followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
+
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
@@ -76,13 +78,12 @@ namespace ReTwitter.Web.Controllers
 
             if (followeeAlreadyExists)
             {
-                return View("FolloweeAlreadyExists");
+                return Json(true);
             }
             else
             {
                 this.userFolloweeService.SaveUserFollowee(userId, followee);
-
-                return View();
+                return Json(false);
             }
         }
 
