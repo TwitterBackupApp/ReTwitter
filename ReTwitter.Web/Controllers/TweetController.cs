@@ -5,6 +5,7 @@ using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Services.External.Contracts;
 using ReTwitter.Web.Models.TweetViewModel;
 using System.Threading.Tasks;
+using ReTwitter.Web.Areas.Admin.Models.Statistics;
 
 namespace ReTwitter.Web.Controllers
 {
@@ -49,47 +50,47 @@ namespace ReTwitter.Web.Controllers
             {
                 var foundTweets = this.twitterApiCallService.GetTweetsByUserId(followeeId);
 
-                var vm = new TweetSearchResultViewModel { TweetSearchResults = foundTweets};
+                var vm = new TweetSearchResultViewModel { TweetSearchResults = foundTweets };
                 return View(vm);
             }
 
             return View();
         }
 
-        public async Task<IActionResult> TweetAdd(string tweetId)
+        public async Task<IActionResult> TweetAdd(string id)
         {
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
-            bool tweetAlreadyAdded = this.userTweetService.UserTweetExists(userId, tweetId);
+            bool tweetAlreadyAdded = this.userTweetService.UserTweetExists(userId, id);
 
             if (tweetAlreadyAdded)
             {
-                return View("TweetAlreadyExists");
+                return Json(false);
             }
             else
             {
-                this.userTweetService.SaveSingleTweetToUserByTweetId(userId, tweetId);
+                this.userTweetService.SaveSingleTweetToUserByTweetId(userId, id);
 
-                return View();
-            }          
+                return Json(true);
+            }
         }
 
-        public async Task<IActionResult> TweetDelete(string tweetId)
+        public async Task<IActionResult> TweetDelete(string id)
         {
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
-            this.userTweetService.DeleteUserTweet(userId, tweetId);
+            this.userTweetService.DeleteUserTweet(userId, id);
 
             return View();
         }
 
-        public IActionResult TweetAdminDelete(string tweetId, string userId)
+        public IActionResult TweetAdminDelete(AdminDeleteTweetModel vm)
         {
-            this.cascadeDeleteService.DeleteUserTweetAndEntities(userId, tweetId);
+            this.cascadeDeleteService.DeleteUserTweetAndEntities(vm.UserId, vm.TweetId);
 
-            return RedirectToAction("SavedTweets", "Statistics", new { area = "Admin", userId = userId });
+            return RedirectToAction("SavedTweets", "Statistics", new { area = "Admin", userId = vm.UserId });
         }
     }
 }

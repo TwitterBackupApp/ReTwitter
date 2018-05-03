@@ -11,37 +11,98 @@
 <h1>@ViewData["Title"]</h1>
 <table class="table table-bordered table-hover">
     <thead>
-    <tr>
-        <th>
-            Twitten by
-        </th>
-        <th>
-            Text
-        </th>
-        <th>
-            Originally created on
-        </th>
-        <th>
-        </th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var tweetModel in Model.SavedTweetModels)
-    {
         <tr>
             <th>
-                @Html.DisplayFor(modelItem => tweetModel.AuthorScreenName)
+                Twitten by
             </th>
             <th>
-                @Html.DisplayFor(modelItem => tweetModel.Text)
+                Text
             </th>
             <th>
-                @Html.DisplayFor(modelItem => tweetModel.OriginalTweetCreatedOn)
+                Originally created on
             </th>
             <th>
-                <a asp-area="" asp-controller="Tweet" asp-action="TweetAdminDelete" asp-route-userId="@Model.UserId" asp-route-tweetId="@tweetModel.TweetId">Delete</a>
             </th>
         </tr>
-    }
+    </thead>
+    <tbody>
+        @foreach (var tweetModel in Model.SavedTweetModels)
+        {
+            <tr>
+                <th>
+                    @Html.DisplayFor(modelItem => tweetModel.AuthorScreenName)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => tweetModel.Text)
+                </th>
+                <th>
+                    @Html.DisplayFor(modelItem => tweetModel.OriginalTweetCreatedOn)
+                </th>
+                <th>
+                    @*<a asp-area="" asp-controller="Tweet" asp-action="TweetAdminDelete" asp-route-userId="@Model.UserId" asp-route-tweetId="@tweetModel.TweetId">Delete</a>*@
+                    <button id="@Model.UserId" class="btn btn-palegreen btn-sm pull-right" value="@tweetModel.TweetId">Delete</button>
+
+                </th>
+            </tr>
+        }
     </tbody>
 </table>
+
+
+
+@section Scripts{
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('button').on('click', function (e) {
+
+                event.preventDefault();
+                var userId = $(this).attr('id');
+                var tweetId = $(this).attr('value');
+              $.ajax(swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: "/Tweet/TweetAdminDelete",
+                            type: "POST",
+                            data: { "UserId": userId, "TweetId": tweetId },
+                            dataType: 'json',
+                            success: function (data) {
+                                @*location.href = "@Url.Action("ActivelyFollowing", "Statistics")?userId="
+                                    + userId;*@
+                            },
+                            error: function (httpRequest, textStatus, errorThrown) {
+                                alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                            }
+                        }),
+                            swal(
+                                'Deleted!',
+                                'Tweet has been deleted.',
+                                'success'
+                            )
+                    } else if (
+                        result.dismiss === swal.DismissReason.cancel
+                    ) {
+                        swal(
+                            'Cancelled',
+                            'Tweet is still in users list!',
+                            'error'
+                        )
+                    }
+                }));
+            });
+        });
+    </script>
+}
