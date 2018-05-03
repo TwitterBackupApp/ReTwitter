@@ -20,12 +20,14 @@ namespace ReTwitter.Web.Controllers
         }
 
        
-        [HttpPost]
+        [HttpGet]
         [ValidateAntiForgeryToken]
-        public IActionResult SearchResult(SearchViewModel model)
+        public IActionResult SearchResult(SearchViewModel model, [FromHeader] string referer)
         {
             if (this.ModelState.IsValid)
             {
+                var returnUrl = referer;
+
                 var result = twitterApiCallService.GetTwitterUsersByScreenName(model.SearchInput);
 
                 var vm = new SearchResultsViewModel { SearchResults = result };

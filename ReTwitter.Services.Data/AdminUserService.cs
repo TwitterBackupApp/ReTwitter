@@ -36,7 +36,11 @@ namespace ReTwitter.Services.Data
             => await this.unitOfWork
                 .Users.All
                 .FirstOrDefaultAsync(w => w.UserName == userName);
-                
+
+        public async Task<User> SingleUserByIdAsync(string id)
+            => await this.unitOfWork
+                .Users.All
+                .FirstOrDefaultAsync(w => w.Id == id);
 
         public async Task<IEnumerable<UserDto>> AllWithoutMasterAdmins()
             => await this.unitOfWork

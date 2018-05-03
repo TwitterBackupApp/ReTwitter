@@ -1,33 +1,33 @@
 ﻿@using ReTwitter.Web.Areas.Admin.Models.Users
 @model ReTwitter.Web.Areas.Admin.Models.Users.UserListingsViewModel
 
-    <br />
-    <br />
-    <br />
-    @{
-        ViewData["Title"] = "User Administration";
-    }
+<br />
+<br />
+<br />
+@{
+    ViewData["Title"] = "User Administration";
+}
 
-    <h1>@ViewData["Title"]</h1>
+<h1>@ViewData["Title"]</h1>
 
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>
-                    Username
-                </th>
-                <th>
-                    E-mail
-                </th>
-                <th>
-                    Change Role
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model.Users)
-            {
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                E-mail
+            </th>
+            <th>
+                Change Role
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
             <tr>
                 <th>
                     @user.UserName
@@ -49,9 +49,68 @@
                     </form>
                 </th>
                 <th>
-                    @Html.ActionLink("Delete", "Delete", "Users", new { userId = user.Id, userName = user.UserName }, new { @class = "btn btn-info" })
+                    <button id="@user.Id" class="btn btn-palegreen btn-sm pull-right">Delete</button>
                 </th>
             </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
+
+
+@section Scripts{
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+       $(document).ready(function () {
+            $('button').on('click', function (e) {
+
+                event.preventDefault();
+                var id = $(this).attr('id');
+
+                $.ajax(swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: "/Admin/Users/Delete/" + id,
+                            type: "POST",
+                            success: (response) => {
+                                //if (response) {
+                                //    swal(
+                                //        'Deleted!',
+                                //        'The user has been deleted.',
+                                //        'success'
+                                //    )
+                                //} else {
+                                //    swal(
+                                //        'Incorrect request!',
+                                //        'You either tried to delete yourself which is not allowed or tried to delete a master administrator!',
+                                //        'error'
+                                //    )
+                                //}
+                            }
+                        })
+                    } else if (
+                        result.dismiss === swal.DismissReason.cancel
+                    ) {
+                        swal(
+                            'Cancelled',
+                            'User is still active!',
+                            'error'
+                        )
+                    }
+                }));
+            });
+        });
+    </script>
+}
