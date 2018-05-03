@@ -54,8 +54,7 @@
 
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-4 inlinestats-col">
-                            <button id="unfollow-user-btn" class="btn btn-info">Unfollow</button>
-                            @*@Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })*@
+                            <button id="unfollow-user-btn" class="btn btn-info">Unfollow</button>   
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-4 inlinestats-col">
                             @Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })
@@ -81,19 +80,14 @@
                 type: "POST",
                 success: (response) => {
                     if (response) {
-                        swal(
-                            'Oops...',
-                            'You already follow this user!',
-                            'error'
-                        )
-                    } else {
-                        swal(
-                            'Congrats!',
-                            'You successfully followed the user!',
-                            'success'
-                        )
+                        swal({
+                            position: 'top-end',
+                            type: 'success',
+                            title: 'You successfully unfollowed this user!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
-
                 },
                 error: (response) => {
                     console.log(response);
