@@ -50,9 +50,7 @@
                 event.preventDefault();
                 var userId = $(this).attr('id');
                 var followeeId = $(this).attr('value');
-                var url = '@Url.Action("ActivelyFollowing", "Statistics", new { area = "Admin" })';
-                url += "?userId=" + escape(userId);
-                $.ajax(swal({
+              $.ajax(swal({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
                     type: 'warning',
@@ -73,8 +71,8 @@
                             data: { "UserId": userId, "FolloweeId": followeeId },
                             dataType: 'json',
                             success: function (data) {
-                                console.log(url);
-                                window.location.href = url;
+                                location.href = "@Url.Action("ActivelyFollowing", "Statistics")?userId="
+                                    + userId;
                             },
                             error: function (httpRequest, textStatus, errorThrown) { 
                                 alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
