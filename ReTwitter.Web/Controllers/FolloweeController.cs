@@ -88,12 +88,12 @@ namespace ReTwitter.Web.Controllers
             }
         }
 
-        public async Task<IActionResult> FolloweeDeleted(string followeeId)
+        public async Task<IActionResult> FolloweeDeleted(string id)
         {
             var user = await manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
-            this.cascadeDeleteService.DeleteUserFolloweeAndEntries(followeeId, userId);
+            this.cascadeDeleteService.DeleteUserFolloweeAndEntries(id, userId);
 
             return Json(true);
         }
