@@ -5,6 +5,7 @@ using ReTwitter.Services.Data.Contracts;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using ReTwitter.DTO.TwitterDto;
+using ReTwitter.Web.Areas.Admin.Models.Statistics;
 
 namespace ReTwitter.Web.Controllers
 {
@@ -104,11 +105,11 @@ namespace ReTwitter.Web.Controllers
             return RedirectToAction("FolloweeCollection");
         }
 
-        public IActionResult FolloweeAdminDelete(string followeeId, string userId)
+        public IActionResult FolloweeAdminDelete(AdminDeleteFoloweeModel vm)
         {
-            this.cascadeDeleteService.DeleteUserFolloweeAndEntries(followeeId, userId);
+            this.cascadeDeleteService.DeleteUserFolloweeAndEntries(vm.FolloweeId, vm.UserId);
 
-            return RedirectToAction("ActivelyFollowing", "Statistics", new { area = "Admin", userId = userId });
+            return RedirectToAction("ActivelyFollowing", "Statistics", new { area = "Admin", userId = vm.UserId });
         }
 
     }
