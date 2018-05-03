@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "FolloweeDetailsFromDb";
+    string followeeId = Model.FolloweeId;
 }
 
 <link rel="stylesheet" href="~/css/display-followee-from-db.css" />
@@ -53,7 +54,8 @@
 
                     <div class="row">
                         <div class="col-md-4 col-sm-4 col-xs-4 inlinestats-col">
-                            @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", Model, new { @class = "btn btn-info" })
+                            <button id="unfollow-user-btn" class="btn btn-info">Unfollow</button>
+                            @*@Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })*@
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-4 inlinestats-col">
                             @Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { followeeId = Model.FolloweeId }, new { @class = "btn btn-info" })
@@ -67,3 +69,37 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts{
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+    $(function () {
+        $("#unfollow-user-btn").on("click", () => {
+            $.ajax({
+                url: "/Followee/FolloweeDeleted/" + @followeeId,
+                type: "POST",
+                success: (response) => {
+                    if (response) {
+                        swal(
+                            'Oops...',
+                            'You already follow this user!',
+                            'error'
+                        )
+                    } else {
+                        swal(
+                            'Congrats!',
+                            'You successfully followed the user!',
+                            'success'
+                        )
+                    }
+
+                },
+                error: (response) => {
+                    console.log(response);
+                }
+            });
+        });
+    });
+    </script>
+}

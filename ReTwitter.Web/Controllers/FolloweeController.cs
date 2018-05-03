@@ -95,7 +95,7 @@ namespace ReTwitter.Web.Controllers
 
             this.cascadeDeleteService.DeleteUserFolloweeAndEntries(followeeId, userId);
 
-            return View();
+            return Json(true);
         }
 
         public IActionResult FolloweeUpdate(string followeeId)
