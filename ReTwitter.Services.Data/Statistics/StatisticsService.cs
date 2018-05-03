@@ -16,7 +16,7 @@ namespace ReTwitter.Services.Data.Statistics
             this.unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         }
 
-        public Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel> UsersStatistics()
+        public StatisticsScreenModel UsersStatistics()
         {
             var allUsers = this.unitOfWork.Users.AllAndDeleted.Select(s => new
             {
@@ -38,13 +38,13 @@ namespace ReTwitter.Services.Data.Statistics
                 DeletedStatus = s.IsDeleted
             }).ToList();
 
-            var usesStatisticsModels = new Dictionary<string, UserStatisticsModel>();
+            var usersStatisticsModels = new Dictionary<string, UserStatisticsModel>();
             var totalStatistics = new TotalStatisticsModel();
 
             foreach (var user in allUsers)
             {
                 totalStatistics.TotalUsers++;
-                usesStatisticsModels[user.Username] = new UserStatisticsModel
+                usersStatisticsModels[user.Username] = new UserStatisticsModel
                 {
                     UserName = user.Username,
                     UserId = user.UserId,
@@ -53,7 +53,7 @@ namespace ReTwitter.Services.Data.Statistics
                 };
             }
 
-            foreach (var userModel in usesStatisticsModels)
+            foreach (var userModel in usersStatisticsModels)
             {
                 userModel.Value.ActivelyFollowedAccountsCount = allUserFolloweeStatus.Count(w => w.UserName == userModel.Key && w.DeletedStatus == false);
                 totalStatistics.TotalActivelyFollowedAccountsCount += userModel.Value.ActivelyFollowedAccountsCount;
@@ -65,7 +65,8 @@ namespace ReTwitter.Services.Data.Statistics
                 totalStatistics.TotalDeletedTweetsCount += userModel.Value.DeletedTweetsCount;
             }
 
-            var statisticsModels = new Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel>(usesStatisticsModels.Values, totalStatistics);
+            //var statisticsModels = new Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel>(usesStatisticsModels.Values, totalStatistics);
+            var statisticsModels = new StatisticsScreenModel {TotalStatisticsModel = totalStatistics, UserStatisticsModels = usersStatisticsModels.Values};
 
             return statisticsModels;
         }

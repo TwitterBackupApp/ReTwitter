@@ -9,7 +9,7 @@ using ReTwitter.DTO.TwitterDto;
 namespace ReTwitter.Web.Controllers
 {
     [Authorize]
-    public class FolloweeController: Controller
+    public class FolloweeController : Controller
     {
         private readonly IFolloweeService followeeService;
         private readonly ITwitterApiCallService twitterApiCallService;
@@ -17,8 +17,8 @@ namespace ReTwitter.Web.Controllers
         private readonly UserManager<User> manager;
         private readonly ICascadeDeleteService cascadeDeleteService;
 
-        public FolloweeController(IFolloweeService followeeService, 
-            ITwitterApiCallService twitterApiCallService, IUserFolloweeService userFolloweeService, 
+        public FolloweeController(IFolloweeService followeeService,
+            ITwitterApiCallService twitterApiCallService, IUserFolloweeService userFolloweeService,
             UserManager<User> manager, ICascadeDeleteService cascadeDeleteService)
         {
             this.followeeService = followeeService;
@@ -43,7 +43,7 @@ namespace ReTwitter.Web.Controllers
         {
             var followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
 
-            if(followee != null)
+            if (followee != null)
             {
                 return View(followee);
             }
@@ -107,7 +107,7 @@ namespace ReTwitter.Web.Controllers
         {
             this.cascadeDeleteService.DeleteUserFolloweeAndEntries(followeeId, userId);
 
-            return RedirectToAction("ActivelyFollowing", "Statistics", new {area = "Admin", userId = userId});
+            return RedirectToAction("ActivelyFollowing", "Statistics", new { area = "Admin", userId = userId });
         }
 
     }

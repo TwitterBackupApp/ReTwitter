@@ -82,15 +82,15 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.Statistics
                 ["TestUser2"] = statisticsModel2
             };
 
-            var expectedOutput = new Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel>(usesStatisticsModels.Values, totalStatisticsModel);
-            
+            var expectedOutput = new FakeStatisticsScreenModel { TotalStatisticsModel = totalStatisticsModel, UserStatisticsModels = usesStatisticsModels.Values };
+
             //Act
             var actualOutput = sut.UsersStatistics();
 
             //Assert
 
-            Assert.AreEqual(expectedOutput.Item2, actualOutput.Item2);
-            CollectionAssert.AreEqual(expectedOutput.Item1.ToList(), actualOutput.Item1.ToList());
+            Assert.AreEqual(expectedOutput.TotalStatisticsModel, actualOutput.TotalStatisticsModel);
+            CollectionAssert.AreEqual(expectedOutput.UserStatisticsModels.ToList(), actualOutput.UserStatisticsModels.ToList());
         }
     }
 }

@@ -16,6 +16,7 @@ using ReTwitter.Services.Data.TwitterApiService;
 using ReTwitter.Services.External;
 using ReTwitter.Services.External.Contracts;
 using System;
+using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Services.Data.Statistics;
 
 namespace ReTwitter.Web
@@ -43,7 +44,14 @@ namespace ReTwitter.Web
 
         private void RegisterInfrastructure(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMemoryCache();
+            services.AddMvc(options =>
+            {
+                options.CacheProfiles.Add("Hourly", new CacheProfile()
+                {
+                    Duration = 60 * 60
+                });
+            });
             services.AddAutoMapper();
             services.AddScoped<IMappingProvider, MappingProvider>();
         }

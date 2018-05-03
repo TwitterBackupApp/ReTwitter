@@ -24,7 +24,7 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
         {
             var userStatisticsModels = this.statisticsService.UsersStatistics();
 
-            var vm = new AllUserStatisticsViewModel { UserStatisticsModels = userStatisticsModels.Item1, TotalStatistics = userStatisticsModels.Item2 };
+            var vm = new AllUserStatisticsViewModel { UserStatisticsModels = userStatisticsModels.UserStatisticsModels, TotalStatistics = userStatisticsModels.TotalStatisticsModel };
 
             return this.View(vm);
         }

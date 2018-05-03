@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Security.Cryptography;
@@ -32,39 +31,41 @@ namespace ReTwitter.Services.External
             this.accessSecret = string.IsNullOrWhiteSpace(credentials.AccessTokenSecret) ? throw new ArgumentNullException(nameof(accessSecret)) : credentials.AccessTokenSecret;
         }
 
-        public string GetTwitterData(string resourceurl)
+        public string GetTwitterData(string resourceUrl)
         {
-            if (string.IsNullOrWhiteSpace(resourceurl))
+            var originalResource = resourceUrl;
+            if (string.IsNullOrWhiteSpace(resourceUrl))
             {
                 throw new ArgumentNullException();
             }
 
-            List<string> parameterlist;
-            if (resourceurl.Contains("?"))
+            List<string> parameterList;
+
+            if (resourceUrl.Contains("?"))
             {
-                parameterlist = GetParametersFromUrl(resourceurl);
-                resourceurl = resourceurl.Substring(0, resourceurl.IndexOf('?'));
+                parameterList = this.GetParametersFromUrl(resourceUrl);
+                resourceUrl = resourceUrl.Substring(0, resourceUrl.IndexOf('?'));
             }
 
             else
             {
-                parameterlist = null;
+                parameterList = null;
             }
 
-            string authheader = BuildHeader(resourceurl, parameterlist);
+            string authHeader = this.BuildHeader(resourceUrl, parameterList);
 
-            string jsonresponse = this.TwitterWebRequest(resourceurl, authheader, parameterlist);
+            string jsonResponse = this.RequestFromTwitter(originalResource, authHeader);
 
-            return jsonresponse;
+            return jsonResponse;
         }
 
         private List<string> GetParametersFromUrl(string resourceUrl)
         {
             string querystring = resourceUrl.Substring(resourceUrl.IndexOf('?') + 1);
 
-            List<string> listtoreturn = new List<string>();
+            var listtoreturn = new List<string>();
 
-            NameValueCollection nv = HttpUtility.ParseQueryString(querystring);
+            var nv = HttpUtility.ParseQueryString(querystring);
 
             foreach (string parameter in nv)
             {
@@ -73,15 +74,15 @@ namespace ReTwitter.Services.External
             return listtoreturn;
         }
 
-        private string BuildHeader(string resourceurl, List<string> parameterlist)
+        private string BuildHeader(string resourceUrl, List<string> parameterList)
         {
-            string nonce = Convert.ToBase64String(new ASCIIEncoding().GetBytes(DateTime.Now.Ticks.ToString()));
-            TimeSpan timespan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            string timestamp = Convert.ToInt64(timespan.TotalSeconds).ToString();
+            var nonce = Convert.ToBase64String(new ASCIIEncoding().GetBytes(DateTime.Now.Ticks.ToString()));
+            var timespan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            var timestamp = Convert.ToInt64(timespan.TotalSeconds).ToString();
 
-            string signature = GetSignature(nonce, timestamp, resourceurl, parameterlist);
+            var signature = GetSignature(nonce, timestamp, resourceUrl, parameterList);
 
-            var HeaderFormat = "OAuth " +
+            var headerFormat = "OAuth " +
             "oauth_consumer_key=\"{0}\", " +
             "oauth_nonce=\"{1}\", " +
             "oauth_signature=\"{2}\", " +
@@ -90,7 +91,7 @@ namespace ReTwitter.Services.External
             "oauth_token=\"{5}\", " +
             "oauth_version=\"{6}\"";
 
-            string authHeader = string.Format(HeaderFormat,
+            var authHeader = string.Format(headerFormat,
             Uri.EscapeDataString(consumerKey),
             Uri.EscapeDataString(nonce),
             Uri.EscapeDataString(signature),
@@ -103,25 +104,24 @@ namespace ReTwitter.Services.External
             return authHeader;
         }
 
-        private string GetSignature(string nonce, string timestamp, string resourceurl, List<string> parameterlist)
+        private string GetSignature(string nonce, string timestamp, string resourceUrl, List<string> parameterList)
         {
-            string baseString = GenerateBaseString(nonce, timestamp, parameterlist);
+            var baseString = this.GenerateBaseString(nonce, timestamp, parameterList);
 
-            baseString = string.Concat("GET&", Uri.EscapeDataString(resourceurl), "&", Uri.EscapeDataString(baseString));
+            baseString = string.Concat("GET&", Uri.EscapeDataString(resourceUrl), "&", Uri.EscapeDataString(baseString));
 
             var signingKey = string.Concat(Uri.EscapeDataString(consumerSecret), "&", Uri.EscapeDataString(accessSecret));
-            string signature;
 
-            HMACSHA1 hasher = new HMACSHA1(Encoding.ASCII.GetBytes(signingKey));
+            var hasher = new HMACSHA1(Encoding.ASCII.GetBytes(signingKey));
 
-            signature = Convert.ToBase64String(hasher.ComputeHash(Encoding.ASCII.GetBytes(baseString)));
+            var signature = Convert.ToBase64String(hasher.ComputeHash(Encoding.ASCII.GetBytes(baseString)));
 
             return signature;
         }
 
-        private string GenerateBaseString(string nonce, string timestamp, List<string> parameterlist)
+        private string GenerateBaseString(string nonce, string timestamp, List<string> parameterList)
         {
-            string basestring = "";
+            var baseString = string.Empty;
             List<string> baseformat = new List<string>();
             baseformat.Add("oauth_consumer_key=" + consumerKey);
             baseformat.Add("oauth_nonce=" + nonce);
@@ -130,57 +130,35 @@ namespace ReTwitter.Services.External
             baseformat.Add("oauth_token=" + accessToken);
             baseformat.Add("oauth_version=" + version);
 
-            if (parameterlist != null)
+            if (parameterList != null)
             {
-                baseformat.AddRange(parameterlist);
+                baseformat.AddRange(parameterList);
             }
 
             baseformat.Sort();
 
-            foreach (string value in baseformat)
+            foreach (var value in baseformat)
             {
-                basestring += value + "&";
+                baseString += value + "&";
             }
 
-            basestring = basestring.TrimEnd('&');
+            baseString = baseString.TrimEnd('&');
 
-            return basestring;
+            return baseString;
         }
 
-        private string TwitterWebRequest(string resourceurl, string authheader, List<string> parameterlist)
+        private string RequestFromTwitter(string resourceUrl, string authHeader)
         {
-            ServicePointManager.Expect100Continue = false;
-
-            string postBody;
-
-            postBody = parameterlist != null ? GetPostBody(parameterlist) : "";
-
-            resourceurl += "?" + postBody;
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(resourceurl);
-            request.Headers.Add("Authorization", authheader);
+            var request = (HttpWebRequest)WebRequest.Create(resourceUrl);
+            request.Headers.Add("Authorization", authHeader);
             request.Method = "GET";
             request.ContentType = "application/x-www-form-urlencoded";
 
-            WebResponse response = request.GetResponse();
+            var response = request.GetResponse();
 
             string responseData = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
             return responseData;
-
-        }
-
-        private string GetPostBody(List<string> parameterlist)
-        {
-            string stringtoreturn = "";
-
-            foreach (string item in parameterlist)
-            {
-                stringtoreturn += item + "&";
-
-            }
-            stringtoreturn = stringtoreturn.TrimEnd('&');
-            return stringtoreturn;
         }
     }
 }

@@ -6,11 +6,13 @@ namespace ReTwitter.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [ResponseCache(CacheProfileName = "Hourly")]
         public IActionResult Index()
         {
             return this.View();
         }
 
+        [ResponseCache(CacheProfileName = "Hourly")]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -18,6 +20,7 @@ namespace ReTwitter.Web.Controllers
             return this.View();
         }
 
+        [ResponseCache(CacheProfileName = "Hourly")]
         public IActionResult Error()
         {
             return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
