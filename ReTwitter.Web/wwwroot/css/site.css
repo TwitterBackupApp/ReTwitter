@@ -112,3 +112,6 @@
     top: auto;
     bottom: 20%
 }
+.info-about, .center-about-info {
+    text-align: center;
+}

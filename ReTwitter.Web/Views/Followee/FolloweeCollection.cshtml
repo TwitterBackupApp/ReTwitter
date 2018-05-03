@@ -2,50 +2,51 @@
 @{
     ViewData["Title"] = "FolloweeCollection";
 }
-<link rel="stylesheet" href="~/css/display-followee-from-api.css" />
+<link rel="stylesheet" href="~/css/followees-collection.css" />
 <br />
 <br />
 <br />
-<h2>Followees Collection</h2>
+<h2 class="center-title">Followees Collection</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ScreenName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>  @Html.DisplayNameFor(model => model.Bio)</th>
-        <th>Account created on</th>
-        <th></th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScreenName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FolloweeOriginallyCreatedOn)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId })
-            </td>
-            <td>
-                @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-            </td>
-            <td>
-                @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.ScreenName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>  @Html.DisplayNameFor(model => model.Bio)</th>
+            <th>Account created on</th>
+            <th></th>
+            <th></th>
         </tr>
-    }
-</table>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ScreenName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FolloweeOriginallyCreatedOn)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId })
+                </td>
+                <td>
+                    @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
+                </td>
+                <td>
+                    @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
+                </td>
+            </tr>
+        }
+    </table>
