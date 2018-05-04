@@ -12,7 +12,6 @@ namespace ReTwitter.Web.Controllers
 {
     public class TweetController : Controller
     {
-        private readonly ITwitterApiCaller twitterApiCall;
         private readonly ITwitterApiCallService twitterApiCallService;
         private readonly ITweetService tweetService;
         private readonly UserManager<User> manager;
