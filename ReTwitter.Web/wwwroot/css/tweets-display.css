@@ -1,0 +1,55 @@
+﻿.accordion {
+    background-color: #fff;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+    border: 1px solid #00aced;
+}
+
+.active, .accordion:hover {
+    background-color: #e8f8ff;
+}
+
+.accordion:after {
+    content: url('../images/tweety-before1.png');
+    color: #c9e2ed;
+    font-weight: bold;
+    float: left;
+    margin-left: 5px;
+    margin-right: 15px;
+}
+
+.active:after {
+    content: url('../images/tweety-after1.png');
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.created-on{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.panel-buttons{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-delete-tweet, a.btn-retweet {
+    border: 1px solid #1da1f4;
+    background-color: #fff !important;
+    color: #1da1f4;
+    padding: 5px 5px 5px 5px;
+}
