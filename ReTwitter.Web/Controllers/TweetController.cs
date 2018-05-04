@@ -30,22 +30,20 @@ namespace ReTwitter.Web.Controllers
 
         public async Task<IActionResult> TweetDisplay(string followeeId)
         {
-            if (this.ModelState.IsValid)
+            if (string.IsNullOrWhiteSpace(followeeId))
             {
-                var user = await this.manager.GetUserAsync(HttpContext.User);
-                var userId = user.Id;
-
-                var savedTweets = this.tweetService.GetTweetsByFolloweeIdAndUserId(followeeId, userId);
-
-                var vm = new TweetResultsViewModel { TweetResults = savedTweets };
-                return View(vm);
+                return NotFound();
             }
+            var user = await this.manager.GetUserAsync(HttpContext.User);
+            var userId = user.Id;
 
-            return View();
+            var savedTweets = this.tweetService.GetTweetsByFolloweeIdAndUserId(followeeId, userId);
+
+            var vm = new TweetResultsViewModel { TweetResults = savedTweets };
+            return View(vm);
         }
 
-        // Await?? Since is asyncronous operation?
-        public async Task<IActionResult> TweetSearchResult(string followeeId)
+        public IActionResult TweetSearchResult(string followeeId)
         {
             if (this.ModelState.IsValid)
             {
