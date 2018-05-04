@@ -6,93 +6,24 @@
 
 <h2 class="center-title">Followees Collection</h2>
 
-
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ScreenName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>  @Html.DisplayNameFor(model => model.Bio)</th>
-        <th>Account created on</th>
-        <th></th>
-        <th></th>
-    </tr>
-
+<div class="container-followees clearfix">
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ScreenName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Bio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FolloweeOriginallyCreatedOn)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId })
-            </td>
-            <td>
-                @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-            </td>
-            <td>
-                @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-            </td>
-        </tr>
-    }
-</table>*@
-
-@foreach (var item in Model)
-{
-    <div class="col-sm-4">
-        <div class="panel panel-default text-center">
-            <div class="panel-heading">
-                <h1>@@@Html.DisplayFor(model => item.ScreenName)</h1>
-                <img src="@string.Concat("https://twitter.com/", item.ScreenName, "/profile_image?size=original")" alt="" class="header-avatar">
-            </div>
-            <div class="panel-body">
-                <p><strong>@Html.DisplayFor(model => item.Name)</strong> </p>     
-            </div>
-            <div class="panel-footer">
-                @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId }, new { @class = "btn btn-lg" })
-                @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })
-                @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })
-            </div>
-        </div>
-    </div>
-}
-
-@*@foreach (var item in Model)
-    {
-        <div class="col-md-4">
-            <div class="profile-container container-fluid">
-                <div class="profile-header row">
-                    <div class="col-md-12 col-sm-12 text-center">
-                        <div class="panel panel-default text-center">
-                            <div class="header-fullname">@Html.DisplayFor(model => item.Name)</div>
-                            <img src="@string.Concat("https://twitter.com/", item.ScreenName, "/profile_image?size=original")" alt="" class="header-avatar">
-                        </div>
-                        <div class="col-md-12 col-sm-12 col-xs-12 screen-name"> @@@Html.DisplayFor(model => item.ScreenName)</div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="col-md-12 col-sm-4 col-xs-4">
-                            <button id="unfollow-user-btn" class="btn btn-info">Unfollow</button>
-                        </div>
-                        <div class="col-md-12 col-sm-4 col-xs-4">
-                            @Html.ActionLink("Show Tweets", "TweetDisplay", "Tweet", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-                        </div>
-                        <div class="col-md-12 col-sm-4 col-xs-4">
-                            @Html.ActionLink("Search for latest 100 Tweets", "TweetSearchResult", "Tweet", new { followeeId = item.FolloweeId }, new { @class = "btn btn-info" })
-                        </div>
-                    </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default text-center">
+                <div class="panel-heading">
+                    <h1>@@@Html.DisplayFor(model => item.ScreenName)</h1>
+                </div>
+                <div class="panel-body">
+                    <img src="@string.Concat("https://twitter.com/", item.ScreenName, "/profile_image?size=original")" alt="" class="header-avatar">
+                    <p><strong>@Html.DisplayFor(model => item.Name)</strong> </p>
+                </div>
+                <div class="panel-footer">
+                    @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId }, new { @class = "btn btn-lg" })
+                    @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })
+                    @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })
                 </div>
             </div>
         </div>
-    }*@
+    }
+</div>

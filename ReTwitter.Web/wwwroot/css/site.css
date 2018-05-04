@@ -2,12 +2,14 @@
     font: 400 15px Lato, sans-serif;
     font-family: 'Montserrat', sans-serif !important;
 }
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
 }
+
 /* Navigation */
 #main-nav {
     margin-bottom: 0;
@@ -17,23 +19,24 @@
     top: 0;
     background: rgba(0, 1 ,5, 0.8);
 }
-    #main-nav li a {
-        color: #b6b7ba;
-        padding: 15px 15px;
-    }
 
-    #main-nav .navbar-brand {
-        color: #b6b7ba;
-    }
+#main-nav li a {
+    color: #b6b7ba;
+    padding: 15px 15px;
+}
 
-        #main-nav .navbar-brand img {
-            max-width: 35px;
-        }
+#main-nav .navbar-brand {
+    color: #b6b7ba;
+}
 
-    #main-nav .user-nav {
-        border-left: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-    }
+#main-nav .navbar-brand img {
+        max-width: 35px;
+}
+
+#main-nav .user-nav {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
 
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
@@ -90,18 +93,23 @@
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
 }
+
 .btn-go-back-to-collection:hover, .btn-go-back-to-search:hover {
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
 }
+
 .btns-go-back {
     margin-top: 15%;
 }
+
 .topCenter span{
     font-size: 40px;
 }
+
 .bottomCenter span {
     font-size: 20px;
 }
+
 .topCenter, .bottomCenter {
     top: 20%;
     text-align: center;
@@ -112,6 +120,7 @@
     top: auto;
     bottom: 20%
 }
+
 .info-about, .center-about-info {
     text-align: center;
 }
