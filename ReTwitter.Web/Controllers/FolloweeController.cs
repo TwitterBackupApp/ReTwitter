@@ -111,6 +111,5 @@ namespace ReTwitter.Web.Controllers
 
             return RedirectToAction("ActivelyFollowing", "Statistics", new { area = "Admin", userId = vm.UserId });
         }
-
     }
 }
