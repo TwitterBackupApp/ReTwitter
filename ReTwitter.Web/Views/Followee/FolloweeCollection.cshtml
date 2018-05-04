@@ -20,8 +20,7 @@
                 </div>
                 <div class="panel-footer">
                     @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId }, new { @class = "btn btn-lg" })
-                    @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })
-                    @*@Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { id = item.FolloweeId }, new { @class = "btn btn-lg" })*@
+                    @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })                
                     <button id="@item.FolloweeId" class="btn btn-lg btn-unfollow">Unfollow</button>
 
                 </div>

@@ -1,7 +1,10 @@
 ﻿@model ReTwitter.Web.Models.TweetViewModel.TweetResultsViewModel
+
 @{
     ViewData["Title"] = "TweetDisplay";
 }
+
+<link rel="stylesheet" href="~/css/tweets-display.css" />
 
 <br />
 <br />
@@ -9,7 +12,30 @@
 
 <h2>Tweet Display</h2>
 
-<table class="table">
+@foreach (var item in Model.TweetResults)
+
+{
+    <button class="accordion">@Html.DisplayFor(modelItem => item.Text)</button>
+    <div class="panel">
+        <p class="created-on">Tweet created on: </p>
+        @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn, "{0:dd/MM/yyyy}")
+
+        @if (item.UsersMentioned > 0)
+         {
+        <p>Number of people mentioned: @Html.DisplayFor(model => item.UsersMentioned)</p>
+         }
+         
+        <div class="panel-buttons">
+            <button id="@item.TweetId" class="btn-delete-tweet">Delete</button>
+            <a href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)" class="btn-retweet">Retweet</a>
+        </div>       
+    </div>
+}
+
+
+
+
+@*<table class="table">
     <tr>
         <th>
             Text
@@ -41,21 +67,21 @@
             </td>
             <td>
                 <a href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>
-                </td>
+            </td>
         </tr>
     }
-</table>
+</table>*@
 
 
 @section Scripts{
     <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
     <script>
-       $(document).ready(function () {
-           $('.btn.btn-palegreen.btn-sm.pull-right').on('click', function (e) {
+        $(document).ready(function () {
+            $('.btn-delete-tweet').on('click', function (e) {
 
-               var evnt = $(this);
-               event.preventDefault();
-               var id = evnt.attr('id');
+                var evnt = $(this);
+                event.preventDefault();
+                var id = evnt.attr('id');
 
                 $.ajax(swal({
                     title: 'Are you sure?',
@@ -81,7 +107,8 @@
                                     'Deleted!',
                                     'Tweet has been deleted.',
                                     'success'
-                                )}
+                                )
+                            }
                         })
                     } else if (
                         result.dismiss === swal.DismissReason.cancel
@@ -95,5 +122,21 @@
                 }));
             });
         });
+    </script>
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
     </script>
 }
