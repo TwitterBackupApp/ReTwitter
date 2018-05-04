@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -74,7 +73,9 @@ namespace ReTwitter.Tests.ReTwitter.ServiceTests.ImplementationsTests.Statistics
                 TotalSavedTweetsCount = 1,
                 TotalDeletedTweetsCount = 2,
                 TotalUsers = 2,
-                TotalActivelyFollowedAccountsCount = 1
+                TotalActivelyFollowedAccountsCount = 1,
+                TotalActiveUsers = 1,
+                TotalDeletedUsers = 1
             };
             var usesStatisticsModels = new Dictionary<string, UserStatisticsModel>
             {

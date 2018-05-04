@@ -44,6 +44,14 @@ namespace ReTwitter.Services.Data.Statistics
             foreach (var user in allUsers)
             {
                 totalStatistics.TotalUsers++;
+                if (user.DeletedStatus)
+                {
+                    totalStatistics.TotalDeletedUsers++;
+                }
+                else
+                {
+                    totalStatistics.TotalActiveUsers++;
+                }
                 usersStatisticsModels[user.Username] = new UserStatisticsModel
                 {
                     UserName = user.Username,
@@ -65,8 +73,7 @@ namespace ReTwitter.Services.Data.Statistics
                 totalStatistics.TotalDeletedTweetsCount += userModel.Value.DeletedTweetsCount;
             }
 
-            //var statisticsModels = new Tuple<IEnumerable<UserStatisticsModel>, TotalStatisticsModel>(usesStatisticsModels.Values, totalStatistics);
-            var statisticsModels = new StatisticsScreenModel {TotalStatisticsModel = totalStatistics, UserStatisticsModels = usersStatisticsModels.Values};
+            var statisticsModels = new StatisticsScreenModel { TotalStatisticsModel = totalStatistics, UserStatisticsModels = usersStatisticsModels.Values };
 
             return statisticsModels;
         }

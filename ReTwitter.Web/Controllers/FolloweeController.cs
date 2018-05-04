@@ -79,12 +79,12 @@ namespace ReTwitter.Web.Controllers
 
             if (followeeAlreadyExists)
             {
-                return Json(true);
+                return Json(false);
             }
             else
             {
                 this.userFolloweeService.SaveUserFollowee(userId, followee);
-                return Json(false);
+                return Json(true);
             }
         }
 

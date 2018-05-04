@@ -17,6 +17,8 @@ namespace ReTwitter.Tests.Fakes.Models
                    && this.TotalActivelyFollowedAccountsCount.Equals(item.TotalActivelyFollowedAccountsCount)
                    && this.TotalDeletedAccountsCount.Equals(item.TotalDeletedAccountsCount)
                    && this.TotalSavedTweetsCount.Equals(item.TotalSavedTweetsCount)
+                   && this.TotalActiveUsers.Equals(item.TotalActiveUsers)
+                   && this.TotalDeletedUsers.Equals(item.TotalDeletedUsers)
                    && this.TotalDeletedTweetsCount.Equals(item.TotalDeletedTweetsCount);
         }
     }
