@@ -60,11 +60,11 @@
 @section Scripts{
     <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
     <script>
-       $(document).ready(function () {
-            $('button').on('click', function (e) {
-
+        $(document).ready(function () {
+            $('.btn.btn-palegreen.btn-sm.pull-right').on('click', function (e) {
+                var evnt = $(this);
                 event.preventDefault();
-                var id = $(this).attr('id');
+                var id = evnt.attr('id');
 
                 $.ajax(swal({
                     title: 'Are you sure?',
@@ -85,20 +85,18 @@
                             url: "/Admin/Users/Delete/" + id,
                             type: "POST",
                             success: (response) => {
-                                //if (response) {
-                                //    swal(
-                                //        'Deleted!',
-                                //        'The user has been deleted.',
-                                //        'success'
-                                //    )
-                                //} else {
-                                //    swal(
-                                //        'Incorrect request!',
-                                //        'You either tried to delete yourself which is not allowed or tried to delete a master administrator!',
-                                //        'error'
-                                //    )
-                                //}
-                            }
+                                if (response) {
+                                    evnt.closest("tr").remove();
+                                    swal(
+                                        'Deleted!',
+                                        'The user has been deleted.',
+                                        'success'
+                                    )} else {
+                                    swal(
+                                        'Incorrect request!',
+                                        'You either: tried to delete yourself which is not allowed or tried to delete another admin which is allowed to master administrator only!',
+                                        'error'
+                                    )}}
                         })
                     } else if (
                         result.dismiss === swal.DismissReason.cancel

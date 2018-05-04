@@ -32,7 +32,6 @@
             @item.OriginalTweetCreatedOn.Substring(0, 10)
         </td>
         <td>
-            @*@Html.ActionLink("Save", "TweetAdd", "Tweet", new { tweetId = item.TweetId }, new { @class = "btn btn-info" })*@
             <button id="@item.TweetId" class="btn btn-palegreen btn-sm pull-right">Save</button>
 
         </td>
@@ -46,10 +45,11 @@
 <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
 <script>
     $(document).ready(function () {
-        $('button').on('click', function (e) {
+        $('.btn.btn-palegreen.btn-sm.pull-right').on('click', function (e) {
+            var evnt = $(this);
 
             event.preventDefault();
-            var id = $(this).attr('id');
+            var id = evnt.attr('id');
 
             $.ajax(swal({
                 title: 'Are you sure?',

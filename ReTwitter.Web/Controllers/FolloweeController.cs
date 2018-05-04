@@ -109,8 +109,7 @@ namespace ReTwitter.Web.Controllers
         {
             this.cascadeDeleteService.DeleteUserFolloweeAndEntries(vm.FolloweeId, vm.UserId);
 
-            return RedirectToAction("ActivelyFollowing", "Statistics", new { area = "Admin", userId = vm.UserId });
+            return Json(true);
         }
-
     }
 }

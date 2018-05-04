@@ -90,7 +90,7 @@ namespace ReTwitter.Web.Controllers
         {
             this.cascadeDeleteService.DeleteUserTweetAndEntities(vm.UserId, vm.TweetId);
 
-            return RedirectToAction("SavedTweets", "Statistics", new { area = "Admin", userId = vm.UserId });
+            return Json(true);
         }
     }
 }

@@ -39,9 +39,7 @@
                     @Html.DisplayFor(modelItem => tweetModel.OriginalTweetCreatedOn)
                 </th>
                 <th>
-                    @*<a asp-area="" asp-controller="Tweet" asp-action="TweetAdminDelete" asp-route-userId="@Model.UserId" asp-route-tweetId="@tweetModel.TweetId">Delete</a>*@
                     <button id="@Model.UserId" class="btn btn-palegreen btn-sm pull-right" value="@tweetModel.TweetId">Delete</button>
-
                 </th>
             </tr>
         }
@@ -54,12 +52,12 @@
     <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
     <script>
         $(document).ready(function () {
-            $('button').on('click', function (e) {
-
+            $('.btn.btn-palegreen.btn-sm.pull-right').on('click', function (e) {
+                var evnt = $(this);
                 event.preventDefault();
-                var userId = $(this).attr('id');
-                var tweetId = $(this).attr('value');
-              $.ajax(swal({
+                var userId = evnt.attr('id');
+                var tweetId = evnt.attr('value');
+                $.ajax(swal({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
                     type: 'warning',
@@ -79,27 +77,24 @@
                             type: "POST",
                             data: { "UserId": userId, "TweetId": tweetId },
                             dataType: 'json',
-                            success: function (data) {
-                                @*location.href = "@Url.Action("ActivelyFollowing", "Statistics")?userId="
-                                    + userId;*@
+                            success: function() {
+                                evnt.closest("tr").remove();
+                                swal(
+                                    'Deleted!',
+                                    'Tweet has been deleted.',
+                                    'success'
+                                );
                             },
-                            error: function (httpRequest, textStatus, errorThrown) {
-                                alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                            error: function(err) {
+                                console.log(err);
                             }
-                        }),
-                            swal(
-                                'Deleted!',
-                                'Tweet has been deleted.',
-                                'success'
-                            )
-                    } else if (
-                        result.dismiss === swal.DismissReason.cancel
-                    ) {
+                        });
+                    } else if ( result.dismiss === swal.DismissReason.cancel) {
                         swal(
                             'Cancelled',
                             'Tweet is still in users list!',
                             'error'
-                        )
+                        );
                     }
                 }));
             });

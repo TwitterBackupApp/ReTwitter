@@ -45,12 +45,14 @@
     <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
     <script>
         $(document).ready(function () {
-            $('button').on('click', function (e) {
+            $('.btn.btn-palegreen.btn-sm.pull-right').on('click', function (e) {
 
+                var evnt = $(this);
                 event.preventDefault();
-                var userId = $(this).attr('id');
-                var followeeId = $(this).attr('value');
-              $.ajax(swal({
+                var userId = evnt.attr('id');
+                var followeeId = evnt.attr('value');
+
+                $.ajax(swal({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
                     type: 'warning',
@@ -70,25 +72,25 @@
                             type: "POST",
                             data: { "UserId": userId, "FolloweeId": followeeId },
                             dataType: 'json',
-                            success: function (data) {
-                                location.href = "@Url.Action("ActivelyFollowing", "Statistics")?userId="
-                                    + userId;
+                            success: function () {
+                                console.log('kur');
+                                evnt.closest("tr").remove();
+                                swal(
+                                    'Deleted!',
+                                    'Followee of user has been deleted.',
+                                    'success'
+                                );
                             },
-                            error: function (httpRequest, textStatus, errorThrown) { 
-                                alert("Error: " + textStatus + " " + errorThrown + " " + httpRequest);
+                            error: function (err) {
+                                console.log(err);
                             }
-                        }),
-                            swal(
-                                'Deleted!',
-                                'Followee and his tweets have been deleted.',
-                                'success'
-                            )
+                        });
                     } else if (
                         result.dismiss === swal.DismissReason.cancel
                     ) {
                         swal(
                             'Cancelled',
-                            'Followee is still in your list!',
+                            "Followee is still in user's list!",
                             'error'
                         )
                     }

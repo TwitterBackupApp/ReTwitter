@@ -36,15 +36,12 @@
                 @Html.DisplayFor(model => item.UsersMentioned)
             </td>
             <td>
-                @*@Html.ActionLink("Delete", "TweetDelete", "Tweet", new { tweetId = item.TweetId }, new { @class = "btn btn-info" })*@
                 <button id="@item.TweetId" class="btn btn-palegreen btn-sm pull-right">Delete</button>
 
             </td>
             <td>
-                @*<a class = "btn btn-info" href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>*@
                 <a href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>
-                @*<a class = "btn btn-info" type="button" href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>*@
-            </td>
+                </td>
         </tr>
     }
 </table>
@@ -54,10 +51,11 @@
     <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
     <script>
        $(document).ready(function () {
-            $('button').on('click', function (e) {
+           $('.btn.btn-palegreen.btn-sm.pull-right').on('click', function (e) {
 
-                event.preventDefault();
-                var id = $(this).attr('id');
+               var evnt = $(this);
+               event.preventDefault();
+               var id = evnt.attr('id');
 
                 $.ajax(swal({
                     title: 'Are you sure?',
@@ -77,13 +75,14 @@
                         $.ajax({
                             url: "/Tweet/TweetDelete/" + id,
                             type: "POST",
-                            success: (response) => { }
-                        }),
-                            swal(
-                                'Deleted!',
-                                'Tweet has been deleted.',
-                                'success'
-                            )
+                            success: () => {
+                                evnt.closest("tr").remove();
+                                swal(
+                                    'Deleted!',
+                                    'Tweet has been deleted.',
+                                    'success'
+                                )}
+                        })
                     } else if (
                         result.dismiss === swal.DismissReason.cancel
                     ) {
