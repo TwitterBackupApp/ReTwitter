@@ -1,10 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Web.Models.SearchViewModels;
 
 namespace ReTwitter.Web.Controllers
 {
+    [Authorize]
     public class SearchController: Controller
     {
         private readonly ITwitterApiCallService twitterApiCallService;
