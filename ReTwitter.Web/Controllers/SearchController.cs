@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Web.Models.SearchViewModels;
 
@@ -10,7 +11,7 @@ namespace ReTwitter.Web.Controllers
 
         public SearchController(ITwitterApiCallService twitterApiCallService)
         {
-            this.twitterApiCallService = twitterApiCallService;
+            this.twitterApiCallService = twitterApiCallService ?? throw new ArgumentNullException(nameof(twitterApiCallService));
         }
 
 

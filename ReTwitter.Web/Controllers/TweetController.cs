@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
@@ -20,11 +21,11 @@ namespace ReTwitter.Web.Controllers
 
         public TweetController(ITwitterApiCallService twitterApiCallService, ITweetService tweetService, UserManager<User> manager, IUserTweetService userTweetService, ICascadeDeleteService cascadeDeleteService)
         {
-            this.twitterApiCallService = twitterApiCallService;
-            this.tweetService = tweetService;
-            this.manager = manager;
-            this.userTweetService = userTweetService;
-            this.cascadeDeleteService = cascadeDeleteService;
+            this.twitterApiCallService = twitterApiCallService ?? throw new ArgumentNullException(nameof(twitterApiCallService));
+            this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
+            this.manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this.userTweetService = userTweetService ?? throw new ArgumentNullException(nameof(userTweetService));
+            this.cascadeDeleteService = cascadeDeleteService ?? throw new ArgumentNullException(nameof(cascadeDeleteService));
         }
 
         public async Task<IActionResult> TweetDisplay(string followeeId)

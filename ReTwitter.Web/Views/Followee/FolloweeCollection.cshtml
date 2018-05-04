@@ -21,9 +21,67 @@
                 <div class="panel-footer">
                     @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId }, new { @class = "btn btn-lg" })
                     @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })
-                    @Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })
+                    @*@Html.ActionLink("Unfollow", "FolloweeDeleted", "Followee", new { id = item.FolloweeId }, new { @class = "btn btn-lg" })*@
+                    <button id="@item.FolloweeId" class="btn btn-lg btn-unfollow">Unfollow</button>
+
                 </div>
             </div>
         </div>
     }
 </div>
+
+
+@section Scripts{
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btn.btn-lg.btn-unfollow').on('click', function (e) {
+
+                var evnt = $(this);
+                event.preventDefault();
+                var id = evnt.attr('id');
+                
+                $.ajax(swal({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: "/Followee/FolloweeDeleted/" + id,
+                            type: "POST",
+                            success: function () {
+                                evnt.closest(".panel.panel-default.text-center").remove();
+                                swal(
+                                    'Deleted!',
+                                    'Followee has been deleted.',
+                                    'success'
+                                );
+                            },
+                            error: function (err) {
+                                console.log(err);
+                            }
+                        });
+                    } else if (
+                        result.dismiss === swal.DismissReason.cancel
+                    ) {
+                        swal(
+                            'Cancelled',
+                            "Followee is still in your list!",
+                            'error'
+                        )
+                    }
+                }));
+            });
+        });
+    </script>
+}

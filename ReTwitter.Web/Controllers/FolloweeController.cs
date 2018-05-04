@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Web.Areas.Admin.Models.Statistics;
 
 namespace ReTwitter.Web.Controllers
@@ -22,11 +22,11 @@ namespace ReTwitter.Web.Controllers
             ITwitterApiCallService twitterApiCallService, IUserFolloweeService userFolloweeService,
             UserManager<User> manager, ICascadeDeleteService cascadeDeleteService)
         {
-            this.followeeService = followeeService;
-            this.twitterApiCallService = twitterApiCallService;
-            this.userFolloweeService = userFolloweeService;
-            this.manager = manager;
-            this.cascadeDeleteService = cascadeDeleteService;
+            this.followeeService = followeeService ?? throw new ArgumentNullException(nameof(followeeService));
+            this.twitterApiCallService = twitterApiCallService ?? throw new ArgumentNullException(nameof(twitterApiCallService));
+            this.userFolloweeService = userFolloweeService ?? throw new ArgumentNullException(nameof(userFolloweeService));
+            this.manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this.cascadeDeleteService = cascadeDeleteService ?? throw new ArgumentNullException(nameof(cascadeDeleteService));
         }
 
 
