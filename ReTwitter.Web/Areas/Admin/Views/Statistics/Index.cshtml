@@ -1,87 +1,140 @@
 ﻿@using ReTwitter.Web.Areas.Admin.Models.Users
 @model ReTwitter.Web.Areas.Admin.Models.Statistics.AllUserStatisticsViewModel
 
-<br />
-<br />
-<br />
 @{
     ViewData["Title"] = "User Statistics";
+    int totalDeletedUsers = Model.TotalStatistics.TotalDeletedUsers;
+    int totalActiveUsers = Model.TotalStatistics.TotalActiveUsers;
+    int totalSavedTwitterAccounts = Model.TotalStatistics.TotalActivelyFollowedAccountsCount;
+    int totalDeletedTwitterAccounts = Model.TotalStatistics.TotalDeletedAccountsCount;
+    int totalSavedTweets = Model.TotalStatistics.TotalSavedTweetsCount;
+    int totalDeletedTweets = Model.TotalStatistics.TotalDeletedTweetsCount;
 }
 
-<h1>@ViewData["Title"]</h1>
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>
-                Username
-            </th>
-            <th>
-                User created on
-            </th>
-            <th>
-                User status
-            </th>
-            <th>
-                Saved Twitter Accounts
-            </th>
-            <th>
-                Deleted Twitter Accounts
-            </th>
-            <th>
-                Saved tweets
-            </th>
-            <th>
-                Deleted tweets
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.UserStatisticsModels)
-        {
+<link rel="stylesheet" href="~/css/statistics-chart.css" />
+<br />
+<br />
+<br />
+
+<h2 class="user-statistics-headline">@ViewData["Title"]</h2>
+
+<canvas id="myChart"></canvas>
+<div class="chart">
+    <table class="table table-bordered table-hover">
+        <thead>
             <tr>
                 <th>
-                    @Html.DisplayFor(modelItem => user.UserName)
+                    Username
                 </th>
                 <th>
-                    @Html.DisplayFor(modelItem => user.UserNameCreatedOn)
+                    User created on
                 </th>
                 <th>
-                    @Html.DisplayFor(modelItem => user.ActiveStatus)
+                    User status
                 </th>
                 <th>
-                    <a asp-controller="Statistics" asp-action="ActivelyFollowing" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.ActivelyFollowedAccountsCount)</a>
+                    Saved Twitter Accounts
                 </th>
                 <th>
-                    <a asp-controller="Statistics" asp-action="DeletedFollowees" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.DeletedAccountsCount)</a>
+                    Deleted Twitter Accounts
                 </th>
                 <th>
-                    <a asp-controller="Statistics" asp-action="SavedTweets" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.SavedTweetsCount)</a>
+                    Saved tweets
                 </th>
                 <th>
-                    <a asp-controller="Statistics" asp-action="DeletedTweets" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.DeletedTweetsCount)</a>
+                    Deleted tweets
                 </th>
             </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.UserStatisticsModels)
+            {
+                <tr>
+                    <th>
+                        @Html.DisplayFor(modelItem => user.UserName)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => user.UserNameCreatedOn)
+                    </th>
+                    <th>
+                        @Html.DisplayFor(modelItem => user.ActiveStatus)
+                    </th>
+                    <th>
+                        <a asp-controller="Statistics" asp-action="ActivelyFollowing" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.ActivelyFollowedAccountsCount)</a>
+                    </th>
+                    <th>
+                        <a asp-controller="Statistics" asp-action="DeletedFollowees" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.DeletedAccountsCount)</a>
+                    </th>
+                    <th>
+                        <a asp-controller="Statistics" asp-action="SavedTweets" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.SavedTweetsCount)</a>
+                    </th>
+                    <th>
+                        <a asp-controller="Statistics" asp-action="DeletedTweets" asp-route-userId="@user.UserId">@Html.DisplayFor(modelItem => user.DeletedTweetsCount)</a>
+                    </th>
+                </tr>
+            }
+            <tr>
+                <th>
+                    Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalUsers) users
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+                <th>
+                    Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalActivelyFollowedAccountsCount) accounts
+                </th>
+                <th>
+                    Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalDeletedAccountsCount) accounts
+                </th>
+                <th>
+                    Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalSavedTweetsCount) tweets
+                </th>
+                <th>
+                    Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalDeletedTweetsCount) tweets
+                </th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+<script>
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Active Users", "Deleted Users", "Saved Twitter Accounts", "Deleted Twitter Accounts", "Saved Tweets", "Deleted Tweets"],
+            datasets: [{
+                label: 'Statistics',
+                data: [@totalActiveUsers,@totalDeletedUsers , @totalSavedTwitterAccounts, @totalDeletedTwitterAccounts, @totalSavedTweets, @totalDeletedTweets],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(255, 99, 132, 0.2)',                   
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(255,99,132,1)',                   
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
         }
-        <tr>
-            <th>
-                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalUsers) users
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalActivelyFollowedAccountsCount) accounts
-            </th>
-            <th>
-                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalDeletedAccountsCount) accounts
-            </th>
-            <th>
-                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalSavedTweetsCount) tweets
-            </th>
-            <th>
-                Total: @Html.DisplayFor(modelItem => Model.TotalStatistics.TotalDeletedTweetsCount) tweets
-            </th>
-        </tr>
-    </tbody>
-</table>
+    });
+</script>
