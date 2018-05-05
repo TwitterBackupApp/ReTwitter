@@ -34,7 +34,6 @@ namespace ReTwitter.Web
 
         public IHostingEnvironment Environment { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             this.RegisterData(services);
@@ -43,40 +42,16 @@ namespace ReTwitter.Web
             this.RegisterInfrastructure(services);
         }
 
-        private void RegisterInfrastructure(IServiceCollection services)
+        private void RegisterData(IServiceCollection services)
         {
-            services.AddMemoryCache();
-            services.AddMvc(options =>
+            services.AddDbContext<ReTwitterDbContext>(options =>
             {
-                options.CacheProfiles.Add("Hourly", new CacheProfile()
-                {
-                    Duration = 60 * 60
-                });
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                options.UseSqlServer(connectionString);
             });
-            services.AddAutoMapper();
-            services.AddScoped<IMappingProvider, MappingProvider>();
-        }
 
-        private void RegisterServices(IServiceCollection services)
-        {
-            services.AddTransient<IEmailSender, EmailSender>();
-            services.AddTransient<ITwitterCredentialsProvider, TwitterCredentialsProvider>();
-            services.AddTransient<ITwitterApiCaller, TwitterApiCaller>();
-            services.AddTransient<IJsonDeserializer, JsonDeserializer>();
-            services.AddTransient<ICascadeDeleteService, CascadeDeleteService>();
-            services.AddTransient<IFolloweeService, FolloweeService>();
-            services.AddTransient<IFolloweeStatisticsService, FolloweeStatisticsService>();
-            services.AddTransient<ITweetStatisticsService, TweetStatisticsService>();
-            services.AddTransient<IStatisticsService, StatisticsService>();
-            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
-            services.AddTransient<IDateTimeParser, DateTimeParser>();
-            services.AddTransient<IAdminUserService, AdminUserService>();
-            services.AddTransient<IUserFolloweeService, UserFolloweeService>();
-            services.AddTransient<IUserTweetService, UserTweetService>();
-            services.AddTransient<ITweetTagService, TweetTagService>();
-            services.AddTransient<ITwitterApiCallService, TwitterApiCallService>();
-            services.AddTransient<ITweetService, TweetService>();
-            services.AddTransient<ITagService, TagService>();
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         private void RegisterAuthentication(IServiceCollection services)
@@ -120,7 +95,7 @@ namespace ReTwitter.Web
                 {
                     // Password settings
                     options.Password.RequireDigit = true;
-                    options.Password.RequiredLength = 8;
+                    options.Password.RequiredLength = 6;
                     options.Password.RequireNonAlphanumeric = true;
                     options.Password.RequireUppercase = true;
                     options.Password.RequireLowercase = true;
@@ -133,27 +108,51 @@ namespace ReTwitter.Web
             }
         }
 
-        private void RegisterData(IServiceCollection services)
+        private void RegisterServices(IServiceCollection services)
         {
-            services.AddDbContext<ReTwitterDbContext>(options =>
-            {
-                var connectionString = Configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlServer(connectionString);
-            });
-
-            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ITwitterCredentialsProvider, TwitterCredentialsProvider>();
+            services.AddTransient<ITwitterApiCaller, TwitterApiCaller>();
+            services.AddTransient<IJsonDeserializer, JsonDeserializer>();
+            services.AddTransient<ICascadeDeleteService, CascadeDeleteService>();
+            services.AddTransient<IFolloweeService, FolloweeService>();
+            services.AddTransient<IFolloweeStatisticsService, FolloweeStatisticsService>();
+            services.AddTransient<ITweetStatisticsService, TweetStatisticsService>();
+            services.AddTransient<IStatisticsService, StatisticsService>();
+            services.AddTransient<IDateTimeProvider, DateTimeProvider>();
+            services.AddTransient<IDateTimeParser, DateTimeParser>();
+            services.AddTransient<IAdminUserService, AdminUserService>();
+            services.AddTransient<IUserFolloweeService, UserFolloweeService>();
+            services.AddTransient<IUserTweetService, UserTweetService>();
+            services.AddTransient<ITweetTagService, TweetTagService>();
+            services.AddTransient<ITwitterApiCallService, TwitterApiCallService>();
+            services.AddTransient<ITweetService, TweetService>();
+            services.AddTransient<ITagService, TagService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        private void RegisterInfrastructure(IServiceCollection services)
+        {
+            services.AddMvc(options =>
+            {
+                options.CacheProfiles.Add("Hourly", new CacheProfile()
+                {
+                    Duration = 60 * 60
+                });
+                options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+            });
+            services.AddAutoMapper();
+            
+            services.AddScoped<IMappingProvider, MappingProvider>();
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDatabaseMigration();
 
             if (env.IsDevelopment())
             {
-                app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
             }
             else
