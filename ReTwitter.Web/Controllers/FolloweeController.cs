@@ -37,7 +37,7 @@ namespace ReTwitter.Web.Controllers
 
             var followeesToDisplay = this.followeeService.GetAllFolloweesByUserId(userId);
 
-            return View(followeesToDisplay);
+            return this.View(followeesToDisplay);
         }
 
         public IActionResult FolloweeDetails(string id)
@@ -46,11 +46,11 @@ namespace ReTwitter.Web.Controllers
 
             if (followee != null)
             {
-                return View(followee);
+                return this.View(followee);
             }
             else
             {
-                return View("NotFound");
+                return this.View("NotFound");
             }
         }
 
@@ -60,11 +60,11 @@ namespace ReTwitter.Web.Controllers
 
             if (followee != null)
             {
-                return View(followee);
+                return this.View(followee);
             }
             else
             {
-                return View("NotFound");
+                return this.View("NotFound");
             }
         }
 

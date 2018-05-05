@@ -1,4 +1,8 @@
-﻿.accordion {
+﻿h2.title-tweets-page {
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+.accordion {
     background-color: #fff;
     color: #444;
     cursor: pointer;
@@ -47,7 +51,7 @@
     margin-bottom: 10px;
 }
 
-.btn-delete-tweet, a.btn-retweet {
+.btn-delete-tweet, a.btn-retweet, .btn-save-tweet {
     border: 1px solid #1da1f4;
     background-color: #fff !important;
     color: #1da1f4;

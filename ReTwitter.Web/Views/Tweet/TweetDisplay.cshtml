@@ -6,11 +6,7 @@
 
 <link rel="stylesheet" href="~/css/tweets-display.css" />
 
-<br />
-<br />
-<br />
-
-<h2>Tweet Display</h2>
+<h2 class="title-tweets-page">Saved Tweets</h2>
 
 @foreach (var item in Model.TweetResults)
 
@@ -21,60 +17,21 @@
         @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn, "{0:dd/MM/yyyy}")
 
         @if (item.UsersMentioned > 0)
-         {
-        <p>Number of people mentioned: @Html.DisplayFor(model => item.UsersMentioned)</p>
-         }
-         
+        {
+            <p>Number of people mentioned: @Html.DisplayFor(model => item.UsersMentioned)</p>
+        }
+
         <div class="panel-buttons">
             <button id="@item.TweetId" class="btn-delete-tweet">Delete</button>
             <a href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)" class="btn-retweet">Retweet</a>
-        </div>       
+        </div>
     </div>
 }
 
 
-
-
-@*<table class="table">
-    <tr>
-        <th>
-            Text
-        </th>
-        <th>
-            Original Tweet Created On
-        </th>
-        <th>
-            Users Mentioned
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model.TweetResults)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Text)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn, "{0:dd/MM/yyyy}")
-            </td>
-            <td>
-                @Html.DisplayFor(model => item.UsersMentioned)
-            </td>
-            <td>
-                <button id="@item.TweetId" class="btn btn-palegreen btn-sm pull-right">Delete</button>
-
-            </td>
-            <td>
-                <a href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a>
-            </td>
-        </tr>
-    }
-</table>*@
-
-
 @section Scripts{
     <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script src="~/js/accordion.js"></script>
     <script>
         $(document).ready(function () {
             $('.btn-delete-tweet').on('click', function (e) {
@@ -122,21 +79,5 @@
                 }));
             });
         });
-    </script>
-    <script>
-        var acc = document.getElementsByClassName("accordion");
-        var i;
-
-        for (i = 0; i < acc.length; i++) {
-            acc[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var panel = this.nextElementSibling;
-                if (panel.style.maxHeight) {
-                    panel.style.maxHeight = null;
-                } else {
-                    panel.style.maxHeight = panel.scrollHeight + "px";
-                }
-            });
-        }
     </script>
 }

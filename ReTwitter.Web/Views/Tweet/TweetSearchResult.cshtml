@@ -4,98 +4,87 @@
     ViewData["Title"] = "Latest 100 tweets";
 }
 
-<br />
-<br />
-<br />
+<link rel="stylesheet" href="~/css/tweets-display.css" />
+
+<h2 class="title-tweets-page">Latest Tweets</h2>
 
 @if (@Model.TweetSearchResults.Count() != 0)
 {
-<table class="table">
-    <tr>
-        <th>
-            Text
-        </th>
-        <th>
-            Original Tweet Created On
-        </th>
-        <th></th>
-        <th></th>
-    </tr>
-
     @foreach (var item in Model.TweetSearchResults)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Text)
-        </td>
-        <td>
-            @item.OriginalTweetCreatedOn.Substring(0, 10)
-        </td>
-        <td>
-            <button id="@item.TweetId" class="btn btn-palegreen btn-sm pull-right">Save</button>
+        <button class="accordion">@Html.DisplayFor(modelItem => item.Text)</button>
+        <div class="panel">
+            <p class="created-on">Tweet created on: </p>
+            @Html.DisplayFor(modelItem => @item.OriginalTweetCreatedOn)
 
-        </td>
-        <td><a class="btn btn-info" href="@string.Concat(" https://twitter.com/intent/retweet?tweet_id=", item.TweetId)">Retweet</a></td>
-    </tr>
+            <div class="panel-buttons">
+                <button id="@item.TweetId" class="btn-save-tweet">Save</button>
+                <a href="@string.Concat("https://twitter.com/intent/retweet?tweet_id=", item.TweetId)" class="btn-retweet">Retweet</a>
+            </div>
+        </div>
     }
-</table>
 }
 
+
 @section Scripts{
-<script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
-<script>
-    $(document).ready(function () {
-        $('.btn.btn-palegreen.btn-sm.pull-right').on('click', function (e) {
-            var evnt = $(this);
+    <script src="https://unpkg.com/sweetalert2@7.19.0/dist/sweetalert2.all.js"></script>
+    <script src="~/js/accordion.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.btn-save-tweet').on('click', function (e) {
+                var evnt = $(this);
 
-            event.preventDefault();
-            var id = evnt.attr('id');
+                event.preventDefault();
+                var id = evnt.attr('id');
 
-            $.ajax(swal({
-                title: 'Are you sure?',
-                text: "You will save this tweet in your personal database!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, save it!',
-                cancelButtonText: 'No, cancel!',
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false,
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
-                    $.ajax({
-                        url: "/Tweet/TweetAdd/" + id,
-                        type: "POST",
-                        success: (response) => {
-                            if (response) {
-                                swal('Congrats!',
-                                    'You successfully saved the tweet!',
-                                    'success'
-                                )} else {
-                                swal(
+                $.ajax(swal({
+                    title: 'Are you sure?',
+                    text: "You will save this tweet in your personal database!",
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, save it!',
+                    cancelButtonText: 'No, cancel!',
+                    confirmButtonClass: 'btn btn-success',
+                    cancelButtonClass: 'btn btn-danger',
+                    buttonsStyling: false,
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: "/Tweet/TweetAdd/" + id,
+                            type: "POST",
+                            success: (response) => {
+                                if (response) {
+                                    swal('Congrats!',
+                                        'You successfully saved the tweet!',
+                                        'success'
+                                    )
+                                } else {
+                                    swal(
 
-                                    'Oops...',
-                                    'You already saved this tweet some time ago!',
-                                    'error'
-                                )}
-                        },
-                        error: (response) => {
-                            console.log(response);
-                        }})
-                } else if (
-                    result.dismiss === swal.DismissReason.cancel
-                ) {
-                    swal(
-                        'Cancelled',
-                        'Tweet is not in your list yet!',
-                        'error'
-                    )
-                }
-            }));
+                                        'Oops...',
+                                        'You already saved this tweet some time ago!',
+                                        'error'
+                                    )
+                                }
+                            },
+                            error: (response) => {
+                                console.log(response);
+                            }
+                        })
+                    } else if (
+                        result.dismiss === swal.DismissReason.cancel
+                    ) {
+                        swal(
+                            'Cancelled',
+                            'Tweet is not in your list yet!',
+                            'error'
+                        )
+                    }
+                }));
+            });
         });
-    });
-</script>
+    </script>
 }
