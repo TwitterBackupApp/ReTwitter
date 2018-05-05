@@ -60,17 +60,18 @@
                 success: (response) => {
                     if (response) {
                         swal(
-                            'Oops...',
-                            'You already follow this user!',
-                            'error'
-                        )
-                    } else {
-                        swal(
                             'Congrats!',
                             'You successfully followed the user!',
                             'success'
                         )
-                    }                 
+                    } else {
+                        swal(
+                            'Oops...',
+                            'You already follow this user!',
+                            'error'
+                        )
+                    }
+                    
                 },
                 error: (response) => {
                     console.log(response);
