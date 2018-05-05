@@ -149,11 +149,9 @@ namespace ReTwitter.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             app.UseDatabaseMigration();
+
             if (env.IsDevelopment())
             {
-                //DbInitializer.Seed(serviceProvider,
-                //                  (ITwitterApiCaller)serviceProvider.GetService(typeof(ITwitterApiCaller)),
-                //                  (IMappingProvider)serviceProvider.GetService(typeof(IMappingProvider)));
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();

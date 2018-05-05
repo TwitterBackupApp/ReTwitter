@@ -12,7 +12,6 @@ namespace ReTwitter.Web.Extensions
     {
         public static IApplicationBuilder UseDatabaseMigration(this IApplicationBuilder app)
         {
-            //TODO CHANGE THE AREA MODELS TO ACCEPT THE NEW ROLES! ALSO THE ACTIONS IN USERSCONTROLLER
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 serviceScope.ServiceProvider.GetService<ReTwitterDbContext>().Database.Migrate();
@@ -20,8 +19,7 @@ namespace ReTwitter.Web.Extensions
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
 
-                Task
-                    .Run(async () =>
+                Task.Run(async () =>
                     {
                         var adminUserName = WebConstants.AdminRole;
 

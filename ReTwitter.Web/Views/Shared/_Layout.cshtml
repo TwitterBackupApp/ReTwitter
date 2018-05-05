@@ -36,7 +36,7 @@
                     <li><a asp-area="" asp-controller="Followee" asp-action="FolloweeCollection">Followees</a></li>
                     <li><a asp-area="" asp-controller="Search" asp-action="Search">Search</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    @if (User.IsInRole("Administrators"))
+                    @if (User.IsInRole(WebConstants.AdminRole) || User.IsInRole(WebConstants.MasterAdminRole))
                     {
                         <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
                         <li><a asp-area="Admin" asp-controller="Statistics" asp-action="Index">Statistics</a></li>

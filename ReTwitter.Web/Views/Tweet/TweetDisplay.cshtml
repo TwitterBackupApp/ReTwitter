@@ -59,7 +59,7 @@
                             url: "/Tweet/TweetDelete/" + id,
                             type: "POST",
                             success: () => {
-                                evnt.closest("tr").remove();
+                                evnt.closest('.panel').remove();
                                 swal(
                                     'Deleted!',
                                     'Tweet has been deleted.',

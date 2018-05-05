@@ -12,8 +12,10 @@ using ReTwitter.Web.Areas.Admin.Models.Users;
 
 namespace ReTwitter.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Administrators")]
+    using static WebConstants;
+
+    [Area(AdminArea)]
+    [Authorize(Roles = AdminRole)]
     public class UsersController : Controller
     {
         private readonly IAdminUserService userService;
@@ -39,7 +41,7 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
 
             var roles = await this.roleManager
                 .Roles
-                .Where(r => r.Name != "MasterAdministrators")
+                .Where(r => r.Name != MasterAdminRole)
                 .Select(r => new SelectListItem
                 {
                     Text = r.Name,
@@ -67,7 +69,7 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
             var userToDelete = await this.userService.SingleUserByIdAsync(id);
             var userToDeleteRoles = await this.userManager.GetRolesAsync(userToDelete);
 
-            if (!loggedUserRoles.Contains("MasterAdministrators") && userToDeleteRoles.Contains("Administrators"))
+            if (!loggedUserRoles.Contains(MasterAdminRole) && userToDeleteRoles.Contains(AdminRole))
             {
                 return Json(false);
             }

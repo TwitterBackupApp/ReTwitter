@@ -6,8 +6,10 @@ using ReTwitter.Web.Areas.Admin.Models.Statistics;
 
 namespace ReTwitter.Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Administrators")]
+    using static WebConstants;
+
+    [Area(AdminArea)]
+    [Authorize(Roles = AdminRole)]
     public class StatisticsController : Controller
     {
         private readonly IFolloweeStatisticsService followeeStatisticsService;
