@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,10 +27,10 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
             UserManager<User> userManager,
             ICascadeDeleteService cascadeDeleteService)
         {
-            this.userService = userService;
-            this.roleManager = roleManager;
-            this.userManager = userManager;
-            this.cascadeDeleteService = cascadeDeleteService;
+            this.userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            this.roleManager = roleManager ?? throw new ArgumentNullException(nameof(roleManager));
+            this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+            this.cascadeDeleteService = cascadeDeleteService ?? throw new ArgumentNullException(nameof(cascadeDeleteService));
         }
 
         public async Task<IActionResult> Index()
@@ -55,32 +56,6 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(string id)
         {
-            //var loggedUser = await this.userManager.GetUserAsync(HttpContext.User);
-
-            //if (loggedUser.Id == id)
-            //{
-            //    TempData["Error-Message"] = "You cannot delete yourself from the database! Please ask Administrator or Master Administrator!";
-
-            //    return RedirectToAction(nameof(Index));
-            //}
-
-            //var loggedUserRoles = await this.userManager.GetRolesAsync(loggedUser);
-            //var userToDelete = await this.userService.SingleUserByIdAsync(id);
-            //var userToDeleteRoles = await this.userManager.GetRolesAsync(userToDelete);
-
-            //if (!loggedUserRoles.Contains("MasterAdministrators") && userToDeleteRoles.Contains("Administrators"))
-            //{
-            //    TempData["Error-Message"] = $"User {loggedUser.UserName} does not have Master Administration permissions and cannot remove other administrators!";
-
-            //    return RedirectToAction(nameof(Index));
-            //}
-
-            //this.cascadeDeleteService.DeleteUserAndHisEntities(userToDelete.Id);
-
-            //TempData["Success-Message"] = $"User {userToDelete.UserName} deleted successfully!";
-
-            //return RedirectToAction(nameof(Index));
-
             var loggedUser = await this.userManager.GetUserAsync(HttpContext.User);
 
             if (loggedUser.Id == id)
