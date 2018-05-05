@@ -56,7 +56,15 @@
             <strong>Success!</strong> @TempData["Success-Message"]
         </div>
     }
-
+    @if (((string)(TempData["Not-Found-Message"] ?? "")).Any())
+    {
+        <br />
+        <br />
+        <br />
+        <div class="alert alert-warning">
+            <strong>Sorry!</strong> @TempData["Not-Found-Message"]
+        </div>
+    }
     @if (((string)(TempData["Error-Message"] ?? "")).Any())
     {
         <br />

@@ -29,9 +29,13 @@ namespace ReTwitter.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                
                 var result = twitterApiCallService.GetTwitterUsersByScreenName(model.SearchInput);
 
+                if (result.Length < 1)
+                {
+                    TempData["Not-Found-Message"] = $"No results found matching {model.SearchInput}";
+                    return RedirectToAction("Search");
+                }
                 var vm = new SearchResultsViewModel { SearchResults = result };
 
                 return View(vm);
