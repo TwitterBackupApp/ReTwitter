@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Web.Areas.Admin.Models.Statistics;
@@ -15,9 +16,9 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
 
         public StatisticsController(IFolloweeStatisticsService followeeStatisticsService, ITweetStatisticsService tweetStatisticsService, IStatisticsService statisticsService)
         {
-            this.followeeStatisticsService = followeeStatisticsService;
-            this.tweetStatisticsService = tweetStatisticsService;
-            this.statisticsService = statisticsService;
+            this.followeeStatisticsService = followeeStatisticsService ?? throw new ArgumentNullException(nameof(followeeStatisticsService));
+            this.tweetStatisticsService = tweetStatisticsService ?? throw new ArgumentNullException(nameof(tweetStatisticsService));
+            this.statisticsService = statisticsService ?? throw new ArgumentNullException(nameof(statisticsService));
         }
 
         public IActionResult Index()
