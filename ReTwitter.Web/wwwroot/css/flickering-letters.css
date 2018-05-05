@@ -13,3 +13,11 @@
     color: darkOrange;
     text-shadow: 0 0 16px white;
 }
+
+.topCenter span{
+    font-size: 30px;
+}
+
+.bottomCenter span {
+    font-size: 20px;
+}

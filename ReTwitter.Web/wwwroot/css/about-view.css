@@ -1,5 +1,4 @@
-﻿/* About section */
-.the-tripsters-about {
+﻿.the-tripsters-about {
     font-size: 50px !important;
     letter-spacing: 2px;
     margin-top: 50px;
@@ -17,10 +16,14 @@
 }
 
 .info-about, .center-about-info {
-    text-align: center;
+    text-align: center;    
+}
+
+.center-about-info {
+    margin-top: 80px;
 }
 
 .images-container {
     text-align: center;
-    padding-left: 15%
+    padding-left: 15%;
 }
