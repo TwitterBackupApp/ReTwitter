@@ -18,6 +18,7 @@ using ReTwitter.Services.External.Contracts;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Services.Data.Statistics;
+using ReTwitter.Web.Extensions;
 
 namespace ReTwitter.Web
 {
@@ -147,11 +148,12 @@ namespace ReTwitter.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
+            app.UseDatabaseMigration();
             if (env.IsDevelopment())
             {
-                DbInitializer.Seed(serviceProvider,
-                                  (ITwitterApiCaller)serviceProvider.GetService(typeof(ITwitterApiCaller)),
-                                  (IMappingProvider)serviceProvider.GetService(typeof(IMappingProvider)));
+                //DbInitializer.Seed(serviceProvider,
+                //                  (ITwitterApiCaller)serviceProvider.GetService(typeof(ITwitterApiCaller)),
+                //                  (IMappingProvider)serviceProvider.GetService(typeof(IMappingProvider)));
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
