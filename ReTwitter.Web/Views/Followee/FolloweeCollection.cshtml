@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "FolloweeCollection";
 }
+
 <link rel="stylesheet" href="~/css/followees-collection.css" />
 
 <h2 class="center-title">Followees Collection</h2>
@@ -22,7 +23,6 @@
                     @Html.ActionLink("Details", "FolloweeDetailsFromDb", new { id = item.FolloweeId }, new { @class = "btn btn-lg" })
                     @Html.ActionLink("Update", "FolloweeUpdate", "Followee", new { followeeId = item.FolloweeId }, new { @class = "btn btn-lg" })                
                     <button id="@item.FolloweeId" class="btn btn-lg btn-unfollow">Unfollow</button>
-
                 </div>
             </div>
         </div>

@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using ReTwitter.Data.Models;
-using ReTwitter.Services.External;
 using ReTwitter.Services.External.Contracts;
-using ReTwitter.Web.Models;
 using ReTwitter.Web.Models.ManageViewModels;
 using ReTwitter.Web.Services;
+using System;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace ReTwitter.Web.Controllers
 {
@@ -53,6 +49,7 @@ namespace ReTwitter.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
@@ -67,7 +64,7 @@ namespace ReTwitter.Web.Controllers
                 StatusMessage = StatusMessage
             };
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
@@ -158,7 +155,7 @@ namespace ReTwitter.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             var user = await userManager.GetUserAsync(User);
@@ -171,7 +168,7 @@ namespace ReTwitter.Web.Controllers
             if (!changePasswordResult.Succeeded)
             {
                 AddErrors(changePasswordResult);
-                return View(model);
+                return this.View(model);
             }
 
             await signInManager.SignInAsync(user, isPersistent: false);
@@ -198,7 +195,7 @@ namespace ReTwitter.Web.Controllers
             }
 
             var model = new SetPasswordViewModel { StatusMessage = StatusMessage };
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
@@ -207,7 +204,7 @@ namespace ReTwitter.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return this.View(model);
             }
 
             var user = await userManager.GetUserAsync(User);
@@ -220,7 +217,7 @@ namespace ReTwitter.Web.Controllers
             if (!addPasswordResult.Succeeded)
             {
                 AddErrors(addPasswordResult);
-                return View(model);
+                return this.View(model);
             }
 
             await signInManager.SignInAsync(user, isPersistent: false);
@@ -245,7 +242,7 @@ namespace ReTwitter.Web.Controllers
             model.ShowRemoveButton = await userManager.HasPasswordAsync(user) || model.CurrentLogins.Count > 1;
             model.StatusMessage = StatusMessage;
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
@@ -326,7 +323,7 @@ namespace ReTwitter.Web.Controllers
                 RecoveryCodesLeft = await userManager.CountRecoveryCodesAsync(user),
             };
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpGet]
@@ -343,7 +340,7 @@ namespace ReTwitter.Web.Controllers
                 throw new ApplicationException($"Unexpected error occured disabling 2FA for user with ID '{user.Id}'.");
             }
 
-            return View(nameof(Disable2fa));
+            return this.View(nameof(Disable2fa));
         }
 
         [HttpPost]
@@ -378,7 +375,7 @@ namespace ReTwitter.Web.Controllers
             var model = new EnableAuthenticatorViewModel();
             await LoadSharedKeyAndQrCodeUriAsync(user, model);
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpPost]
@@ -394,7 +391,7 @@ namespace ReTwitter.Web.Controllers
             if (!ModelState.IsValid)
             {
                 await LoadSharedKeyAndQrCodeUriAsync(user, model);
-                return View(model);
+                return this.View(model);
             }
 
             // Strip spaces and hypens
@@ -407,7 +404,7 @@ namespace ReTwitter.Web.Controllers
             {
                 ModelState.AddModelError("Code", "Verification code is invalid.");
                 await LoadSharedKeyAndQrCodeUriAsync(user, model);
-                return View(model);
+                return this.View(model);
             }
 
             await userManager.SetTwoFactorEnabledAsync(user, true);
@@ -428,13 +425,13 @@ namespace ReTwitter.Web.Controllers
             }
 
             var model = new ShowRecoveryCodesViewModel { RecoveryCodes = recoveryCodes };
-            return View(model);
+            return this.View(model);
         }
 
         [HttpGet]
         public IActionResult ResetAuthenticatorWarning()
         {
-            return View(nameof(ResetAuthenticator));
+            return this.View(nameof(ResetAuthenticator));
         }
 
         [HttpPost]
@@ -468,7 +465,7 @@ namespace ReTwitter.Web.Controllers
                 throw new ApplicationException($"Cannot generate recovery codes for user with ID '{user.Id}' because they do not have 2FA enabled.");
             }
 
-            return View(nameof(GenerateRecoveryCodes));
+            return this.View(nameof(GenerateRecoveryCodes));
         }
 
         [HttpPost]
@@ -491,7 +488,7 @@ namespace ReTwitter.Web.Controllers
 
             var model = new ShowRecoveryCodesViewModel { RecoveryCodes = recoveryCodes.ToArray() };
 
-            return View(nameof(ShowRecoveryCodes), model);
+            return this.View(nameof(ShowRecoveryCodes), model);
         }
 
         #region Helpers
