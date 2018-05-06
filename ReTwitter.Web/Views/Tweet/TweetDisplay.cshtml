@@ -9,10 +9,9 @@
 <h2 class="title-tweets-page">Saved Tweets</h2>
 
 @foreach (var item in Model.TweetResults)
-
 {
-    <button class="accordion">@Html.DisplayFor(modelItem => item.Text)</button>
-    <div class="panel">
+    <button class="accordion" id="@string.Concat("button", item.TweetId)">@Html.DisplayFor(modelItem => item.Text)</button>
+    <div class="panel" id="@string.Concat("panel", item.TweetId)">
         <p class="created-on">Tweet created on: </p>
         @Html.DisplayFor(modelItem => item.OriginalTweetCreatedOn, "{0:dd/MM/yyyy}")
 
@@ -39,7 +38,8 @@
                 var evnt = $(this);
                 event.preventDefault();
                 var id = evnt.attr('id');
-
+                var panelId = 'panel' + id;
+                var buttonId = 'button' + id;
                 $.ajax(swal({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
@@ -59,7 +59,8 @@
                             url: "/Tweet/TweetDelete/" + id,
                             type: "POST",
                             success: () => {
-                                evnt.closest('.panel').remove();
+                                evnt.closest(".panel#panelId").remove();
+                                evnt.closest(".accordion.active#buttonId").remove();
                                 swal(
                                     'Deleted!',
                                     'Tweet has been deleted.',

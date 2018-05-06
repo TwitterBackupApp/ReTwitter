@@ -79,12 +79,12 @@ namespace ReTwitter.Web.Controllers
 
             if (followeeAlreadyExists)
             {
-                return Json(false);
+                return this.Json(false);
             }
             else
             {
                 this.userFolloweeService.SaveUserFollowee(userId, followee);
-                return Json(true);
+                return this.Json(true);
             }
         }
 
@@ -95,21 +95,23 @@ namespace ReTwitter.Web.Controllers
 
             this.cascadeDeleteService.DeleteUserFolloweeAndEntries(id, userId);
 
-            return Json(true);
+            return this.Json(true);
         }
 
         public IActionResult FolloweeUpdate(string followeeId)
         {
             this.followeeService.Update(followeeId);
 
-            return RedirectToAction("FolloweeCollection");
+            TempData["Success-Message"] = "Followee updated successfully!";
+
+            return this.RedirectToAction("FolloweeCollection");
         }
 
         public IActionResult FolloweeAdminDelete(AdminDeleteFoloweeModel vm)
         {
             this.cascadeDeleteService.DeleteUserFolloweeAndEntries(vm.FolloweeId, vm.UserId);
 
-            return Json(true);
+            return this.Json(true);
         }
     }
 }

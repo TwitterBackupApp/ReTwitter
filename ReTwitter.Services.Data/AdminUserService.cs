@@ -48,6 +48,12 @@ namespace ReTwitter.Services.Data
                 .ProjectTo<UserDto>()
                 .ToListAsync();
 
+        public async Task<bool> UserExistsAsync(string userId)
+            => await this.unitOfWork
+                .Users.All
+                .AnyAsync(a => a.Id == userId);
+                
+
         public void DeleteByUserId(string userId)
         {
             if(userId == null)

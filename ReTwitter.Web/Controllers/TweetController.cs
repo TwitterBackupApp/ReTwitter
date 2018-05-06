@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
-using ReTwitter.Services.External.Contracts;
 using ReTwitter.Web.Models.TweetViewModel;
 using System.Threading.Tasks;
 using ReTwitter.Web.Areas.Admin.Models.Statistics;
@@ -14,32 +13,42 @@ namespace ReTwitter.Web.Controllers
     {
         private readonly ITwitterApiCallService twitterApiCallService;
         private readonly ITweetService tweetService;
+        private readonly IFolloweeService followeeService;
         private readonly UserManager<User> manager;
         private readonly IUserTweetService userTweetService;
         private readonly ICascadeDeleteService cascadeDeleteService;
 
-        public TweetController(ITwitterApiCallService twitterApiCallService, ITweetService tweetService, UserManager<User> manager, IUserTweetService userTweetService, ICascadeDeleteService cascadeDeleteService)
+        public TweetController(ITwitterApiCallService twitterApiCallService, ITweetService tweetService, UserManager<User> manager, IUserTweetService userTweetService, ICascadeDeleteService cascadeDeleteService, IFolloweeService followeeService)
         {
             this.twitterApiCallService = twitterApiCallService ?? throw new ArgumentNullException(nameof(twitterApiCallService));
             this.tweetService = tweetService ?? throw new ArgumentNullException(nameof(tweetService));
             this.manager = manager ?? throw new ArgumentNullException(nameof(manager));
             this.userTweetService = userTweetService ?? throw new ArgumentNullException(nameof(userTweetService));
             this.cascadeDeleteService = cascadeDeleteService ?? throw new ArgumentNullException(nameof(cascadeDeleteService));
+            this.followeeService = followeeService ?? throw new ArgumentNullException(nameof(followeeService));
         }
 
         public async Task<IActionResult> TweetDisplay(string followeeId)
         {
             if (string.IsNullOrWhiteSpace(followeeId))
             {
-                return NotFound();
+                return this.View("NotFound");
             }
+
+            var followeeExists = this.followeeService.FolloweeExistsInDatabase(followeeId);
+
+            if (!followeeExists)
+            {
+                return this.View("NotFound");
+            }
+
             var user = await this.manager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
             var savedTweets = this.tweetService.GetTweetsByFolloweeIdAndUserId(followeeId, userId);
 
             var vm = new TweetResultsViewModel { TweetResults = savedTweets };
-            return View(vm);
+            return this.View(vm);
         }
 
         public IActionResult TweetSearchResult(string followeeId)
@@ -49,10 +58,10 @@ namespace ReTwitter.Web.Controllers
                 var foundTweets = this.twitterApiCallService.GetTweetsByUserId(followeeId);
 
                 var vm = new TweetSearchResultViewModel { TweetSearchResults = foundTweets };
-                return View(vm);
+                return this.View(vm);
             }
 
-            return View();
+            return this.View();
         }
 
         public async Task<IActionResult> TweetAdd(string id)
@@ -64,13 +73,13 @@ namespace ReTwitter.Web.Controllers
 
             if (tweetAlreadyAdded)
             {
-                return Json(false);
+                return this.Json(false);
             }
             else
             {
                 this.userTweetService.SaveSingleTweetToUserByTweetId(userId, id);
 
-                return Json(true);
+                return this.Json(true);
             }
         }
 
@@ -81,14 +90,14 @@ namespace ReTwitter.Web.Controllers
 
             this.userTweetService.DeleteUserTweet(userId, id);
 
-            return View();
+            return this.Json(true);
         }
 
         public IActionResult TweetAdminDelete(AdminDeleteTweetModel vm)
         {
             this.cascadeDeleteService.DeleteUserTweetAndEntities(vm.UserId, vm.TweetId);
 
-            return Json(true);
+            return this.Json(true);
         }
     }
 }

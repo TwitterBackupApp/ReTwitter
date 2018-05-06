@@ -11,5 +11,6 @@ namespace ReTwitter.Services.Data.Contracts
         Task<User> SingleUserByIdAsync(string id);
         Task<User> SingleUserByUsernameAsync(string userName);
         void DeleteByUserId(string userId);
+        Task<bool> UserExistsAsync(string userId);
     }
 }

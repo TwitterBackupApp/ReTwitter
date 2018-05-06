@@ -49,11 +49,13 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
                 })
                 .ToListAsync();
 
-            return View(new UserListingsViewModel
+            var vm = new UserListingsViewModel
             {
                 Users = users,
                 Roles = roles
-            });
+            };
+
+            return this.View(vm);
         }
 
         public async Task<IActionResult> Delete(string id)
@@ -62,7 +64,7 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
 
             if (loggedUser.Id == id)
             {
-                return Json(false);
+                return this.Json(false);
             }
 
             var loggedUserRoles = await this.userManager.GetRolesAsync(loggedUser);
@@ -71,12 +73,12 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
 
             if (!loggedUserRoles.Contains(MasterAdminRole) && userToDeleteRoles.Contains(AdminRole))
             {
-                return Json(false);
+                return this.Json(false);
             }
 
             this.cascadeDeleteService.DeleteUserAndHisEntities(userToDelete.Id);
 
-            return Json(true);
+            return this.Json(true);
         }
 
         [HttpPost]
@@ -88,19 +90,19 @@ namespace ReTwitter.Web.Areas.Admin.Controllers
 
             if (!roleExists || !userExists)
             {
-                ModelState.AddModelError(string.Empty, "Invalid identity details.");
+                this.ModelState.AddModelError(string.Empty, "Invalid identity details.");
             }
 
             if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                return this.RedirectToAction(nameof(Index));
             }
 
             await this.userManager.AddToRoleAsync(user, model.Role);
 
             TempData["Success-Message"] = $"User {user.UserName} successfully added to the {model.Role} role.";
 
-            return RedirectToAction(nameof(Index));
+            return this.RedirectToAction(nameof(Index));
         }
     }
 }
