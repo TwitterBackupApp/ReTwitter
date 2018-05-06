@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Services.Data.Contracts;
 using ReTwitter.Web.Models.SearchViewModels;
 
@@ -29,9 +30,22 @@ namespace ReTwitter.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                
-                var result = twitterApiCallService.GetTwitterUsersByScreenName(model.SearchInput);
+                var result = new FolloweeFromApiDto[0];
 
+                try
+                {
+                    result = twitterApiCallService.GetTwitterUsersByScreenName(model.SearchInput);
+                }
+                catch (Exception e)
+                {
+                    return this.View("NotFound");
+                }
+
+                if (result.Length < 1)
+                {
+                    TempData["Not-Found-Message"] = $"No results found matching {model.SearchInput}";
+                    return RedirectToAction("Search");
+                }
                 var vm = new SearchResultsViewModel { SearchResults = result };
 
                 return this.View(vm);

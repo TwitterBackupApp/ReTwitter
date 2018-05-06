@@ -19,11 +19,12 @@ namespace ReTwitter.Tests.ReTwitter.Web.Tests.TweetControllerTests
             //Arrange
             var apiCallerServiceMock = new Mock<ITwitterApiCallService>();
             var tweetServiceMock = new Mock<ITweetService>();
+            var followeeServiceMock = new Mock<IFolloweeService>();
             var userManagerMock = MockUserManager.New;
             var userTweetServiceMock = Mock.Of<IUserTweetService>();
             var cascadeDeleteServiceMock = Mock.Of<ICascadeDeleteService>();
             var sut = new TweetController(apiCallerServiceMock.Object, tweetServiceMock.Object, userManagerMock.Object,
-                userTweetServiceMock, cascadeDeleteServiceMock);
+                userTweetServiceMock, cascadeDeleteServiceMock, followeeServiceMock.Object);
 
             var tweetFromApiCollection = new[] {new TweetFromApiDto(), new TweetFromApiDto()};
             apiCallerServiceMock.Setup(s => s.GetTweetsByUserId(It.IsAny<string>())).Returns(tweetFromApiCollection);

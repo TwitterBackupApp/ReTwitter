@@ -5,6 +5,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Web.Areas.Admin.Models.Statistics;
 
 namespace ReTwitter.Web.Controllers
@@ -42,7 +43,16 @@ namespace ReTwitter.Web.Controllers
 
         public IActionResult FolloweeDetails(string id)
         {
-            var followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
+            FolloweeFromApiDto followee = new FolloweeFromApiDto();
+            try
+            {
+                followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
+            }
+            catch (Exception e)
+            {
+                return this.View("NotFound");
+            }
+
 
             if (followee != null)
             {
@@ -79,12 +89,12 @@ namespace ReTwitter.Web.Controllers
 
             if (followeeAlreadyExists)
             {
-                return Json(false);
+                return this.Json(false);
             }
             else
             {
                 this.userFolloweeService.SaveUserFollowee(userId, followee);
-                return Json(true);
+                return this.Json(true);
             }
         }
 
@@ -95,21 +105,23 @@ namespace ReTwitter.Web.Controllers
 
             this.cascadeDeleteService.DeleteUserFolloweeAndEntries(id, userId);
 
-            return Json(true);
+            return this.Json(true);
         }
 
         public IActionResult FolloweeUpdate(string followeeId)
         {
             this.followeeService.Update(followeeId);
 
-            return RedirectToAction("FolloweeCollection");
+            TempData["Success-Message"] = "Followee updated successfully!";
+
+            return this.RedirectToAction("FolloweeCollection");
         }
 
         public IActionResult FolloweeAdminDelete(AdminDeleteFoloweeModel vm)
         {
             this.cascadeDeleteService.DeleteUserFolloweeAndEntries(vm.FolloweeId, vm.UserId);
 
-            return Json(true);
+            return this.Json(true);
         }
     }
 }
