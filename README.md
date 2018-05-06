@@ -1,4 +1,5 @@
-# ReTwitter (ASP.NET Core MVC Graduation Project for Telerik Academy Alpha)
+# ReTwitter 
+ASP.NET Core MVC Graduation Project for Telerik Academy Alpha
 
 ReTwitter is a web application where you can register or use your twitter credentials.
 You can search for people and follow them through the app, check out their recent tweets,
