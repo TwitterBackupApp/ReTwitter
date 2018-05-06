@@ -5,6 +5,7 @@ using ReTwitter.Data.Models;
 using ReTwitter.Services.Data.Contracts;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using ReTwitter.DTO.TwitterDto;
 using ReTwitter.Web.Areas.Admin.Models.Statistics;
 
 namespace ReTwitter.Web.Controllers
@@ -42,7 +43,16 @@ namespace ReTwitter.Web.Controllers
 
         public IActionResult FolloweeDetails(string id)
         {
-            var followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
+            FolloweeFromApiDto followee = new FolloweeFromApiDto();
+            try
+            {
+                followee = this.twitterApiCallService.GetTwitterUserDetailsById(id);
+            }
+            catch (Exception e)
+            {
+                return this.View("NotFound");
+            }
+
 
             if (followee != null)
             {
