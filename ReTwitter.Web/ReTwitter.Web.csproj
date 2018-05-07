@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-ReTwitter.Web-B1DFC4B6-6B93-405F-8524-383BF8BC07D9</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
@@ -28,6 +32,10 @@
     <ProjectReference Include="..\ReTwitter.Infrastructure\ReTwitter.Infrastructure.csproj" />
     <ProjectReference Include="..\ReTwitter.Services.Data\ReTwitter.Services.Data.csproj" />
     <ProjectReference Include="..\ReTwitter.Services.External\ReTwitter.Services.External.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
 </Project>

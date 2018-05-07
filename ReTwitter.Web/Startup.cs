@@ -44,11 +44,22 @@ namespace ReTwitter.Web
 
         private void RegisterData(IServiceCollection services)
         {
-            services.AddDbContext<ReTwitterDbContext>(options =>
+
+            if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
-                var connectionString = Configuration.GetConnectionString("DefaultConnection");
-                options.UseSqlServer(connectionString);
-            });
+                services.AddDbContext<ReTwitterDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MyDbConnection")));
+            }
+            else
+            {
+                services.AddDbContext<ReTwitterDbContext>(options =>
+                {
+                    var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                    options.UseSqlServer(connectionString);
+                });
+            }
+
+            services.BuildServiceProvider().GetService<ReTwitterDbContext>().Database.Migrate();
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -62,8 +73,8 @@ namespace ReTwitter.Web
 
             services.AddAuthentication().AddTwitter(twitterOptions =>
             {
-                twitterOptions.ConsumerKey = Configuration["ConsumerKey"];
-                twitterOptions.ConsumerSecret = Configuration["ConsumerSecret"];
+                twitterOptions.ConsumerKey = System.Environment.GetEnvironmentVariable("ConsumerKey");
+                twitterOptions.ConsumerSecret = System.Environment.GetEnvironmentVariable("ConsumerSecret");
             });
 
             services.Configure<IdentityOptions>(options =>
@@ -96,7 +107,7 @@ namespace ReTwitter.Web
                     // Password settings
                     options.Password.RequireDigit = true;
                     options.Password.RequiredLength = 6;
-                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = true;
                     options.Password.RequireLowercase = true;
                     options.Password.RequiredUniqueChars = 4;
@@ -141,13 +152,13 @@ namespace ReTwitter.Web
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
             });
             services.AddAutoMapper();
-            
+
             services.AddScoped<IMappingProvider, MappingProvider>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDatabaseMigration();
+            //app.UseDatabaseMigration();
 
             if (env.IsDevelopment())
             {
@@ -157,7 +168,7 @@ namespace ReTwitter.Web
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+               app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();

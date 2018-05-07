@@ -19,9 +19,6 @@ namespace ReTwitter.Data.Configuration
                 .WithMany(a => a.TweetTags)
                 .HasForeignKey(e => e.TagId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.Property(p => p.IsDeleted)
-            //    .HasDefaultValue(false);
         }
     }
 }

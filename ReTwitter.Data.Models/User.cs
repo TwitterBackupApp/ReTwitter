@@ -13,12 +13,6 @@ namespace ReTwitter.Data.Models
             this.FollowedPeople = new HashSet<UserFollowee>();
             this.TweetCollection = new HashSet<UserTweet>();
         }
-        
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string TwitterName { get; set; }
 
         public bool IsDeleted { get; set; }
 
