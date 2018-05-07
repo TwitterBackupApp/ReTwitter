@@ -54,7 +54,7 @@ namespace ReTwitter.Web.Extensions
                                 UserName = adminUserName
                             };
 
-                            await userManager.CreateAsync(adminUser, "123");
+                            await userManager.CreateAsync(adminUser, "Admin123_");
 
                             await userManager.AddToRoleAsync(adminUser, adminUserName);
                             await userManager.AddToRoleAsync(adminUser, WebConstants.MasterAdminRole);

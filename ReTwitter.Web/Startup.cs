@@ -44,7 +44,6 @@ namespace ReTwitter.Web
 
         private void RegisterData(IServiceCollection services)
         {
-
             if (System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Production")
             {
                 services.AddDbContext<ReTwitterDbContext>(options =>
@@ -158,7 +157,7 @@ namespace ReTwitter.Web
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //app.UseDatabaseMigration();
+            app.UseDatabaseMigration();
 
             if (env.IsDevelopment())
             {
@@ -168,7 +167,7 @@ namespace ReTwitter.Web
             }
             else
             {
-               app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             }
 
             app.UseStaticFiles();
